@@ -13,7 +13,6 @@ const BirdFlight = () => {
   const BirdSVG = () => (
     <svg width="20" height="12" viewBox="0 0 24 12" className="text-misty-white opacity-40">
       <path
-        fill="currentColor"
         d="M2 6C2 6 4 4 6 6C6 6 8 4 10 6C10 6 12 8 14 6C14 6 16 4 18 6C18 6 20 8 22 6"
         stroke="currentColor"
         strokeWidth="1"
