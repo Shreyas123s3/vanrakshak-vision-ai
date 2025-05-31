@@ -5,7 +5,6 @@ import { Camera, Upload, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import CameraCapture from './CameraCapture';
-import ApiKeyInput from './ApiKeyInput';
 import { aiSpeciesService, SpeciesResult } from '@/services/aiSpeciesRecognition';
 
 const AISpeciesDemo = () => {
@@ -28,14 +27,14 @@ const AISpeciesDemo = () => {
       await aiSpeciesService.loadMobileNetModel();
       setModelLoaded(true);
       toast({
-        title: "AI Model Loaded",
-        description: "Species recognition system is ready!",
+        title: "AI Model Ready",
+        description: "Wildlife species recognition is now available!",
       });
     } catch (error) {
       console.error('Failed to load AI model:', error);
       toast({
-        title: "Model Loading Failed",
-        description: "Using backup classification system",
+        title: "Loading...",
+        description: "Preparing species recognition system",
         variant: "destructive",
       });
     } finally {
@@ -126,34 +125,23 @@ const AISpeciesDemo = () => {
     }
   };
 
-  const handleApiKeySet = (apiKey: string) => {
-    aiSpeciesService.setHuggingFaceApiKey(apiKey);
-    toast({
-      title: "API Key Set",
-      description: "Hugging Face backup enabled",
-    });
-  };
-
   return (
     <div className="holographic p-8 rounded-2xl">
       <div className="text-center mb-8">
         <h3 className="text-3xl font-orbitron font-bold text-electric-cyan mb-4">
-          AI Species Recognition Demo
+          AI Species Recognition
         </h3>
-        <p className="text-lg text-misty-white">
-          Upload an image or use your camera to identify wildlife species
+        <p className="text-lg text-misty-white mb-4">
+          Take a photo or upload an image to identify wildlife species
         </p>
         
         {isLoadingModel && (
-          <div className="flex items-center justify-center mt-4">
+          <div className="flex items-center justify-center">
             <Loader2 className="animate-spin text-electric-cyan mr-2" size={20} />
-            <span className="text-electric-cyan">Loading AI Model...</span>
+            <span className="text-electric-cyan">Loading AI model...</span>
           </div>
         )}
       </div>
-
-      {/* API Key Input */}
-      <ApiKeyInput onApiKeySet={handleApiKeySet} />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Left: Upload Interface */}
@@ -190,29 +178,6 @@ const AISpeciesDemo = () => {
               <div className="text-sm text-misty-white/60">Click to select or drag & drop</div>
             </div>
           </Button>
-
-          {/* Model Status */}
-          <div className="glassmorphism p-4 rounded-xl">
-            <h4 className="text-lg font-orbitron font-bold text-neural-purple mb-3">
-              AI System Status
-            </h4>
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-misty-white">TensorFlow.js Model:</span>
-                <span className={`text-sm font-mono ${modelLoaded ? 'text-bio-green' : 'text-tiger-orange'}`}>
-                  {modelLoaded ? 'Loaded' : 'Loading...'}
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-misty-white">Processing:</span>
-                <span className="text-sm font-mono text-electric-cyan">Browser-based (FREE)</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm text-misty-white">API Costs:</span>
-                <span className="text-sm font-mono text-bio-green">$0.00</span>
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* Right: Results Display */}
@@ -240,7 +205,7 @@ const AISpeciesDemo = () => {
                   <div className="flex items-center justify-center mb-3">
                     <Loader2 className="animate-spin text-electric-cyan mr-2" size={20} />
                     <span className="text-electric-cyan font-mono text-lg">
-                      ANALYZING IMAGE...
+                      Identifying species...
                     </span>
                   </div>
                   <div className="w-full bg-forest-navy rounded-full h-2">
@@ -299,30 +264,25 @@ const AISpeciesDemo = () => {
             </motion.div>
           )}
 
-          {/* AI Capabilities Info */}
-          <div className="glassmorphism p-6 rounded-xl">
-            <h4 className="text-xl font-orbitron font-bold text-neural-purple mb-4">
-              FREE AI Capabilities
-            </h4>
-            <div className="space-y-3">
-              <div className="flex items-center space-x-3">
-                <div className="w-2 h-2 bg-bio-green rounded-full animate-pulse"></div>
-                <span className="text-sm text-misty-white">Local TensorFlow.js processing</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <div className="w-2 h-2 bg-electric-cyan rounded-full animate-pulse"></div>
-                <span className="text-sm text-misty-white">50+ animal species recognition</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <div className="w-2 h-2 bg-neural-purple rounded-full animate-pulse"></div>
-                <span className="text-sm text-misty-white">Hugging Face backup (30k free requests/month)</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <div className="w-2 h-2 bg-tiger-orange rounded-full animate-pulse"></div>
-                <span className="text-sm text-misty-white">Zero server costs - browser only</span>
+          {/* Instructions */}
+          {!selectedImage && (
+            <div className="glassmorphism p-6 rounded-xl text-center">
+              <h4 className="text-xl font-orbitron font-bold text-neural-purple mb-4">
+                How to Use
+              </h4>
+              <div className="space-y-3 text-misty-white">
+                <p className="text-sm">
+                  📸 Use the camera to capture wildlife photos in real-time
+                </p>
+                <p className="text-sm">
+                  📁 Or upload an existing image from your device
+                </p>
+                <p className="text-sm">
+                  🧠 Our AI will identify the species and provide details
+                </p>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
 
