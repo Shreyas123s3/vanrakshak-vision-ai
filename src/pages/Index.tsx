@@ -32,6 +32,7 @@ import ParallaxForest from '@/components/ParallaxForest';
 import DynamicSky from '@/components/DynamicSky';
 import FloatingWildlife from '@/components/FloatingWildlife';
 import FallingLeaves from '@/components/FallingLeaves';
+import AISpeciesDemo from '@/components/AISpeciesDemo';
 
 const Index = () => {
   const [loading, setLoading] = useState(true);
