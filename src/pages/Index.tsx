@@ -1,8 +1,5 @@
-
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ColorPsychologyProvider } from '@/components/ColorPsychologyProvider';
-import { EnhancedTypography } from '@/components/EnhancedTypography';
 import HeroSection from '@/components/HeroSection';
 import ProblemStatement from '@/components/ProblemStatement';
 import SolutionOverview from '@/components/SolutionOverview';
@@ -53,134 +50,113 @@ const Index = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-forest-navy flex items-center justify-center">
+        <div className="text-center">
+          <motion.div
+            className="w-20 h-20 border-4 border-electric-cyan border-t-transparent rounded-full animate-spin mx-auto mb-8"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+          />
+          <motion.h1
+            className="text-4xl font-orbitron font-bold text-electric-cyan mb-4 text-glow"
+            animate={{ opacity: [0.5, 1, 0.5] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          >
+            VanRakshak AI
+          </motion.h1>
+          <motion.p
+            className="text-lg text-misty-white typing-animation"
+            initial={{ width: 0 }}
+            animate={{ width: "100%" }}
+            transition={{ duration: 3, delay: 0.5 }}
+          >
+            Initializing Epic Wildlife Environment...
+          </motion.p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <ColorPsychologyProvider>
-      {loading ? (
-        <div className="min-h-screen bg-forest-navy flex items-center justify-center">
-          <div className="text-center">
+    <div className="min-h-screen bg-forest-navy relative overflow-x-hidden">
+      {/* Accessibility Enhancements */}
+      <AccessibilityEnhancements />
+      
+      {/* Mobile Optimizations */}
+      <MobileOptimizations />
+      
+      {/* KILLER BACKGROUND EFFECTS - Multi-layered atmosphere */}
+      <DynamicSky />
+      <ParallaxForest />
+      <ParticleBackground />
+      <FloatingWildlife />
+      <FallingLeaves />
+      <WildlifeSilhouettes />
+      <PawPrintTrail />
+      <ForestCanopy />
+      <BirdFlight />
+      <DayNightCycle />
+      
+      {/* Navigation */}
+      <Navigation />
+      
+      {/* Main Content */}
+      <main id="main-content" className="relative z-10">
+        <HeroSection />
+        <ProblemStatement />
+        <SolutionOverview />
+        <TechnologyShowcase />
+        
+        {/* New Wildlife Heatmap */}
+        <WildlifeHeatmap />
+        
+        {/* New AI Detection Demo */}
+        <AIDetectionDemo />
+        
+        {/* FREE AI Species Demo Section - Temporarily commented out to isolate the issue */}
+        {/*
+        <section id="ai-demo" className="py-20 px-6">
+          <div className="container mx-auto max-w-7xl">
             <motion.div
-              className="w-20 h-20 border-4 border-ai-electric border-t-transparent rounded-full animate-spin mx-auto mb-8"
-              animate={{ rotate: 360 }}
-              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-            />
-            <EnhancedTypography
-              variant="hero"
-              animation="flourish"
-              context="ai"
-              className="mb-4"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
             >
-              VanRakshak AI
-            </EnhancedTypography>
-            <EnhancedTypography
-              variant="body"
-              animation="reveal"
-              className="typing-animation"
-            >
-              Initializing Epic Wildlife Environment...
-            </EnhancedTypography>
+              <h2 className="text-4xl md:text-6xl font-orbitron font-bold text-transparent bg-clip-text bg-gradient-to-r from-electric-cyan to-bio-green mb-6">
+                FREE AI Species Recognition
+              </h2>
+              <p className="text-xl text-misty-white max-w-3xl mx-auto">
+                Experience our zero-cost AI system powered by TensorFlow.js and browser-based processing
+              </p>
+            </motion.div>
+            
+            <AISpeciesDemo />
           </div>
-        </div>
-      ) : (
-        <div className="min-h-screen bg-forest-navy relative overflow-x-hidden theme-transition">
-          {/* Accessibility Enhancements */}
-          <AccessibilityEnhancements />
-          
-          {/* Mobile Optimizations */}
-          <MobileOptimizations />
-          
-          {/* KILLER BACKGROUND EFFECTS - Multi-layered atmosphere */}
-          <DynamicSky />
-          <ParallaxForest />
-          <ParticleBackground />
-          <FloatingWildlife />
-          <FallingLeaves />
-          <WildlifeSilhouettes />
-          <PawPrintTrail />
-          <ForestCanopy />
-          <BirdFlight />
-          <DayNightCycle />
-          
-          {/* Navigation */}
-          <Navigation />
-          
-          {/* Main Content */}
-          <main id="main-content" className="relative z-10">
-            <HeroSection />
-            <ProblemStatement />
-            <SolutionOverview />
-            <TechnologyShowcase />
-            
-            {/* Enhanced Wildlife Heatmap with Color Psychology */}
-            <section className="py-20 temp-warm">
-              <div className="container mx-auto px-6">
-                <EnhancedTypography
-                  variant="heading"
-                  animation="fade"
-                  context="ai"
-                  className="text-center mb-16"
-                >
-                  Wildlife Activity Heatmap
-                </EnhancedTypography>
-                <WildlifeHeatmap />
-              </div>
-            </section>
-            
-            {/* Enhanced AI Detection Demo */}
-            <section className="py-20 temp-cool">
-              <div className="container mx-auto px-6">
-                <EnhancedTypography
-                  variant="heading"
-                  animation="grow"
-                  context="detection"
-                  className="text-center mb-8"
-                >
-                  Live AI Species Detection
-                </EnhancedTypography>
-                <EnhancedTypography
-                  variant="body"
-                  animation="fade"
-                  tooltip="Our AI can identify over 500 species with 95% accuracy"
-                  interactive
-                  className="text-center mb-16 max-w-3xl mx-auto"
-                >
-                  Experience real-time wildlife identification powered by advanced machine learning
-                </EnhancedTypography>
-                <AIDetectionDemo />
-              </div>
-            </section>
-            
-            <ConservationMetrics />
-            <GovernmentPartnerships />
-            <ExpertTestimonials />
-            <ImpactMetrics />
-            
-            {/* Community Engagement Features with Enhanced Typography */}
-            <section className="py-20 temp-warm">
-              <div className="container mx-auto px-6">
-                <EnhancedTypography
-                  variant="hero"
-                  animation="flourish"
-                  context="conservation"
-                  className="text-center mb-16"
-                >
-                  Community Conservation Heroes
-                </EnhancedTypography>
-                <VanRakshakAvatar />
-                <VillageParticipationDashboard />
-                <ConservationRewards />
-                <CommunitySuccessStories />
-                <WildlifeKnowledgeHub />
-                <EmergencyReporting />
-              </div>
-            </section>
-            
-            <ImplementationRoadmap />
-            <TeamSection />
-            <CallToAction />
-          </main>
-        </div>
-      )}
-    </ColorPsychologyProvider>
+        </section>
+        */}
+        
+        <ConservationMetrics />
+        <GovernmentPartnerships />
+        <ExpertTestimonials />
+        <ImpactMetrics />
+        
+        {/* Community Engagement Features */}
+        <VanRakshakAvatar />
+        <VillageParticipationDashboard />
+        <ConservationRewards />
+        <CommunitySuccessStories />
+        <WildlifeKnowledgeHub />
+        <EmergencyReporting />
+        
+        <ImplementationRoadmap />
+        <TeamSection />
+        <CallToAction />
+      </main>
+    </div>
   );
 };
 
