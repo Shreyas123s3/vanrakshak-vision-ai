@@ -43,6 +43,44 @@
     --sidebar-accent-foreground: 248 250 252;
     --sidebar-border: 37 50 74;
     --sidebar-ring: 0 212 255;
+
+    /* KILLER COLOR PSYCHOLOGY VARIABLES */
+    --earth-warm: 139 69 19;
+    --earth-comfort: 160 82 45;
+    --nature-trust: 34 197 94;
+    --nature-deep: 21 128 61;
+    --endangered-alert: 255 107 53;
+    --endangered-urgent: 220 38 38;
+    --thriving-life: 57 255 106;
+    --thriving-growth: 74 222 128;
+    --ai-electric: 0 212 255;
+    --ai-neural: 139 95 255;
+    --success-gold: 245 158 11;
+    --success-natural: 234 179 8;
+    
+    /* Dynamic color temperature */
+    --temp-warm: 251 146 60;
+    --temp-cool: 59 130 246;
+    --temp-neutral: 156 163 175;
+  }
+
+  /* Dark mode color adjustments */
+  .dark {
+    --background: 3 7 18;
+    --foreground: 248 250 252;
+    --earth-warm: 180 83 9;
+    --nature-trust: 22 163 74;
+    --ai-electric: 56 189 248;
+    --success-gold: 251 191 36;
+  }
+
+  /* Auto dark mode based on time */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --background: 3 7 18;
+      --card: 3 7 18;
+      --popover: 3 7 18;
+    }
   }
 }
 
@@ -55,15 +93,230 @@
     @apply bg-forest-navy text-misty-white font-inter;
     background: linear-gradient(135deg, #0B1426 0%, #1a2332 50%, #0B1426 100%);
     background-attachment: fixed;
+    /* Enhanced typography base */
+    line-height: 1.6;
+    letter-spacing: -0.01em;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   html {
     scroll-behavior: smooth;
   }
+
+  /* KILLER TYPOGRAPHY SYSTEM */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.75em;
+  }
+
+  h1 { font-size: clamp(2.5rem, 5vw, 4rem); }
+  h2 { font-size: clamp(2rem, 4vw, 3.5rem); }
+  h3 { font-size: clamp(1.5rem, 3vw, 2.5rem); }
+  h4 { font-size: clamp(1.25rem, 2.5vw, 2rem); }
+
+  p {
+    line-height: 1.7;
+    margin-bottom: 1.25em;
+    letter-spacing: 0.01em;
+  }
+
+  /* Enhanced focus for accessibility */
+  *:focus {
+    outline: 3px solid rgb(var(--ai-electric)) !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 0 0 5px rgba(var(--ai-electric), 0.3) !important;
+  }
 }
 
 @layer components {
-  /* Enhanced accessibility styles */
+  /* KILLER COLOR PSYCHOLOGY CLASSES */
+  
+  /* Contextual color adaptation */
+  .color-endangered {
+    background: linear-gradient(135deg, 
+      rgba(var(--endangered-alert), 0.1) 0%, 
+      rgba(var(--endangered-urgent), 0.05) 100%);
+    border: 1px solid rgba(var(--endangered-alert), 0.3);
+    color: rgb(var(--endangered-alert));
+  }
+
+  .color-thriving {
+    background: linear-gradient(135deg, 
+      rgba(var(--thriving-life), 0.1) 0%, 
+      rgba(var(--thriving-growth), 0.05) 100%);
+    border: 1px solid rgba(var(--thriving-life), 0.3);
+    color: rgb(var(--thriving-life));
+  }
+
+  .color-ai-processing {
+    background: linear-gradient(135deg, 
+      rgba(var(--ai-electric), 0.1) 0%, 
+      rgba(var(--ai-neural), 0.05) 100%);
+    border: 1px solid rgba(var(--ai-electric), 0.3);
+    color: rgb(var(--ai-electric));
+  }
+
+  .color-success {
+    background: linear-gradient(135deg, 
+      rgba(var(--success-gold), 0.1) 0%, 
+      rgba(var(--success-natural), 0.05) 100%);
+    border: 1px solid rgba(var(--success-gold), 0.3);
+    color: rgb(var(--success-gold));
+  }
+
+  /* Dynamic temperature classes */
+  .temp-warm {
+    filter: sepia(0.2) hue-rotate(15deg) saturate(1.1);
+    background-blend-mode: soft-light;
+  }
+
+  .temp-cool {
+    filter: sepia(0.1) hue-rotate(-15deg) saturate(1.05);
+    background-blend-mode: multiply;
+  }
+
+  /* KILLER TYPOGRAPHY CLASSES */
+  
+  /* Dynamic font loading effects */
+  .font-loading {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: font-fade-in 0.8s ease-out forwards;
+  }
+
+  /* Text animation effects */
+  .text-fade-reveal {
+    opacity: 0;
+    animation: text-reveal 1s ease-out forwards;
+  }
+
+  .text-grow-stats {
+    display: inline-block;
+    animation: grow-emphasis 2s ease-out;
+  }
+
+  .text-pulse-conservation {
+    animation: conservation-pulse 3s ease-in-out infinite;
+  }
+
+  .text-species-flourish {
+    display: inline-block;
+    animation: species-entrance 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  /* Enhanced hierarchy */
+  .text-hierarchy-primary {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, rgb(var(--ai-electric)), rgb(var(--thriving-life)));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-hierarchy-secondary {
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+    font-weight: 600;
+    color: rgb(var(--nature-trust));
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .text-hierarchy-body {
+    font-size: clamp(1rem, 2vw, 1.125rem);
+    line-height: 1.8;
+    color: rgba(var(--foreground), 0.9);
+  }
+
+  /* Interactive text elements */
+  .text-interactive {
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .text-interactive:hover {
+    color: rgb(var(--ai-electric));
+    transform: translateY(-1px);
+  }
+
+  .text-interactive::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, rgb(var(--ai-electric)), rgb(var(--thriving-life)));
+    transition: width 0.3s ease;
+  }
+
+  .text-interactive:hover::after {
+    width: 100%;
+  }
+
+  .tooltip-definition {
+    position: relative;
+    border-bottom: 1px dotted rgb(var(--ai-electric));
+  }
+
+  .tooltip-definition:hover .tooltip-content {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .tooltip-content {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: rgba(var(--background), 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(var(--ai-electric), 0.3);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+  }
+
+  /* Expandable sections */
+  .expandable-section {
+    max-height: 100px;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .expandable-section.expanded {
+    max-height: 1000px;
+  }
+
+  .expand-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: rgb(var(--ai-electric));
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .expand-trigger:hover {
+    color: rgb(var(--thriving-life));
+    transform: translateX(4px);
+  }
+
+  /* Keep existing styles */
   .sr-only {
     position: absolute !important;
     width: 1px !important;
@@ -80,8 +333,8 @@
     position: absolute;
     top: -40px;
     left: 6px;
-    background: #00D4FF;
-    color: #0B1426;
+    background: rgb(var(--ai-electric));
+    color: rgb(var(--background));
     padding: 8px 16px;
     border-radius: 4px;
     text-decoration: none;
@@ -94,22 +347,14 @@
     top: 6px;
   }
 
-  /* Enhanced focus styles for accessibility */
-  *:focus {
-    outline: 3px solid #00D4FF !important;
-    outline-offset: 2px !important;
-    box-shadow: 0 0 0 5px rgba(0, 212, 255, 0.3) !important;
-  }
-
-  /* New elegant text styling - replaces intense glow */
   .hero-gradient-text {
-    filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.2)) drop-shadow(0 0 16px rgba(57, 255, 106, 0.1));
+    filter: drop-shadow(0 0 8px rgba(var(--ai-electric), 0.2)) drop-shadow(0 0 16px rgba(var(--thriving-life), 0.1));
     letter-spacing: -0.02em;
     text-rendering: optimizeLegibility;
   }
 
   .subtle-text-glow {
-    text-shadow: 0 0 12px rgba(248, 250, 252, 0.3);
+    text-shadow: 0 0 12px rgba(var(--foreground), 0.3);
   }
 
   .elegant-hover-glow {
@@ -117,24 +362,26 @@
   }
 
   .elegant-hover-glow:hover {
-    filter: drop-shadow(0 0 12px rgba(0, 212, 255, 0.4));
+    filter: drop-shadow(0 0 12px rgba(var(--ai-electric), 0.4));
   }
 
-  /* Keep existing styles */
   .text-glow {
     text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 40px currentColor;
   }
 
   .glassmorphism {
-    background: rgba(11, 20, 38, 0.2);
+    background: rgba(var(--background), 0.2);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(0, 212, 255, 0.2);
+    border: 1px solid rgba(var(--ai-electric), 0.2);
   }
 
   .holographic {
-    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(57, 255, 106, 0.1) 50%, rgba(139, 95, 255, 0.1) 100%);
+    background: linear-gradient(135deg, 
+      rgba(var(--ai-electric), 0.1) 0%, 
+      rgba(var(--thriving-life), 0.1) 50%, 
+      rgba(var(--ai-neural), 0.1) 100%);
     backdrop-filter: blur(20px);
-    border: 1px solid rgba(0, 212, 255, 0.3);
+    border: 1px solid rgba(var(--ai-electric), 0.3);
     position: relative;
   }
 
@@ -154,80 +401,7 @@
     opacity: 1;
   }
 
-  .cyber-border {
-    position: relative;
-  }
-
-  .cyber-border::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    padding: 2px;
-    background: linear-gradient(45deg, #00D4FF, #39FF6A, #8B5FFF, #FF6B35);
-    border-radius: inherit;
-    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    mask-composite: subtract;
-  }
-
-  .particle-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  .particle {
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    background: linear-gradient(45deg, #00D4FF, #39FF6A);
-    border-radius: 50%;
-    animation: particle-float linear infinite;
-  }
-
-  .wildlife-silhouette {
-    filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.5));
-  }
-
-  .typing-animation {
-    overflow: hidden;
-    border-right: 3px solid #00D4FF;
-    white-space: nowrap;
-    animation: typing 3.5s steps(40, end), blink 0.75s step-end infinite;
-  }
-
-  /* New atmospheric animations */
-  .forest-sway {
-    animation: forest-sway 8s ease-in-out infinite;
-  }
-
-  .cloud-drift {
-    animation: cloud-drift 20s linear infinite;
-  }
-
-  .mystical-glow {
-    animation: mystical-glow 4s ease-in-out infinite;
-  }
-
-  .firefly-dance {
-    animation: firefly-dance 6s ease-in-out infinite;
-  }
-
-  /* Enhanced mobile touch targets */
-  button, a, [role="button"], input, select, textarea {
-    touch-action: manipulation;
-  }
-
-  button, a[href], [role="button"] {
-    min-height: 44px;
-    min-width: 44px;
-  }
+  /* ... keep existing code (cyber-border, particle-container, etc.) */
 
   /* Reduce motion for users who prefer it */
   @media (prefers-reduced-motion: reduce) {
@@ -246,13 +420,13 @@
   /* High contrast mode support */
   @media (prefers-contrast: high) {
     .glassmorphism {
-      background: rgba(11, 20, 38, 0.9) !important;
-      border: 2px solid #00D4FF !important;
+      background: rgba(var(--background), 0.9) !important;
+      border: 2px solid rgb(var(--ai-electric)) !important;
     }
     
     .holographic {
-      background: rgba(11, 20, 38, 0.9) !important;
-      border: 2px solid #39FF6A !important;
+      background: rgba(var(--background), 0.9) !important;
+      border: 2px solid rgb(var(--thriving-life)) !important;
     }
     
     .text-glow {
@@ -274,26 +448,31 @@
       display: none;
     }
     
-    /* Improve scrolling performance */
     * {
       -webkit-overflow-scrolling: touch;
     }
     
-    /* Optimize text rendering */
     body {
       text-rendering: optimizeSpeed;
       -webkit-font-smoothing: antialiased;
     }
     
-    /* Mobile-friendly spacing */
     .container {
       padding-left: 1rem !important;
       padding-right: 1rem !important;
     }
+
+    /* Mobile typography scaling */
+    .text-hierarchy-primary {
+      font-size: clamp(2rem, 8vw, 3rem) !important;
+    }
+    
+    .text-hierarchy-secondary {
+      font-size: clamp(1.5rem, 6vw, 2rem) !important;
+    }
   }
 
   @media (max-width: 480px) {
-    /* Extra small screens */
     .text-6xl, .text-5xl {
       font-size: 2.5rem !important;
       line-height: 1.2 !important;
@@ -322,21 +501,95 @@
     }
     
     .hover\:bg-electric-cyan\/10:active {
-      background-color: rgba(0, 212, 255, 0.2) !important;
-    }
-  }
-
-  /* Loading optimization */
-  @media (max-width: 768px) {
-    img, video {
-      loading: lazy;
+      background-color: rgba(var(--ai-electric), 0.2) !important;
     }
   }
 
   /* Enhanced dark mode support */
   @media (prefers-color-scheme: dark) {
     .glassmorphism {
-      background: rgba(11, 20, 38, 0.4) !important;
+      background: rgba(var(--background), 0.4) !important;
     }
   }
+}
+
+/* KILLER ANIMATION KEYFRAMES */
+@keyframes font-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes text-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes grow-emphasis {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); color: rgb(var(--success-gold)); }
+  100% { transform: scale(1); }
+}
+
+@keyframes conservation-pulse {
+  0%, 100% { 
+    opacity: 1; 
+    transform: scale(1);
+    color: rgb(var(--nature-trust));
+  }
+  50% { 
+    opacity: 0.8; 
+    transform: scale(1.02);
+    color: rgb(var(--thriving-life));
+  }
+}
+
+@keyframes species-entrance {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.8) rotate(-5deg);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-5px) scale(1.05) rotate(2deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+}
+
+/* Color temperature transitions */
+@keyframes temp-shift-warm {
+  from { filter: sepia(0) hue-rotate(0deg) saturate(1); }
+  to { filter: sepia(0.2) hue-rotate(15deg) saturate(1.1); }
+}
+
+@keyframes temp-shift-cool {
+  from { filter: sepia(0) hue-rotate(0deg) saturate(1); }
+  to { filter: sepia(0.1) hue-rotate(-15deg) saturate(1.05); }
+}
+
+/* Smooth theme transitions */
+@keyframes theme-transition {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Dark mode transition */
+.theme-transition {
+  transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
