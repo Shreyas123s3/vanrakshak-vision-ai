@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import HeroSection from '@/components/HeroSection';
@@ -28,17 +29,18 @@ import AccessibilityEnhancements from '@/components/AccessibilityEnhancements';
 import MobileOptimizations from '@/components/MobileOptimizations';
 import WildlifeHeatmap from '@/components/WildlifeHeatmap';
 import AIDetectionDemo from '@/components/AIDetectionDemo';
-import AISpeciesDemo from '@/components/AISpeciesDemo';
 
 const Index = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    console.log('Index component mounting...');
     // Simulate loading time for 3D assets with mobile optimization
     const isMobile = window.innerWidth <= 768;
     const loadTime = isMobile ? 1000 : 2000; // Faster loading on mobile
     
     const timer = setTimeout(() => {
+      console.log('Loading complete, setting loading to false');
       setLoading(false);
     }, loadTime);
 
@@ -106,7 +108,8 @@ const Index = () => {
         {/* New AI Detection Demo */}
         <AIDetectionDemo />
         
-        {/* FREE AI Species Demo Section */}
+        {/* FREE AI Species Demo Section - Temporarily commented out to isolate the issue */}
+        {/*
         <section id="ai-demo" className="py-20 px-6">
           <div className="container mx-auto max-w-7xl">
             <motion.div
@@ -127,6 +130,7 @@ const Index = () => {
             <AISpeciesDemo />
           </div>
         </section>
+        */}
         
         <ConservationMetrics />
         <GovernmentPartnerships />
