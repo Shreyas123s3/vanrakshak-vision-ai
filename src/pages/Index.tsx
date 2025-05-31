@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import HeroSection from '@/components/HeroSection';
@@ -34,6 +35,8 @@ import FloatingWildlife from '@/components/FloatingWildlife';
 import FallingLeaves from '@/components/FallingLeaves';
 import AISpeciesDemo from '@/components/AISpeciesDemo';
 import RealTimeMonitoring from '@/components/RealTimeMonitoring';
+import AcousticAnalyzer from '@/components/AcousticAnalyzer';
+import Interactive3DMap from '@/components/Interactive3DMap';
 
 const Index = () => {
   const [loading, setLoading] = useState(true);
@@ -111,8 +114,54 @@ const Index = () => {
         <SolutionOverview />
         <TechnologyShowcase />
         
-        {/* Real-Time Monitoring System */}
+        {/* Real-Time Monitoring System (Now completely silent) */}
         <RealTimeMonitoring />
+        
+        {/* Enhanced AI-Powered Acoustic Monitoring System */}
+        <section id="acoustic-monitoring" className="py-20 px-6">
+          <div className="container mx-auto max-w-7xl">
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <h2 className="text-4xl md:text-6xl font-orbitron font-bold text-transparent bg-clip-text bg-gradient-to-r from-neural-purple to-tiger-orange mb-6">
+                AI Acoustic Wildlife Detection
+              </h2>
+              <p className="text-xl text-misty-white max-w-3xl mx-auto">
+                Real-time machine learning-powered sound analysis for wildlife identification and threat detection
+              </p>
+            </motion.div>
+            
+            <AcousticAnalyzer />
+          </div>
+        </section>
+        
+        {/* 3D Conservation Map */}
+        <section id="3d-conservation-map" className="py-20">
+          <div className="container mx-auto max-w-7xl px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <h2 className="text-4xl md:text-6xl font-orbitron font-bold text-transparent bg-clip-text bg-gradient-to-r from-electric-cyan to-bio-green mb-6">
+                3D Conservation Map
+              </h2>
+              <p className="text-xl text-misty-white max-w-3xl mx-auto">
+                Interactive 3D visualization of India's protected wildlife areas with real-time animal tracking
+              </p>
+            </motion.div>
+            
+            <div className="rounded-2xl overflow-hidden shadow-2xl">
+              <Interactive3DMap />
+            </div>
+          </div>
+        </section>
         
         {/* New Wildlife Heatmap */}
         <WildlifeHeatmap />

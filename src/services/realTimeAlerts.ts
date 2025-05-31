@@ -50,7 +50,7 @@ class RealTimeAlertService {
   }
 
   private initializeRealTimeMonitoring() {
-    // Simulate real-time sensor data streams (removed sound alerts)
+    // Simulate real-time sensor data streams (SILENT mode)
     setInterval(() => {
       this.processAcousticData();
       this.processCameraTrapData();
@@ -59,7 +59,7 @@ class RealTimeAlertService {
       this.runPredictiveAnalysis();
     }, 2000); // Process every 2 seconds
 
-    console.log('Real-time monitoring system initialized (silent mode)');
+    console.log('Real-time monitoring system initialized (SILENT mode - no audio alerts)');
   }
 
   private processAcousticData() {
@@ -297,8 +297,8 @@ class RealTimeAlertService {
       this.alerts = this.alerts.slice(0, 50);
     }
 
-    // Silent alert generation (no sound effects)
-    console.log(`🚨 ALERT GENERATED: ${alert.type.toUpperCase()} - ${alert.severity}`, alert);
+    // COMPLETELY SILENT alert generation - NO SOUND EFFECTS
+    console.log(`🚨 SILENT ALERT: ${alert.type.toUpperCase()} - ${alert.severity}`, alert);
     
     // Notify subscribers
     this.notifySubscribers();
@@ -329,8 +329,8 @@ class RealTimeAlertService {
     };
 
     this.alerts.unshift(predictiveAlert);
-    // Silent predictive alert (no sound effects)
-    console.log(`🔮 PREDICTIVE ALERT: ${type.toUpperCase()} - ${Math.round(confidence * 100)}% confidence`);
+    // COMPLETELY SILENT predictive alert - NO SOUND EFFECTS
+    console.log(`🔮 SILENT PREDICTIVE ALERT: ${type.toUpperCase()} - ${Math.round(confidence * 100)}% confidence`);
     this.notifySubscribers();
   }
 

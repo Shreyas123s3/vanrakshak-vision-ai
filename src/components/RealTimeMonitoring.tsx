@@ -1,5 +1,4 @@
-
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useToast } from '@/hooks/use-toast';
 import { realTimeAlertService, AlertData, PredictiveModel } from '@/services/realTimeAlerts';
@@ -11,7 +10,6 @@ const RealTimeMonitoring = () => {
   const [filter, setFilter] = useState<string>('all');
   const [isMonitoring, setIsMonitoring] = useState(true);
   const { toast } = useToast();
-  const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
     const unsubscribe = realTimeAlertService.subscribe((newAlerts) => {
@@ -22,11 +20,7 @@ const RealTimeMonitoring = () => {
       );
 
       if (newCriticalAlerts.length > 0) {
-        // Play alert sound and show toast
-        if (audioRef.current) {
-          audioRef.current.play().catch(console.error);
-        }
-        
+        // SILENT MODE - Only show toast notifications, NO AUDIO
         newCriticalAlerts.forEach(alert => {
           toast({
             title: `🚨 CRITICAL ALERT: ${alert.type.toUpperCase()}`,
@@ -87,11 +81,6 @@ const RealTimeMonitoring = () => {
 
   return (
     <section className="py-20 relative" id="real-time-monitoring">
-      {/* Hidden audio element for alert sounds */}
-      <audio ref={audioRef} preload="auto">
-        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+D0t2YdBDuMzfPBdybaeqHb8qhdEghdqO3wtmUaDjmI0fLEcSUFl2+z9N2ROgcWXqzn66NXzz8cbq3p7KRV2hUPaKqwtXcpEIy91/C+cBqRyp70tH43jqGq79FBDYOEOJTz4Y94ueSTF+vYTKAGAA==" type="audio/wav" />
-      </audio>
-
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
@@ -320,7 +309,7 @@ const RealTimeMonitoring = () => {
           className="glassmorphism p-8 rounded-xl"
         >
           <h3 className="text-2xl font-orbitron font-bold text-electric-cyan mb-6">
-            🚨 Live Alert Feed
+            🚨 Live Alert Feed (Silent Mode)
           </h3>
 
           <div className="space-y-4 max-h-96 overflow-y-auto">
