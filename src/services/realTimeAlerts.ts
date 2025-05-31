@@ -46,7 +46,7 @@ class RealTimeAlertService {
 
   constructor() {
     this.initializeRealTimeMonitoring();
-    this.startPredictiveAnalysis();
+    this.runPredictiveAnalysis();
   }
 
   private initializeRealTimeMonitoring() {
