@@ -1,5 +1,18 @@
-
 // Wildlife Sound Detection Service using Web Audio API and Machine Learning
+
+interface SoundPattern {
+  frequencies: number[];
+  minDuration: number;
+  maxDuration: number;
+  avgAmplitude: number;
+  harmonics: number[];
+  threat?: boolean; // Optional threat property
+}
+
+interface SoundPatterns {
+  [key: string]: SoundPattern;
+}
+
 class AudioAnalysisService {
   private audioContext: AudioContext | null = null;
   private analyser: AnalyserNode | null = null;
@@ -9,7 +22,7 @@ class AudioAnalysisService {
   private subscribers: ((result: any) => void)[] = [];
 
   // Wildlife sound patterns database
-  private soundPatterns = {
+  private soundPatterns: SoundPatterns = {
     tiger: {
       frequencies: [50, 100, 150, 200],
       minDuration: 1000, // ms
@@ -182,7 +195,7 @@ class AudioAnalysisService {
           confidence: Math.round(confidence * 100),
           frequencies: dominantFrequencies.slice(0, 5),
           pattern,
-          threat: pattern.threat || false,
+          threat: pattern.threat || false, // Safe access with fallback
           timestamp: new Date()
         });
       }
@@ -202,7 +215,7 @@ class AudioAnalysisService {
     };
   }
 
-  private calculateMatchConfidence(frequencies: any[], pattern: any): number {
+  private calculateMatchConfidence(frequencies: any[], pattern: SoundPattern): number {
     if (frequencies.length === 0) return 0;
 
     let matches = 0;
