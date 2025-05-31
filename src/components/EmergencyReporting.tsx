@@ -122,13 +122,13 @@ const EmergencyReporting = () => {
           className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6"
         >
           <div className="glassmorphism p-6 rounded-xl text-center">
-            <div className="text-3xl font-orbitron font-bold text-red-500 mb-2">< 5 मिनट</div>
+            <div className="text-3xl font-orbitron font-bold text-red-500 mb-2">&lt; 5 मिनट</div>
             <div className="text-electric-cyan mb-1">आपातकालीन प्रतिक्रिया</div>
             <div className="text-misty-white/60 text-sm">जीवन-मृत्यु की स्थिति</div>
           </div>
           
           <div className="glassmorphism p-6 rounded-xl text-center">
-            <div className="text-3xl font-orbitron font-bold text-orange-500 mb-2">< 30 मिनट</div>
+            <div className="text-3xl font-orbitron font-bold text-orange-500 mb-2">&lt; 30 मिनट</div>
             <div className="text-electric-cyan mb-1">सामान्य रिपोर्ट</div>
             <div className="text-misty-white/60 text-sm">गैर-आपातकालीन मामले</div>
           </div>
