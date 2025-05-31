@@ -114,7 +114,7 @@ const Index = () => {
         <SolutionOverview />
         <TechnologyShowcase />
         
-        {/* Real-Time Monitoring System (Now completely silent) */}
+        {/* Real-Time Monitoring System */}
         <RealTimeMonitoring />
         
         {/* Enhanced AI-Powered Acoustic Monitoring System */}
@@ -139,7 +139,7 @@ const Index = () => {
           </div>
         </section>
         
-        {/* 3D Conservation Map */}
+        {/* Enhanced 3D Conservation Map */}
         <section id="3d-conservation-map" className="py-20">
           <div className="container mx-auto max-w-7xl px-6">
             <motion.div
@@ -150,10 +150,10 @@ const Index = () => {
               className="text-center mb-16"
             >
               <h2 className="text-4xl md:text-6xl font-orbitron font-bold text-transparent bg-clip-text bg-gradient-to-r from-electric-cyan to-bio-green mb-6">
-                3D Conservation Map
+                Interactive 3D Conservation Map
               </h2>
               <p className="text-xl text-misty-white max-w-3xl mx-auto">
-                Interactive 3D visualization of India's protected wildlife areas with real-time animal tracking
+                Real-time 3D visualization of India's protected wildlife areas with multiple view modes and live animal tracking
               </p>
             </motion.div>
             
@@ -163,33 +163,14 @@ const Index = () => {
           </div>
         </section>
         
-        {/* New Wildlife Heatmap */}
+        {/* Wildlife Heatmap */}
         <WildlifeHeatmap />
         
-        {/* New AI Detection Demo */}
+        {/* AI Detection Demo */}
         <AIDetectionDemo />
         
-        {/* AI Species Demo Section - Now enabled with English text */}
-        <section id="ai-demo" className="py-20 px-6">
-          <div className="container mx-auto max-w-7xl">
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-4xl md:text-6xl font-orbitron font-bold text-transparent bg-clip-text bg-gradient-to-r from-electric-cyan to-bio-green mb-6">
-                Free AI Species Recognition
-              </h2>
-              <p className="text-xl text-misty-white max-w-3xl mx-auto">
-                Experience our zero-cost AI system powered by advanced machine learning and browser-based processing
-              </p>
-            </motion.div>
-            
-            <AISpeciesDemo />
-          </div>
-        </section>
+        {/* AI Species Demo Section */}
+        <AISpeciesDemo />
         
         <ConservationMetrics />
         <GovernmentPartnerships />
