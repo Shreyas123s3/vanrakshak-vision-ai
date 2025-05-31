@@ -9,10 +9,10 @@ const EmergencyReporting = () => {
   const [reportType, setReportType] = useState('');
 
   const emergencyTypes = [
-    { id: 'poaching', name: 'अवैध शिकार', icon: '🚨', color: 'text-red-500' },
-    { id: 'injury', name: 'घायल जानवर', icon: '🩹', color: 'text-orange-500' },
-    { id: 'conflict', name: 'मानव-पशु संघर्ष', icon: '⚠️', color: 'text-yellow-500' },
-    { id: 'habitat', name: 'आवास नुकसान', icon: '🌳', color: 'text-green-500' }
+    { id: 'poaching', name: 'Illegal Hunting', icon: '🚨', color: 'text-red-500' },
+    { id: 'injury', name: 'Injured Animal', icon: '🩹', color: 'text-orange-500' },
+    { id: 'conflict', name: 'Human-Animal Conflict', icon: '⚠️', color: 'text-yellow-500' },
+    { id: 'habitat', name: 'Habitat Damage', icon: '🌳', color: 'text-green-500' }
   ];
 
   const handleEmergencyReport = () => {
@@ -35,7 +35,7 @@ const EmergencyReporting = () => {
           className="text-center mb-16"
         >
           <h2 className="text-5xl md:text-6xl font-orbitron font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500 mb-8">
-            आपातकालीन रिपोर्टिंग सिस्टम
+            Emergency Reporting System
           </h2>
           <p className="text-xl text-misty-white max-w-4xl mx-auto">
             Report wildlife emergencies instantly for rapid response
@@ -66,7 +66,7 @@ const EmergencyReporting = () => {
               <h3 className={`text-lg font-orbitron font-bold ${type.color} mb-2`}>
                 {type.name}
               </h3>
-              <p className="text-misty-white/60 text-sm">तत्काल रिपोर्ट करें</p>
+              <p className="text-misty-white/60 text-sm">Report Immediately</p>
             </motion.button>
           ))}
         </motion.div>
@@ -78,35 +78,35 @@ const EmergencyReporting = () => {
           className="max-w-2xl mx-auto holographic p-8 rounded-xl"
         >
           <h3 className="text-2xl font-orbitron font-bold text-electric-cyan mb-6 text-center">
-            त्वरित रिपोर्ट फॉर्म
+            Quick Report Form
           </h3>
           
           <div className="space-y-6">
             <div>
-              <label className="block text-bio-green font-semibold mb-2">स्थान</label>
+              <label className="block text-bio-green font-semibold mb-2">Location</label>
               <input
                 type="text"
                 className="w-full glassmorphism p-3 rounded-lg text-misty-white placeholder-misty-white/50 border border-electric-cyan/20 focus:border-electric-cyan focus:outline-none"
-                placeholder="अपना वर्तमान स्थान या घटना स्थल"
+                placeholder="Your current location or incident site"
                 aria-label="Location"
               />
             </div>
             
             <div>
-              <label className="block text-bio-green font-semibold mb-2">घटना का विवरण</label>
+              <label className="block text-bio-green font-semibold mb-2">Incident Description</label>
               <textarea
                 rows={4}
                 className="w-full glassmorphism p-3 rounded-lg text-misty-white placeholder-misty-white/50 border border-electric-cyan/20 focus:border-electric-cyan focus:outline-none resize-none"
-                placeholder="कृपया घटना का संक्षिप्त विवरण दें..."
+                placeholder="Please provide a brief description of the incident..."
                 aria-label="Incident description"
               />
             </div>
             
             <div>
-              <label className="block text-bio-green font-semibold mb-2">फोटो अपलोड करें</label>
+              <label className="block text-bio-green font-semibold mb-2">Upload Photo</label>
               <div className="glassmorphism p-6 rounded-lg border-2 border-dashed border-electric-cyan/30 text-center">
                 <div className="text-4xl mb-2">📸</div>
-                <p className="text-misty-white/60">फोटो खींचें या अपलोड करें</p>
+                <p className="text-misty-white/60">Take photo or upload</p>
               </div>
             </div>
             
@@ -115,14 +115,14 @@ const EmergencyReporting = () => {
                 onClick={handleEmergencyReport}
                 className="cyber-border holographic py-3 rounded-lg font-semibold text-electric-cyan hover:bg-electric-cyan hover:text-forest-navy transition-all duration-300"
               >
-                🚨 तत्काल रिपोर्ट
+                🚨 Emergency Report
               </button>
               
               <button 
                 onClick={handleHelplineCall}
                 className="glassmorphism py-3 rounded-lg font-semibold text-misty-white hover:bg-misty-white/10 transition-all duration-300"
               >
-                📞 हेल्पलाइन कॉल
+                📞 Call Helpline
               </button>
             </div>
           </div>
@@ -135,21 +135,21 @@ const EmergencyReporting = () => {
           className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6"
         >
           <div className="glassmorphism p-6 rounded-xl text-center">
-            <div className="text-3xl font-orbitron font-bold text-red-500 mb-2">&lt; 5 मिनट</div>
-            <div className="text-electric-cyan mb-1">आपातकालीन प्रतिक्रिया</div>
-            <div className="text-misty-white/60 text-sm">जीवन-मृत्यु की स्थिति</div>
+            <div className="text-3xl font-orbitron font-bold text-red-500 mb-2">&lt; 5 Minutes</div>
+            <div className="text-electric-cyan mb-1">Emergency Response</div>
+            <div className="text-misty-white/60 text-sm">Life-threatening situations</div>
           </div>
           
           <div className="glassmorphism p-6 rounded-xl text-center">
-            <div className="text-3xl font-orbitron font-bold text-orange-500 mb-2">&lt; 30 मिनट</div>
-            <div className="text-electric-cyan mb-1">सामान्य रिपोर्ट</div>
-            <div className="text-misty-white/60 text-sm">गैर-आपातकालीन मामले</div>
+            <div className="text-3xl font-orbitron font-bold text-orange-500 mb-2">&lt; 30 Minutes</div>
+            <div className="text-electric-cyan mb-1">General Reports</div>
+            <div className="text-misty-white/60 text-sm">Non-emergency cases</div>
           </div>
           
           <div className="glassmorphism p-6 rounded-xl text-center">
             <div className="text-3xl font-orbitron font-bold text-green-500 mb-2">24/7</div>
-            <div className="text-electric-cyan mb-1">हेल्पलाइन उपलब्ध</div>
-            <div className="text-misty-white/60 text-sm">हमेशा सेवा में</div>
+            <div className="text-electric-cyan mb-1">Helpline Available</div>
+            <div className="text-misty-white/60 text-sm">Always at your service</div>
           </div>
         </motion.div>
       </div>
