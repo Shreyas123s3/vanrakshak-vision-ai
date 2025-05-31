@@ -1,71 +1,137 @@
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { Camera, Upload, Loader2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useToast } from '@/hooks/use-toast';
+import CameraCapture from './CameraCapture';
+import ApiKeyInput from './ApiKeyInput';
+import { aiSpeciesService, SpeciesResult } from '@/services/aiSpeciesRecognition';
 
 const AISpeciesDemo = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [results, setResults] = useState<any>(null);
+  const [isLoadingModel, setIsLoadingModel] = useState(false);
+  const [results, setResults] = useState<SpeciesResult | null>(null);
+  const [isCameraOpen, setIsCameraOpen] = useState(false);
+  const [modelLoaded, setModelLoaded] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { toast } = useToast();
 
-  const sampleImages = [
-    {
-      src: '/api/placeholder/300/200',
-      alt: 'Bengal Tiger',
-      species: 'Bengal Tiger',
-      confidence: 97.8,
-      behavior: 'Hunting patrol',
-      location: 'Sundarbans National Park'
-    },
-    {
-      src: '/api/placeholder/300/200',
-      alt: 'Asian Elephant',
-      species: 'Asian Elephant',
-      confidence: 94.2,
-      behavior: 'Feeding',
-      location: 'Kaziranga National Park'
-    },
-    {
-      src: '/api/placeholder/300/200',
-      alt: 'Snow Leopard',
-      species: 'Snow Leopard',
-      confidence: 91.5,
-      behavior: 'Territory marking',
-      location: 'Hemis National Park'
-    }
-  ];
+  useEffect(() => {
+    loadAIModel();
+  }, []);
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setSelectedImage(e.target?.result as string);
-        analyzeImage();
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleSampleImage = (image: any) => {
-    setSelectedImage(image.src);
-    setResults(image);
-  };
-
-  const analyzeImage = () => {
-    setIsAnalyzing(true);
-    setResults(null);
-    
-    // Simulate AI analysis
-    setTimeout(() => {
-      setResults({
-        species: 'Identified Species',
-        confidence: Math.floor(Math.random() * 20) + 80,
-        behavior: 'Detected Behavior',
-        location: 'Estimated Location'
+  const loadAIModel = async () => {
+    try {
+      setIsLoadingModel(true);
+      await aiSpeciesService.loadMobileNetModel();
+      setModelLoaded(true);
+      toast({
+        title: "AI Model Loaded",
+        description: "Species recognition system is ready!",
       });
+    } catch (error) {
+      console.error('Failed to load AI model:', error);
+      toast({
+        title: "Model Loading Failed",
+        description: "Using backup classification system",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoadingModel(false);
+    }
+  };
+
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      toast({
+        title: "Invalid File Type",
+        description: "Please select an image file",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Validate file size (max 10MB)
+    if (file.size > 10 * 1024 * 1024) {
+      toast({
+        title: "File Too Large",
+        description: "Please select an image smaller than 10MB",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setSelectedImage(e.target?.result as string);
+    };
+    reader.readAsDataURL(file);
+
+    await analyzeImageFile(file);
+  };
+
+  const handleCameraCapture = async (canvas: HTMLCanvasElement) => {
+    const imageDataUrl = canvas.toDataURL('image/jpeg');
+    setSelectedImage(imageDataUrl);
+    
+    try {
+      setIsAnalyzing(true);
+      setResults(null);
+      const result = await aiSpeciesService.processImageFromCanvas(canvas);
+      setResults(result);
+      
+      toast({
+        title: "Species Identified!",
+        description: `Detected: ${result.species} (${result.confidence}% confidence)`,
+      });
+    } catch (error) {
+      console.error('Analysis error:', error);
+      toast({
+        title: "Analysis Failed",
+        description: "Failed to analyze captured image",
+        variant: "destructive",
+      });
+    } finally {
       setIsAnalyzing(false);
-    }, 2000);
+    }
+  };
+
+  const analyzeImageFile = async (file: File) => {
+    try {
+      setIsAnalyzing(true);
+      setResults(null);
+      
+      const result = await aiSpeciesService.processImageFile(file);
+      setResults(result);
+      
+      toast({
+        title: "Species Identified!",
+        description: `Detected: ${result.species} (${result.confidence}% confidence)`,
+      });
+    } catch (error) {
+      console.error('Analysis error:', error);
+      toast({
+        title: "Analysis Failed",
+        description: "Failed to analyze uploaded image",
+        variant: "destructive",
+      });
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
+
+  const handleApiKeySet = (apiKey: string) => {
+    aiSpeciesService.setHuggingFaceApiKey(apiKey);
+    toast({
+      title: "API Key Set",
+      description: "Hugging Face backup enabled",
+    });
   };
 
   return (
@@ -75,18 +141,41 @@ const AISpeciesDemo = () => {
           AI Species Recognition Demo
         </h3>
         <p className="text-lg text-misty-white">
-          Upload an image or select a sample to see our AI in action
+          Upload an image or use your camera to identify wildlife species
         </p>
+        
+        {isLoadingModel && (
+          <div className="flex items-center justify-center mt-4">
+            <Loader2 className="animate-spin text-electric-cyan mr-2" size={20} />
+            <span className="text-electric-cyan">Loading AI Model...</span>
+          </div>
+        )}
       </div>
 
-      {/* Upload Section */}
+      {/* API Key Input */}
+      <ApiKeyInput onApiKeySet={handleApiKeySet} />
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Left: Upload Interface */}
         <div className="space-y-6">
-          <motion.div
-            className="border-2 border-dashed border-electric-cyan/50 rounded-xl p-8 text-center cursor-pointer hover:border-electric-cyan transition-colors duration-300"
-            whileHover={{ scale: 1.02 }}
+          {/* Camera Button */}
+          <Button
+            onClick={() => setIsCameraOpen(true)}
+            className="w-full holographic p-6 h-auto flex-col space-y-3"
+            disabled={isLoadingModel}
+          >
+            <Camera size={48} className="text-electric-cyan" />
+            <div>
+              <div className="text-lg font-semibold">Use Camera</div>
+              <div className="text-sm opacity-75">Capture wildlife photos</div>
+            </div>
+          </Button>
+
+          {/* Upload Button */}
+          <Button
             onClick={() => fileInputRef.current?.click()}
+            className="w-full glassmorphism border-2 border-dashed border-electric-cyan/50 hover:border-electric-cyan p-6 h-auto flex-col space-y-3"
+            disabled={isLoadingModel}
           >
             <input
               ref={fileInputRef}
@@ -95,30 +184,33 @@ const AISpeciesDemo = () => {
               onChange={handleImageUpload}
               className="hidden"
             />
-            <div className="text-6xl text-electric-cyan mb-4">📷</div>
-            <p className="text-lg text-misty-white mb-2">Upload Wildlife Image</p>
-            <p className="text-sm text-misty-white/60">Click to select or drag & drop</p>
-          </motion.div>
+            <Upload size={48} className="text-bio-green" />
+            <div>
+              <div className="text-lg font-semibold text-bio-green">Upload Wildlife Image</div>
+              <div className="text-sm text-misty-white/60">Click to select or drag & drop</div>
+            </div>
+          </Button>
 
-          {/* Sample Images */}
-          <div className="space-y-4">
-            <h4 className="text-xl font-orbitron font-bold text-bio-green">Try Sample Images:</h4>
-            <div className="grid grid-cols-3 gap-4">
-              {sampleImages.map((image, index) => (
-                <motion.div
-                  key={index}
-                  className="cursor-pointer rounded-lg overflow-hidden border-2 border-transparent hover:border-electric-cyan transition-colors duration-300"
-                  whileHover={{ scale: 1.05 }}
-                  onClick={() => handleSampleImage(image)}
-                >
-                  <div className="w-full h-20 bg-gradient-to-br from-electric-cyan/20 to-bio-green/20 flex items-center justify-center">
-                    <span className="text-2xl">{image.alt === 'Bengal Tiger' ? '🐅' : image.alt === 'Asian Elephant' ? '🐘' : '🐆'}</span>
-                  </div>
-                  <div className="p-2 text-center">
-                    <p className="text-xs text-misty-white">{image.species}</p>
-                  </div>
-                </motion.div>
-              ))}
+          {/* Model Status */}
+          <div className="glassmorphism p-4 rounded-xl">
+            <h4 className="text-lg font-orbitron font-bold text-neural-purple mb-3">
+              AI System Status
+            </h4>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-misty-white">TensorFlow.js Model:</span>
+                <span className={`text-sm font-mono ${modelLoaded ? 'text-bio-green' : 'text-tiger-orange'}`}>
+                  {modelLoaded ? 'Loaded' : 'Loading...'}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-misty-white">Processing:</span>
+                <span className="text-sm font-mono text-electric-cyan">Browser-based (FREE)</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-misty-white">API Costs:</span>
+                <span className="text-sm font-mono text-bio-green">$0.00</span>
+              </div>
             </div>
           </div>
         </div>
@@ -131,8 +223,12 @@ const AISpeciesDemo = () => {
               animate={{ opacity: 1, scale: 1 }}
               className="glassmorphism p-6 rounded-xl"
             >
-              <div className="w-full h-48 bg-gradient-to-br from-electric-cyan/10 to-bio-green/10 rounded-lg mb-4 flex items-center justify-center">
-                <span className="text-6xl">📸</span>
+              <div className="w-full h-48 rounded-lg mb-4 overflow-hidden">
+                <img 
+                  src={selectedImage} 
+                  alt="Uploaded wildlife" 
+                  className="w-full h-full object-cover"
+                />
               </div>
               
               {isAnalyzing && (
@@ -141,8 +237,11 @@ const AISpeciesDemo = () => {
                   animate={{ opacity: [0.5, 1, 0.5] }}
                   transition={{ duration: 1.5, repeat: Infinity }}
                 >
-                  <div className="text-electric-cyan font-mono text-lg mb-2">
-                    ANALYZING IMAGE...
+                  <div className="flex items-center justify-center mb-3">
+                    <Loader2 className="animate-spin text-electric-cyan mr-2" size={20} />
+                    <span className="text-electric-cyan font-mono text-lg">
+                      ANALYZING IMAGE...
+                    </span>
                   </div>
                   <div className="w-full bg-forest-navy rounded-full h-2">
                     <motion.div
@@ -172,7 +271,7 @@ const AISpeciesDemo = () => {
                   
                   <div className="flex items-center justify-between">
                     <span className="text-bio-green font-semibold">Behavior:</span>
-                    <span className="text-tiger-orange font-mono">{results.behavior}</span>
+                    <span className="text-tiger-orange font-mono text-sm">{results.behavior}</span>
                   </div>
                   
                   <div className="flex items-center justify-between">
@@ -203,29 +302,36 @@ const AISpeciesDemo = () => {
           {/* AI Capabilities Info */}
           <div className="glassmorphism p-6 rounded-xl">
             <h4 className="text-xl font-orbitron font-bold text-neural-purple mb-4">
-              AI Capabilities
+              FREE AI Capabilities
             </h4>
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
                 <div className="w-2 h-2 bg-bio-green rounded-full animate-pulse"></div>
-                <span className="text-sm text-misty-white">50+ Indian wildlife species recognition</span>
+                <span className="text-sm text-misty-white">Local TensorFlow.js processing</span>
               </div>
               <div className="flex items-center space-x-3">
                 <div className="w-2 h-2 bg-electric-cyan rounded-full animate-pulse"></div>
-                <span className="text-sm text-misty-white">Behavioral pattern analysis</span>
+                <span className="text-sm text-misty-white">50+ animal species recognition</span>
               </div>
               <div className="flex items-center space-x-3">
                 <div className="w-2 h-2 bg-neural-purple rounded-full animate-pulse"></div>
-                <span className="text-sm text-misty-white">Real-time threat assessment</span>
+                <span className="text-sm text-misty-white">Hugging Face backup (30k free requests/month)</span>
               </div>
               <div className="flex items-center space-x-3">
                 <div className="w-2 h-2 bg-tiger-orange rounded-full animate-pulse"></div>
-                <span className="text-sm text-misty-white">Location and habitat mapping</span>
+                <span className="text-sm text-misty-white">Zero server costs - browser only</span>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Camera Capture Modal */}
+      <CameraCapture
+        isOpen={isCameraOpen}
+        onClose={() => setIsCameraOpen(false)}
+        onCapture={handleCameraCapture}
+      />
     </div>
   );
 };

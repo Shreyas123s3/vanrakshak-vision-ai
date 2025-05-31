@@ -106,6 +106,28 @@ const Index = () => {
         {/* New AI Detection Demo */}
         <AIDetectionDemo />
         
+        {/* FREE AI Species Demo Section */}
+        <section id="ai-demo" className="py-20 px-6">
+          <div className="container mx-auto max-w-7xl">
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <h2 className="text-4xl md:text-6xl font-orbitron font-bold text-transparent bg-clip-text bg-gradient-to-r from-electric-cyan to-bio-green mb-6">
+                FREE AI Species Recognition
+              </h2>
+              <p className="text-xl text-misty-white max-w-3xl mx-auto">
+                Experience our zero-cost AI system powered by TensorFlow.js and browser-based processing
+              </p>
+            </motion.div>
+            
+            <AISpeciesDemo />
+          </div>
+        </section>
+        
         <ConservationMetrics />
         <GovernmentPartnerships />
         <ExpertTestimonials />
