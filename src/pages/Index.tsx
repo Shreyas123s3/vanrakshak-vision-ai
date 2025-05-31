@@ -11,6 +11,11 @@ import TeamSection from '@/components/TeamSection';
 import CallToAction from '@/components/CallToAction';
 import ParticleBackground from '@/components/ParticleBackground';
 import Navigation from '@/components/Navigation';
+import WildlifeSilhouettes from '@/components/WildlifeSilhouettes';
+import PawPrintTrail from '@/components/PawPrintTrail';
+import ForestCanopy from '@/components/ForestCanopy';
+import BirdFlight from '@/components/BirdFlight';
+import DayNightCycle from '@/components/DayNightCycle';
 
 const Index = () => {
   const [loading, setLoading] = useState(true);
@@ -56,6 +61,11 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-forest-navy relative overflow-x-hidden">
       <ParticleBackground />
+      <WildlifeSilhouettes />
+      <PawPrintTrail />
+      <ForestCanopy />
+      <BirdFlight />
+      <DayNightCycle />
       <Navigation />
       
       <main className="relative z-10">
