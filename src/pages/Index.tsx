@@ -5,6 +5,9 @@ import HeroSection from '@/components/HeroSection';
 import ProblemStatement from '@/components/ProblemStatement';
 import SolutionOverview from '@/components/SolutionOverview';
 import TechnologyShowcase from '@/components/TechnologyShowcase';
+import ConservationMetrics from '@/components/ConservationMetrics';
+import GovernmentPartnerships from '@/components/GovernmentPartnerships';
+import ExpertTestimonials from '@/components/ExpertTestimonials';
 import ImpactMetrics from '@/components/ImpactMetrics';
 import ImplementationRoadmap from '@/components/ImplementationRoadmap';
 import TeamSection from '@/components/TeamSection';
@@ -73,6 +76,9 @@ const Index = () => {
         <ProblemStatement />
         <SolutionOverview />
         <TechnologyShowcase />
+        <ConservationMetrics />
+        <GovernmentPartnerships />
+        <ExpertTestimonials />
         <ImpactMetrics />
         <ImplementationRoadmap />
         <TeamSection />
