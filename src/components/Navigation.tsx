@@ -1,7 +1,6 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import LanguageToggle from './LanguageToggle';
 
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -72,10 +71,8 @@ const Navigation = () => {
           ))}
         </div>
 
-        {/* Language Toggle & Demo Button */}
+        {/* Demo Button & Mobile Menu */}
         <div className="flex items-center space-x-4">
-          <LanguageToggle />
-          
           <motion.button
             className="holographic px-6 py-2 rounded-lg font-semibold text-electric-cyan hover:text-forest-navy hover:bg-electric-cyan transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-electric-cyan"
             whileHover={{ scale: 1.05 }}

@@ -3,7 +3,7 @@ import { useRef, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Environment, Float } from '@react-three/drei';
-import Wildlife3D from './Wildlife3D';
+import EnhancedWildlife3D from './EnhancedWildlife3D';
 
 const HeroSection = () => {
   const [currentText, setCurrentText] = useState(0);
@@ -22,26 +22,42 @@ const HeroSection = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const scrollToDemo = () => {
+    document.getElementById('ai-demo')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const scrollToTechnology = () => {
+    document.getElementById('technology')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <section id="hero" className="min-h-screen relative flex items-center justify-center overflow-hidden">
-      {/* 3D Background */}
+      {/* Enhanced 3D Background */}
       <div className="absolute inset-0 z-0">
-        <Canvas camera={{ position: [0, 0, 5], fov: 75 }}>
+        <Canvas camera={{ position: [0, 2, 8], fov: 75 }}>
           <Environment preset="forest" />
-          <ambientLight intensity={0.5} />
-          <pointLight position={[10, 10, 10]} intensity={1} color="#00D4FF" />
-          <pointLight position={[-10, -10, -10]} intensity={0.5} color="#39FF6A" />
+          <ambientLight intensity={0.4} />
+          <pointLight position={[10, 10, 10]} intensity={1.2} color="#00D4FF" />
+          <pointLight position={[-10, 5, -5]} intensity={0.8} color="#39FF6A" />
+          <pointLight position={[0, -5, 5]} intensity={0.6} color="#8B5FFF" />
           
-          <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.5}>
-            <Wildlife3D />
+          <Float speed={1} rotationIntensity={0.1} floatIntensity={0.2}>
+            <EnhancedWildlife3D />
           </Float>
           
-          <OrbitControls enableZoom={false} enablePan={false} autoRotate autoRotateSpeed={0.5} />
+          <OrbitControls 
+            enableZoom={false} 
+            enablePan={false} 
+            autoRotate 
+            autoRotateSpeed={0.3}
+            maxPolarAngle={Math.PI / 2}
+            minPolarAngle={Math.PI / 3}
+          />
         </Canvas>
       </div>
 
-      {/* Overlay gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-forest-navy/70 via-transparent to-forest-navy/70 z-1"></div>
+      {/* Dynamic overlay gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-forest-navy/60 via-transparent to-forest-navy/80 z-1"></div>
 
       {/* Content */}
       <div className="relative z-10 text-center px-6 max-w-6xl mx-auto">
@@ -79,6 +95,7 @@ const HeroSection = () => {
             className="cyber-border holographic px-8 py-4 rounded-xl text-xl font-semibold text-electric-cyan hover:text-forest-navy hover:bg-electric-cyan transition-all duration-500 elegant-hover-glow"
             whileHover={{ scale: 1.1, y: -5 }}
             whileTap={{ scale: 0.95 }}
+            onClick={scrollToDemo}
           >
             Experience AI Demo
           </motion.button>
@@ -87,6 +104,7 @@ const HeroSection = () => {
             className="glassmorphism px-8 py-4 rounded-xl text-xl font-semibold text-bio-green border-2 border-bio-green hover:bg-bio-green hover:text-forest-navy transition-all duration-500"
             whileHover={{ scale: 1.1, y: -5 }}
             whileTap={{ scale: 0.95 }}
+            onClick={scrollToTechnology}
           >
             View Technology
           </motion.button>

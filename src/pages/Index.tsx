@@ -27,6 +27,8 @@ import WildlifeKnowledgeHub from '@/components/WildlifeKnowledgeHub';
 import EmergencyReporting from '@/components/EmergencyReporting';
 import AccessibilityEnhancements from '@/components/AccessibilityEnhancements';
 import MobileOptimizations from '@/components/MobileOptimizations';
+import WildlifeHeatmap from '@/components/WildlifeHeatmap';
+import AIDetectionDemo from '@/components/AIDetectionDemo';
 
 const Index = () => {
   const [loading, setLoading] = useState(true);
@@ -97,6 +99,13 @@ const Index = () => {
         <ProblemStatement />
         <SolutionOverview />
         <TechnologyShowcase />
+        
+        {/* New Wildlife Heatmap */}
+        <WildlifeHeatmap />
+        
+        {/* New AI Detection Demo */}
+        <AIDetectionDemo />
+        
         <ConservationMetrics />
         <GovernmentPartnerships />
         <ExpertTestimonials />
