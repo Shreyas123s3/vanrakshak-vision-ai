@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import HeroSection from '@/components/HeroSection';
@@ -29,6 +28,7 @@ import AccessibilityEnhancements from '@/components/AccessibilityEnhancements';
 import MobileOptimizations from '@/components/MobileOptimizations';
 import WildlifeHeatmap from '@/components/WildlifeHeatmap';
 import AIDetectionDemo from '@/components/AIDetectionDemo';
+import AISpeciesDemo from '@/components/AISpeciesDemo';
 
 const Index = () => {
   const [loading, setLoading] = useState(true);
