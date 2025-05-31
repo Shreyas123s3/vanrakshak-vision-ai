@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import HeroSection from '@/components/HeroSection';
@@ -29,6 +28,10 @@ import AccessibilityEnhancements from '@/components/AccessibilityEnhancements';
 import MobileOptimizations from '@/components/MobileOptimizations';
 import WildlifeHeatmap from '@/components/WildlifeHeatmap';
 import AIDetectionDemo from '@/components/AIDetectionDemo';
+import ParallaxForest from '@/components/ParallaxForest';
+import DynamicSky from '@/components/DynamicSky';
+import FloatingWildlife from '@/components/FloatingWildlife';
+import FallingLeaves from '@/components/FallingLeaves';
 
 const Index = () => {
   const [loading, setLoading] = useState(true);
@@ -69,7 +72,7 @@ const Index = () => {
             animate={{ width: "100%" }}
             transition={{ duration: 3, delay: 0.5 }}
           >
-            Initializing Wildlife Protection Systems...
+            Initializing Epic Wildlife Environment...
           </motion.p>
         </div>
       </div>
@@ -84,8 +87,12 @@ const Index = () => {
       {/* Mobile Optimizations */}
       <MobileOptimizations />
       
-      {/* Background Effects */}
+      {/* KILLER BACKGROUND EFFECTS - Multi-layered atmosphere */}
+      <DynamicSky />
+      <ParallaxForest />
       <ParticleBackground />
+      <FloatingWildlife />
+      <FallingLeaves />
       <WildlifeSilhouettes />
       <PawPrintTrail />
       <ForestCanopy />

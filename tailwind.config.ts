@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -165,6 +164,57 @@ export default {
 						transform: 'translateY(-100vh) translateX(100px)',
 						opacity: '0'
 					}
+				},
+				'forest-sway': {
+					'0%, 100%': {
+						transform: 'rotate(0deg) translateX(0px)'
+					},
+					'25%': {
+						transform: 'rotate(1deg) translateX(2px)'
+					},
+					'75%': {
+						transform: 'rotate(-1deg) translateX(-2px)'
+					}
+				},
+				'cloud-drift': {
+					'0%': {
+						transform: 'translateX(-100px)'
+					},
+					'100%': {
+						transform: 'translateX(calc(100vw + 100px))'
+					}
+				},
+				'mystical-glow': {
+					'0%, 100%': {
+						boxShadow: '0 0 20px rgba(0, 212, 255, 0.3), 0 0 40px rgba(57, 255, 106, 0.2)'
+					},
+					'50%': {
+						boxShadow: '0 0 30px rgba(0, 212, 255, 0.5), 0 0 60px rgba(57, 255, 106, 0.3)'
+					}
+				},
+				'firefly-dance': {
+					'0%': {
+						transform: 'translate(0px, 0px)'
+					},
+					'33%': {
+						transform: 'translate(30px, -20px)'
+					},
+					'66%': {
+						transform: 'translate(-20px, 20px)'
+					},
+					'100%': {
+						transform: 'translate(0px, 0px)'
+					}
+				},
+				'aurora': {
+					'0%, 100%': {
+						opacity: '0.3',
+						transform: 'translateX(-50%) scaleX(1)'
+					},
+					'50%': {
+						opacity: '0.7',
+						transform: 'translateX(-50%) scaleX(1.1)'
+					}
 				}
 			},
 			animation: {
@@ -175,12 +225,18 @@ export default {
 				'glitch': 'glitch 1s ease-in-out infinite',
 				'typing': 'typing 3.5s steps(40, end)',
 				'blink': 'blink 0.75s step-end infinite',
-				'particle-float': 'particle-float 15s linear infinite'
+				'particle-float': 'particle-float 15s linear infinite',
+				'forest-sway': 'forest-sway 8s ease-in-out infinite',
+				'cloud-drift': 'cloud-drift 20s linear infinite',
+				'mystical-glow': 'mystical-glow 4s ease-in-out infinite',
+				'firefly-dance': 'firefly-dance 6s ease-in-out infinite',
+				'aurora': 'aurora 10s ease-in-out infinite'
 			},
 			backgroundImage: {
 				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
 				'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-				'cyber-grid': 'linear-gradient(rgba(0,212,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.1) 1px, transparent 1px)'
+				'cyber-grid': 'linear-gradient(rgba(0,212,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.1) 1px, transparent 1px)',
+				'aurora-gradient': 'linear-gradient(45deg, rgba(0,212,255,0.3), rgba(139,95,255,0.3), rgba(57,255,106,0.3))'
 			},
 			backgroundSize: {
 				'cyber-grid': '50px 50px'

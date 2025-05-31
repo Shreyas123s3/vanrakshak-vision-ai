@@ -202,6 +202,23 @@
     animation: typing 3.5s steps(40, end), blink 0.75s step-end infinite;
   }
 
+  /* New atmospheric animations */
+  .forest-sway {
+    animation: forest-sway 8s ease-in-out infinite;
+  }
+
+  .cloud-drift {
+    animation: cloud-drift 20s linear infinite;
+  }
+
+  .mystical-glow {
+    animation: mystical-glow 4s ease-in-out infinite;
+  }
+
+  .firefly-dance {
+    animation: firefly-dance 6s ease-in-out infinite;
+  }
+
   /* Enhanced mobile touch targets */
   button, a, [role="button"], input, select, textarea {
     touch-action: manipulation;
