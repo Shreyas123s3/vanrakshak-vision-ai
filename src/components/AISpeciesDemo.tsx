@@ -33,8 +33,8 @@ const AISpeciesDemo = () => {
     } catch (error) {
       console.error('Failed to load AI model:', error);
       toast({
-        title: "Loading...",
-        description: "Preparing species recognition system",
+        title: "Loading AI System",
+        description: "Preparing species recognition capabilities",
         variant: "destructive",
       });
     } finally {
@@ -86,14 +86,14 @@ const AISpeciesDemo = () => {
       setResults(result);
       
       toast({
-        title: "Species Identified!",
-        description: `Detected: ${result.species} (${result.confidence}% confidence)`,
+        title: "Species Identified Successfully!",
+        description: `Detected: ${result.species} (Confidence: ${result.confidence}%)`,
       });
     } catch (error) {
       console.error('Analysis error:', error);
       toast({
         title: "Analysis Failed",
-        description: "Failed to analyze captured image",
+        description: "Unable to identify species. Please try a clearer image.",
         variant: "destructive",
       });
     } finally {
@@ -110,14 +110,14 @@ const AISpeciesDemo = () => {
       setResults(result);
       
       toast({
-        title: "Species Identified!",
-        description: `Detected: ${result.species} (${result.confidence}% confidence)`,
+        title: "Species Identified Successfully!",
+        description: `Detected: ${result.species} (Confidence: ${result.confidence}%)`,
       });
     } catch (error) {
       console.error('Analysis error:', error);
       toast({
         title: "Analysis Failed",
-        description: "Failed to analyze uploaded image",
+        description: "Unable to identify species. Please try a clearer image.",
         variant: "destructive",
       });
     } finally {
@@ -129,16 +129,16 @@ const AISpeciesDemo = () => {
     <div className="holographic p-8 rounded-2xl">
       <div className="text-center mb-8">
         <h3 className="text-3xl font-orbitron font-bold text-electric-cyan mb-4">
-          AI Species Recognition
+          AI Species Recognition Demo
         </h3>
         <p className="text-lg text-misty-white mb-4">
-          Take a photo or upload an image to identify wildlife species
+          Upload an image or use your camera to identify wildlife species
         </p>
         
         {isLoadingModel && (
           <div className="flex items-center justify-center">
             <Loader2 className="animate-spin text-electric-cyan mr-2" size={20} />
-            <span className="text-electric-cyan">Loading AI model...</span>
+            <span className="text-electric-cyan">Loading AI system...</span>
           </div>
         )}
       </div>
@@ -175,7 +175,7 @@ const AISpeciesDemo = () => {
             <Upload size={48} className="text-bio-green" />
             <div>
               <div className="text-lg font-semibold text-bio-green">Upload Wildlife Image</div>
-              <div className="text-sm text-misty-white/60">Click to select or drag & drop</div>
+              <div className="text-sm text-misty-white/60">Click to select or drag and drop</div>
             </div>
           </Button>
         </div>
@@ -191,7 +191,7 @@ const AISpeciesDemo = () => {
               <div className="w-full h-48 rounded-lg mb-4 overflow-hidden">
                 <img 
                   src={selectedImage} 
-                  alt="Uploaded wildlife" 
+                  alt="Uploaded wildlife image" 
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -205,7 +205,7 @@ const AISpeciesDemo = () => {
                   <div className="flex items-center justify-center mb-3">
                     <Loader2 className="animate-spin text-electric-cyan mr-2" size={20} />
                     <span className="text-electric-cyan font-mono text-lg">
-                      Identifying species...
+                      Processing image...
                     </span>
                   </div>
                   <div className="w-full bg-forest-navy rounded-full h-2">
@@ -268,7 +268,7 @@ const AISpeciesDemo = () => {
           {!selectedImage && (
             <div className="glassmorphism p-6 rounded-xl text-center">
               <h4 className="text-xl font-orbitron font-bold text-neural-purple mb-4">
-                How to Use
+                How to Use This Tool
               </h4>
               <div className="space-y-3 text-misty-white">
                 <p className="text-sm">
@@ -278,7 +278,7 @@ const AISpeciesDemo = () => {
                   📁 Or upload an existing image from your device
                 </p>
                 <p className="text-sm">
-                  🧠 Our AI will identify the species and provide details
+                  🧠 Our AI will identify the species and provide detailed information
                 </p>
               </div>
             </div>

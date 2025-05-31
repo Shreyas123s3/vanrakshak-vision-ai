@@ -72,7 +72,7 @@ const Index = () => {
             animate={{ width: "100%" }}
             transition={{ duration: 3, delay: 0.5 }}
           >
-            Initializing Epic Wildlife Environment...
+            Initializing Wildlife Conservation Environment...
           </motion.p>
         </div>
       </div>
@@ -115,8 +115,7 @@ const Index = () => {
         {/* New AI Detection Demo */}
         <AIDetectionDemo />
         
-        {/* FREE AI Species Demo Section - Temporarily commented out to isolate the issue */}
-        {/*
+        {/* AI Species Demo Section - Now enabled with English text */}
         <section id="ai-demo" className="py-20 px-6">
           <div className="container mx-auto max-w-7xl">
             <motion.div
@@ -127,17 +126,16 @@ const Index = () => {
               className="text-center mb-16"
             >
               <h2 className="text-4xl md:text-6xl font-orbitron font-bold text-transparent bg-clip-text bg-gradient-to-r from-electric-cyan to-bio-green mb-6">
-                FREE AI Species Recognition
+                Free AI Species Recognition
               </h2>
               <p className="text-xl text-misty-white max-w-3xl mx-auto">
-                Experience our zero-cost AI system powered by TensorFlow.js and browser-based processing
+                Experience our zero-cost AI system powered by advanced machine learning and browser-based processing
               </p>
             </motion.div>
             
             <AISpeciesDemo />
           </div>
         </section>
-        */}
         
         <ConservationMetrics />
         <GovernmentPartnerships />

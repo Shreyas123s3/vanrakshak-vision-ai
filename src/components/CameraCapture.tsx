@@ -1,3 +1,4 @@
+
 import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Camera, X } from 'lucide-react';
@@ -44,7 +45,7 @@ const CameraCapture = ({ isOpen, onClose, onCapture }: CameraCaptureProps) => {
       }
     } catch (err) {
       console.error('Camera access error:', err);
-      setError('Failed to access camera. Please check permissions.');
+      setError('Unable to access camera. Please check permissions and try again.');
     }
   };
 
