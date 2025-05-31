@@ -63,6 +63,44 @@
 }
 
 @layer components {
+  /* Enhanced accessibility styles */
+  .sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+  }
+
+  .skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: #00D4FF;
+    color: #0B1426;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    z-index: 1000;
+    transition: top 0.3s;
+  }
+
+  .skip-link:focus {
+    top: 6px;
+  }
+
+  /* Enhanced focus styles for accessibility */
+  *:focus {
+    outline: 3px solid #00D4FF !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 0 0 5px rgba(0, 212, 255, 0.3) !important;
+  }
+
   /* New elegant text styling - replaces intense glow */
   .hero-gradient-text {
     filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.2)) drop-shadow(0 0 16px rgba(57, 255, 106, 0.1));
@@ -162,5 +200,126 @@
     border-right: 3px solid #00D4FF;
     white-space: nowrap;
     animation: typing 3.5s steps(40, end), blink 0.75s step-end infinite;
+  }
+
+  /* Enhanced mobile touch targets */
+  button, a, [role="button"], input, select, textarea {
+    touch-action: manipulation;
+  }
+
+  button, a[href], [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Reduce motion for users who prefer it */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+    
+    .particle-container {
+      display: none;
+    }
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .glassmorphism {
+      background: rgba(11, 20, 38, 0.9) !important;
+      border: 2px solid #00D4FF !important;
+    }
+    
+    .holographic {
+      background: rgba(11, 20, 38, 0.9) !important;
+      border: 2px solid #39FF6A !important;
+    }
+    
+    .text-glow {
+      text-shadow: none !important;
+    }
+  }
+
+  /* Mobile optimizations */
+  @media (max-width: 768px) {
+    .glassmorphism {
+      backdrop-filter: blur(5px) !important;
+    }
+    
+    .holographic {
+      backdrop-filter: blur(10px) !important;
+    }
+    
+    .particle-container {
+      display: none;
+    }
+    
+    /* Improve scrolling performance */
+    * {
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Optimize text rendering */
+    body {
+      text-rendering: optimizeSpeed;
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    /* Mobile-friendly spacing */
+    .container {
+      padding-left: 1rem !important;
+      padding-right: 1rem !important;
+    }
+  }
+
+  @media (max-width: 480px) {
+    /* Extra small screens */
+    .text-6xl, .text-5xl {
+      font-size: 2.5rem !important;
+      line-height: 1.2 !important;
+    }
+    
+    .text-4xl {
+      font-size: 2rem !important;
+    }
+    
+    .text-3xl {
+      font-size: 1.5rem !important;
+    }
+    
+    .text-2xl {
+      font-size: 1.25rem !important;
+    }
+  }
+
+  /* Touch feedback for mobile */
+  @media (hover: none) {
+    .hover\:scale-105:active,
+    button:active,
+    [role="button"]:active {
+      transform: scale(0.95) !important;
+      transition: transform 0.1s !important;
+    }
+    
+    .hover\:bg-electric-cyan\/10:active {
+      background-color: rgba(0, 212, 255, 0.2) !important;
+    }
+  }
+
+  /* Loading optimization */
+  @media (max-width: 768px) {
+    img, video {
+      loading: lazy;
+    }
+  }
+
+  /* Enhanced dark mode support */
+  @media (prefers-color-scheme: dark) {
+    .glassmorphism {
+      background: rgba(11, 20, 38, 0.4) !important;
+    }
   }
 }

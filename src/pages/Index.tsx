@@ -19,15 +19,26 @@ import PawPrintTrail from '@/components/PawPrintTrail';
 import ForestCanopy from '@/components/ForestCanopy';
 import BirdFlight from '@/components/BirdFlight';
 import DayNightCycle from '@/components/DayNightCycle';
+import VanRakshakAvatar from '@/components/VanRakshakAvatar';
+import VillageParticipationDashboard from '@/components/VillageParticipationDashboard';
+import ConservationRewards from '@/components/ConservationRewards';
+import CommunitySuccessStories from '@/components/CommunitySuccessStories';
+import WildlifeKnowledgeHub from '@/components/WildlifeKnowledgeHub';
+import EmergencyReporting from '@/components/EmergencyReporting';
+import AccessibilityEnhancements from '@/components/AccessibilityEnhancements';
+import MobileOptimizations from '@/components/MobileOptimizations';
 
 const Index = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate loading time for 3D assets
+    // Simulate loading time for 3D assets with mobile optimization
+    const isMobile = window.innerWidth <= 768;
+    const loadTime = isMobile ? 1000 : 2000; // Faster loading on mobile
+    
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 2000);
+    }, loadTime);
 
     return () => clearTimeout(timer);
   }, []);
@@ -63,15 +74,25 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-forest-navy relative overflow-x-hidden">
+      {/* Accessibility Enhancements */}
+      <AccessibilityEnhancements />
+      
+      {/* Mobile Optimizations */}
+      <MobileOptimizations />
+      
+      {/* Background Effects */}
       <ParticleBackground />
       <WildlifeSilhouettes />
       <PawPrintTrail />
       <ForestCanopy />
       <BirdFlight />
       <DayNightCycle />
+      
+      {/* Navigation */}
       <Navigation />
       
-      <main className="relative z-10">
+      {/* Main Content */}
+      <main id="main-content" className="relative z-10">
         <HeroSection />
         <ProblemStatement />
         <SolutionOverview />
@@ -80,6 +101,15 @@ const Index = () => {
         <GovernmentPartnerships />
         <ExpertTestimonials />
         <ImpactMetrics />
+        
+        {/* Community Engagement Features */}
+        <VanRakshakAvatar />
+        <VillageParticipationDashboard />
+        <ConservationRewards />
+        <CommunitySuccessStories />
+        <WildlifeKnowledgeHub />
+        <EmergencyReporting />
+        
         <ImplementationRoadmap />
         <TeamSection />
         <CallToAction />
