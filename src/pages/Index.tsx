@@ -27,7 +27,6 @@ import WildlifeKnowledgeHub from '@/components/WildlifeKnowledgeHub';
 import EmergencyReporting from '@/components/EmergencyReporting';
 import AccessibilityEnhancements from '@/components/AccessibilityEnhancements';
 import MobileOptimizations from '@/components/MobileOptimizations';
-import WildlifeHeatmap from '@/components/WildlifeHeatmap';
 import AIDetectionDemo from '@/components/AIDetectionDemo';
 import ParallaxForest from '@/components/ParallaxForest';
 import DynamicSky from '@/components/DynamicSky';
@@ -162,9 +161,6 @@ const Index = () => {
             </div>
           </div>
         </section>
-        
-        {/* Wildlife Heatmap */}
-        <WildlifeHeatmap />
         
         {/* AI Detection Demo */}
         <AIDetectionDemo />
