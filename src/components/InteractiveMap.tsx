@@ -1,7 +1,7 @@
 
 import { useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Text, Box } from '@react-three/drei';
+import { OrbitControls, Text } from '@react-three/drei';
 import * as THREE from 'three';
 
 const MapPoint = ({ position, label, color }: { 
@@ -57,9 +57,10 @@ const IndiaMap = () => {
   return (
     <group>
       {/* Simplified India map outline */}
-      <Box args={[2, 1.5, 0.02]} position={[0, 0, -0.1]}>
+      <mesh args={[2, 1.5, 0.02]} position={[0, 0, -0.1]}>
+        <boxGeometry />
         <meshStandardMaterial color="#2D5016" opacity={0.7} transparent />
-      </Box>
+      </mesh>
       
       {/* Wildlife location markers */}
       {wildlifeLocations.map((location, index) => (

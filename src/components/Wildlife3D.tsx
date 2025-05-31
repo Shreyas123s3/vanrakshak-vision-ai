@@ -1,7 +1,6 @@
 
 import { useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Sphere, Box, Cylinder } from '@react-three/drei';
 import * as THREE from 'three';
 
 const Wildlife3D = () => {
@@ -31,53 +30,66 @@ const Wildlife3D = () => {
     <group>
       {/* Tiger representation */}
       <group ref={tigerRef} position={[-2, 0, 0]}>
-        <Box args={[1.5, 0.8, 0.6]} position={[0, 0, 0]}>
+        <mesh position={[0, 0, 0]}>
+          <boxGeometry args={[1.5, 0.8, 0.6]} />
           <meshStandardMaterial color="#FF6B35" />
-        </Box>
-        <Sphere args={[0.4]} position={[0.8, 0.3, 0]}>
+        </mesh>
+        <mesh position={[0.8, 0.3, 0]}>
+          <sphereGeometry args={[0.4]} />
           <meshStandardMaterial color="#FF8C69" />
-        </Sphere>
-        <Cylinder args={[0.1, 0.1, 0.3]} position={[-0.8, -0.5, 0.2]} rotation={[0, 0, Math.PI / 2]}>
+        </mesh>
+        <mesh position={[-0.8, -0.5, 0.2]} rotation={[0, 0, Math.PI / 2]}>
+          <cylinderGeometry args={[0.1, 0.1, 0.3]} />
           <meshStandardMaterial color="#8B4513" />
-        </Cylinder>
-        <Cylinder args={[0.1, 0.1, 0.3]} position={[-0.8, -0.5, -0.2]} rotation={[0, 0, Math.PI / 2]}>
+        </mesh>
+        <mesh position={[-0.8, -0.5, -0.2]} rotation={[0, 0, Math.PI / 2]}>
+          <cylinderGeometry args={[0.1, 0.1, 0.3]} />
           <meshStandardMaterial color="#8B4513" />
-        </Cylinder>
+        </mesh>
       </group>
 
       {/* Elephant representation */}
       <group ref={elephantRef} position={[2, 0, 0]}>
-        <Box args={[2, 1.2, 1]} position={[0, 0, 0]}>
+        <mesh position={[0, 0, 0]}>
+          <boxGeometry args={[2, 1.2, 1]} />
           <meshStandardMaterial color="#696969" />
-        </Box>
-        <Sphere args={[0.6]} position={[1, 0.2, 0]}>
+        </mesh>
+        <mesh position={[1, 0.2, 0]}>
+          <sphereGeometry args={[0.6]} />
           <meshStandardMaterial color="#696969" />
-        </Sphere>
-        <Cylinder args={[0.2, 0.3, 1]} position={[1.5, -0.2, 0]} rotation={[0, 0, Math.PI / 6]}>
+        </mesh>
+        <mesh position={[1.5, -0.2, 0]} rotation={[0, 0, Math.PI / 6]}>
+          <cylinderGeometry args={[0.2, 0.3, 1]} />
           <meshStandardMaterial color="#696969" />
-        </Cylinder>
-        <Cylinder args={[0.15, 0.15, 0.8]} position={[-0.8, -0.8, 0.4]} rotation={[0, 0, 0]}>
+        </mesh>
+        <mesh position={[-0.8, -0.8, 0.4]} rotation={[0, 0, 0]}>
+          <cylinderGeometry args={[0.15, 0.15, 0.8]} />
           <meshStandardMaterial color="#696969" />
-        </Cylinder>
-        <Cylinder args={[0.15, 0.15, 0.8]} position={[-0.8, -0.8, -0.4]} rotation={[0, 0, 0]}>
+        </mesh>
+        <mesh position={[-0.8, -0.8, -0.4]} rotation={[0, 0, 0]}>
+          <cylinderGeometry args={[0.15, 0.15, 0.8]} />
           <meshStandardMaterial color="#696969" />
-        </Cylinder>
+        </mesh>
       </group>
 
       {/* Bird representation */}
       <group ref={birdRef} position={[0, 2, 0]}>
-        <Sphere args={[0.3]} position={[0, 0, 0]}>
+        <mesh position={[0, 0, 0]}>
+          <sphereGeometry args={[0.3]} />
           <meshStandardMaterial color="#39FF6A" />
-        </Sphere>
-        <Sphere args={[0.15]} position={[0.2, 0.1, 0]}>
+        </mesh>
+        <mesh position={[0.2, 0.1, 0]}>
+          <sphereGeometry args={[0.15]} />
           <meshStandardMaterial color="#39FF6A" />
-        </Sphere>
-        <Box args={[0.8, 0.1, 0.4]} position={[-0.4, 0, 0]} rotation={[0, 0, Math.PI / 8]}>
+        </mesh>
+        <mesh position={[-0.4, 0, 0]} rotation={[0, 0, Math.PI / 8]}>
+          <boxGeometry args={[0.8, 0.1, 0.4]} />
           <meshStandardMaterial color="#32CD32" />
-        </Box>
-        <Box args={[0.8, 0.1, 0.4]} position={[-0.4, 0, 0]} rotation={[0, 0, -Math.PI / 8]}>
+        </mesh>
+        <mesh position={[-0.4, 0, 0]} rotation={[0, 0, -Math.PI / 8]}>
+          <boxGeometry args={[0.8, 0.1, 0.4]} />
           <meshStandardMaterial color="#32CD32" />
-        </Box>
+        </mesh>
       </group>
     </group>
   );
