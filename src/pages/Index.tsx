@@ -33,6 +33,7 @@ import DynamicSky from '@/components/DynamicSky';
 import FloatingWildlife from '@/components/FloatingWildlife';
 import FallingLeaves from '@/components/FallingLeaves';
 import AISpeciesDemo from '@/components/AISpeciesDemo';
+import RealTimeMonitoring from '@/components/RealTimeMonitoring';
 
 const Index = () => {
   const [loading, setLoading] = useState(true);
@@ -109,6 +110,9 @@ const Index = () => {
         <ProblemStatement />
         <SolutionOverview />
         <TechnologyShowcase />
+        
+        {/* Real-Time Monitoring System */}
+        <RealTimeMonitoring />
         
         {/* New Wildlife Heatmap */}
         <WildlifeHeatmap />
