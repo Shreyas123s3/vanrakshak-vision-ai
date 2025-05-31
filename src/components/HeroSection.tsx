@@ -51,7 +51,7 @@ const HeroSection = () => {
           transition={{ duration: 1 }}
           className="mb-8"
         >
-          <h1 className="text-6xl md:text-8xl font-orbitron font-black text-transparent bg-clip-text bg-gradient-to-r from-electric-cyan via-bio-green to-neural-purple mb-6 animate-glow-pulse">
+          <h1 className="text-6xl md:text-8xl font-orbitron font-black text-transparent bg-clip-text bg-gradient-to-r from-electric-cyan via-bio-green to-neural-purple mb-6 hero-gradient-text">
             VanRakshak AI
           </h1>
           
@@ -63,7 +63,7 @@ const HeroSection = () => {
             exit={{ opacity: 0, x: -100 }}
             transition={{ duration: 0.8 }}
           >
-            <p className="text-2xl md:text-4xl font-inter font-light text-misty-white text-glow">
+            <p className="text-2xl md:text-4xl font-inter font-light text-misty-white subtle-text-glow">
               {heroTexts[currentText]}
             </p>
           </motion.div>
@@ -76,7 +76,7 @@ const HeroSection = () => {
           className="flex flex-col md:flex-row gap-6 justify-center items-center"
         >
           <motion.button
-            className="cyber-border holographic px-8 py-4 rounded-xl text-xl font-semibold text-electric-cyan hover:text-forest-navy hover:bg-electric-cyan transition-all duration-500 animate-glow-pulse"
+            className="cyber-border holographic px-8 py-4 rounded-xl text-xl font-semibold text-electric-cyan hover:text-forest-navy hover:bg-electric-cyan transition-all duration-500 elegant-hover-glow"
             whileHover={{ scale: 1.1, y: -5 }}
             whileTap={{ scale: 0.95 }}
           >

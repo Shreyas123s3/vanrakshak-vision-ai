@@ -98,12 +98,12 @@ export default {
 						height: '0'
 					}
 				},
-				'glow-pulse': {
+				'elegant-glow': {
 					'0%, 100%': {
-						boxShadow: '0 0 20px rgba(0, 212, 255, 0.5)'
+						filter: 'drop-shadow(0 0 8px rgba(0, 212, 255, 0.2)) drop-shadow(0 0 16px rgba(57, 255, 106, 0.1))'
 					},
 					'50%': {
-						boxShadow: '0 0 40px rgba(0, 212, 255, 0.8), 0 0 80px rgba(57, 255, 106, 0.3)'
+						filter: 'drop-shadow(0 0 12px rgba(0, 212, 255, 0.3)) drop-shadow(0 0 24px rgba(57, 255, 106, 0.15))'
 					}
 				},
 				'float': {
@@ -170,7 +170,7 @@ export default {
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
-				'glow-pulse': 'glow-pulse 2s ease-in-out infinite',
+				'elegant-glow': 'elegant-glow 3s ease-in-out infinite',
 				'float': 'float 6s ease-in-out infinite',
 				'glitch': 'glitch 1s ease-in-out infinite',
 				'typing': 'typing 3.5s steps(40, end)',

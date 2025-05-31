@@ -63,6 +63,26 @@
 }
 
 @layer components {
+  /* New elegant text styling - replaces intense glow */
+  .hero-gradient-text {
+    filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.2)) drop-shadow(0 0 16px rgba(57, 255, 106, 0.1));
+    letter-spacing: -0.02em;
+    text-rendering: optimizeLegibility;
+  }
+
+  .subtle-text-glow {
+    text-shadow: 0 0 12px rgba(248, 250, 252, 0.3);
+  }
+
+  .elegant-hover-glow {
+    transition: all 0.3s ease;
+  }
+
+  .elegant-hover-glow:hover {
+    filter: drop-shadow(0 0 12px rgba(0, 212, 255, 0.4));
+  }
+
+  /* Keep existing styles */
   .text-glow {
     text-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 40px currentColor;
   }

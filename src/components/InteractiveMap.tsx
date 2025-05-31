@@ -57,8 +57,8 @@ const IndiaMap = () => {
   return (
     <group>
       {/* Simplified India map outline */}
-      <mesh args={[2, 1.5, 0.02]} position={[0, 0, -0.1]}>
-        <boxGeometry />
+      <mesh position={[0, 0, -0.1]}>
+        <boxGeometry args={[2, 1.5, 0.02]} />
         <meshStandardMaterial color="#2D5016" opacity={0.7} transparent />
       </mesh>
       
