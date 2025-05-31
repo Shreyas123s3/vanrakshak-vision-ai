@@ -15,6 +15,16 @@ const EmergencyReporting = () => {
     { id: 'habitat', name: 'आवास नुकसान', icon: '🌳', color: 'text-green-500' }
   ];
 
+  const handleEmergencyReport = () => {
+    console.log('Emergency report submitted for type:', reportType);
+    // Add emergency reporting logic here
+  };
+
+  const handleHelplineCall = () => {
+    console.log('Helpline call initiated');
+    // Add helpline calling logic here
+  };
+
   return (
     <section ref={ref} className="py-20 relative">
       <div className="container mx-auto px-6">
@@ -32,7 +42,6 @@ const EmergencyReporting = () => {
           </p>
         </motion.div>
 
-        {/* Emergency Types */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -62,7 +71,6 @@ const EmergencyReporting = () => {
           ))}
         </motion.div>
 
-        {/* Report Form */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -103,18 +111,23 @@ const EmergencyReporting = () => {
             </div>
             
             <div className="grid grid-cols-2 gap-4">
-              <button className="cyber-border holographic py-3 rounded-lg font-semibold text-electric-cyan hover:bg-electric-cyan hover:text-forest-navy transition-all duration-300">
+              <button 
+                onClick={handleEmergencyReport}
+                className="cyber-border holographic py-3 rounded-lg font-semibold text-electric-cyan hover:bg-electric-cyan hover:text-forest-navy transition-all duration-300"
+              >
                 🚨 तत्काल रिपोर्ट
               </button>
               
-              <button className="glassmorphism py-3 rounded-lg font-semibold text-misty-white hover:bg-misty-white/10 transition-all duration-300">
+              <button 
+                onClick={handleHelplineCall}
+                className="glassmorphism py-3 rounded-lg font-semibold text-misty-white hover:bg-misty-white/10 transition-all duration-300"
+              >
                 📞 हेल्पलाइन कॉल
               </button>
             </div>
           </div>
         </motion.div>
 
-        {/* Response Time Info */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
