@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { ActivityType, ActivityData } from '@/types/forestActivity';
@@ -6,6 +5,7 @@ import { generateMockForestActivity } from '@/services/mockForestActivityService
 import HeatmapStats from './HeatmapStats';
 import ActivityLegend from './ActivityLegend';
 import ActivityControls from './ActivityControls';
+import SatelliteFeedViewer from './SatelliteFeedViewer';
 
 const ForestActivityHeatmap = () => {
   const ref = useRef(null);

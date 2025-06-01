@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import HeroSection from '@/components/HeroSection';
@@ -34,6 +33,7 @@ import RealTimeMonitoring from '@/components/RealTimeMonitoring';
 import AcousticAnalyzer from '@/components/AcousticAnalyzer';
 import Interactive3DMap from '@/components/Interactive3DMap';
 import ForestActivityHeatmap from '@/components/ForestActivityHeatmap';
+import SatelliteFeedViewer from '@/components/SatelliteFeedViewer';
 
 const Index = () => {
   const [loading, setLoading] = useState(true);
@@ -116,6 +116,9 @@ const Index = () => {
         
         {/* Live Forest Activity Heatmap */}
         <ForestActivityHeatmap />
+        
+        {/* Satellite & Drone Feed Integration */}
+        <SatelliteFeedViewer />
         
         {/* Enhanced AI-Powered Acoustic Monitoring System */}
         <section id="acoustic-monitoring" className="py-20 px-6">
