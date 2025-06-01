@@ -33,6 +33,7 @@ import AISpeciesDemo from '@/components/AISpeciesDemo';
 import RealTimeMonitoring from '@/components/RealTimeMonitoring';
 import AcousticAnalyzer from '@/components/AcousticAnalyzer';
 import Interactive3DMap from '@/components/Interactive3DMap';
+import ForestActivityHeatmap from '@/components/ForestActivityHeatmap';
 
 const Index = () => {
   const [loading, setLoading] = useState(true);
@@ -112,6 +113,9 @@ const Index = () => {
         
         {/* Real-Time Monitoring System */}
         <RealTimeMonitoring />
+        
+        {/* Live Forest Activity Heatmap */}
+        <ForestActivityHeatmap />
         
         {/* Enhanced AI-Powered Acoustic Monitoring System */}
         <section id="acoustic-monitoring" className="py-20 px-6">
