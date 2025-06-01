@@ -17,15 +17,18 @@ export const useAuth = (): AuthState & {
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
+        console.log('Auth state change:', event, session?.user?.email);
         setSession(session);
         
         if (session?.user) {
           // Fetch user profile from our profiles table
-          const { data: profile } = await supabase
+          const { data: profile, error } = await supabase
             .from('profiles')
             .select('*')
             .eq('id', session.user.id)
             .single();
+
+          console.log('Profile fetch result:', { profile, error });
 
           if (profile) {
             const userData: User = {
@@ -40,6 +43,10 @@ export const useAuth = (): AuthState & {
               lastLogin: new Date().toISOString()
             };
             setUser(userData);
+          } else if (error) {
+            console.error('Error fetching profile:', error);
+            // If profile doesn't exist, user might need to complete signup process
+            setUser(null);
           }
         } else {
           setUser(null);
@@ -50,9 +57,8 @@ export const useAuth = (): AuthState & {
 
     // Check for existing session
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) {
-        // The onAuthStateChange will handle setting the user
-      } else {
+      console.log('Initial session check:', session?.user?.email);
+      if (!session) {
         setIsLoading(false);
       }
     });
@@ -78,6 +84,8 @@ export const useAuth = (): AuthState & {
   const signup = async (email: string, password: string, name: string) => {
     setIsLoading(true);
     
+    console.log('Attempting signup for:', email);
+    
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -89,9 +97,11 @@ export const useAuth = (): AuthState & {
       }
     });
 
+    console.log('Signup result:', { data, error });
     setIsLoading(false);
 
     if (error) {
+      console.error('Signup error:', error);
       return { success: false, error: error.message };
     }
 
@@ -101,14 +111,18 @@ export const useAuth = (): AuthState & {
   const login = async (email: string, password: string) => {
     setIsLoading(true);
     
+    console.log('Attempting login for:', email);
+    
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password
     });
 
+    console.log('Login result:', { data, error });
     setIsLoading(false);
 
     if (error) {
+      console.error('Login error:', error);
       return { success: false, error: error.message };
     }
 
@@ -116,6 +130,7 @@ export const useAuth = (): AuthState & {
   };
 
   const logout = async () => {
+    console.log('Logging out user');
     await supabase.auth.signOut();
   };
 
