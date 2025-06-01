@@ -8,10 +8,10 @@ const VillageParticipationDashboard = () => {
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   const participationData = [
-    { village: 'रामपुर', participants: 450, activities: 12, rewards: 2400 },
-    { village: 'गंगापुर', participants: 380, activities: 9, rewards: 1950 },
-    { village: 'शिवपुर', participants: 520, activities: 15, rewards: 3100 },
-    { village: 'सुंदरपुर', participants: 290, activities: 7, rewards: 1450 }
+    { village: 'Rampur', participants: 450, activities: 12, rewards: 2400 },
+    { village: 'Gangapur', participants: 380, activities: 9, rewards: 1950 },
+    { village: 'Shivpur', participants: 520, activities: 15, rewards: 3100 },
+    { village: 'Sundarpur', participants: 290, activities: 7, rewards: 1450 }
   ];
 
   const totalStats = {
@@ -31,7 +31,7 @@ const VillageParticipationDashboard = () => {
           className="text-center mb-16"
         >
           <h2 className="text-5xl md:text-6xl font-orbitron font-bold text-transparent bg-clip-text bg-gradient-to-r from-bio-green to-neural-purple mb-8">
-            ग्राम सहभागिता डैशबोर्ड
+            Village Participation Dashboard
           </h2>
           <p className="text-xl text-misty-white max-w-4xl mx-auto">
             Community involvement in wildlife conservation across participating villages
@@ -49,28 +49,28 @@ const VillageParticipationDashboard = () => {
             <div className="text-4xl font-orbitron font-bold text-bio-green mb-2">
               {totalStats.villages}
             </div>
-            <div className="text-electric-cyan">भाग लेने वाले गांव</div>
+            <div className="text-electric-cyan">Participating Villages</div>
           </div>
           
           <div className="glassmorphism p-6 rounded-xl text-center">
             <div className="text-4xl font-orbitron font-bold text-neural-purple mb-2">
               {totalStats.participants.toLocaleString()}
             </div>
-            <div className="text-electric-cyan">सक्रिय सदस्य</div>
+            <div className="text-electric-cyan">Active Members</div>
           </div>
           
           <div className="glassmorphism p-6 rounded-xl text-center">
             <div className="text-4xl font-orbitron font-bold text-tiger-orange mb-2">
               {totalStats.activities}
             </div>
-            <div className="text-electric-cyan">संरक्षण गतिविधियां</div>
+            <div className="text-electric-cyan">Conservation Activities</div>
           </div>
           
           <div className="glassmorphism p-6 rounded-xl text-center">
             <div className="text-4xl font-orbitron font-bold text-electric-cyan mb-2">
               {totalStats.totalRewards.toLocaleString()}
             </div>
-            <div className="text-electric-cyan">कुल इनाम अंक</div>
+            <div className="text-electric-cyan">Total Reward Points</div>
           </div>
         </motion.div>
 
@@ -83,7 +83,7 @@ const VillageParticipationDashboard = () => {
         >
           <div className="p-6 border-b border-electric-cyan/20">
             <h3 className="text-2xl font-orbitron font-bold text-electric-cyan">
-              शीर्ष प्रदर्शनकारी गांव
+              Top Performing Villages
             </h3>
           </div>
           
@@ -91,11 +91,11 @@ const VillageParticipationDashboard = () => {
             <table className="w-full">
               <thead className="bg-forest-navy/50">
                 <tr>
-                  <th className="px-6 py-4 text-left text-bio-green font-orbitron">गांव का नाम</th>
-                  <th className="px-6 py-4 text-left text-bio-green font-orbitron">सहभागी</th>
-                  <th className="px-6 py-4 text-left text-bio-green font-orbitron">गतिविधियां</th>
-                  <th className="px-6 py-4 text-left text-bio-green font-orbitron">इनाम अंक</th>
-                  <th className="px-6 py-4 text-left text-bio-green font-orbitron">प्रगति</th>
+                  <th className="px-6 py-4 text-left text-bio-green font-orbitron">Village Name</th>
+                  <th className="px-6 py-4 text-left text-bio-green font-orbitron">Participants</th>
+                  <th className="px-6 py-4 text-left text-bio-green font-orbitron">Activities</th>
+                  <th className="px-6 py-4 text-left text-bio-green font-orbitron">Reward Points</th>
+                  <th className="px-6 py-4 text-left text-bio-green font-orbitron">Progress</th>
                 </tr>
               </thead>
               <tbody>

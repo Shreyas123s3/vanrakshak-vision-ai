@@ -10,33 +10,33 @@ const WildlifeKnowledgeHub = () => {
 
   const knowledgeCategories = {
     mammals: {
-      title: 'स्तनधारी जीव',
+      title: 'Mammals',
       icon: '🐅',
       items: [
-        { name: 'बंगाल टाइगर', local: 'बाघ', habitat: 'घने जंगल', behavior: 'एकाकी शिकारी' },
-        { name: 'एशियाई हाथी', local: 'हाथी', habitat: 'वन और घास के मैदान', behavior: 'झुंड में रहते हैं' },
-        { name: 'इंडियन राइनो', local: 'गैंडा', habitat: 'दलदली क्षेत्र', behavior: 'अकेले रहते हैं' },
-        { name: 'लेपर्ड', local: 'तेंदुआ', habitat: 'चट्टानी पहाड़ी', behavior: 'पेड़ों पर चढ़ते हैं' }
+        { name: 'Bengal Tiger', local: 'Bagh', habitat: 'Dense forests', behavior: 'Solitary hunter' },
+        { name: 'Asian Elephant', local: 'Hathi', habitat: 'Forests and grasslands', behavior: 'Lives in herds' },
+        { name: 'Indian Rhino', local: 'Gainda', habitat: 'Marshy areas', behavior: 'Lives alone' },
+        { name: 'Leopard', local: 'Tendua', habitat: 'Rocky hills', behavior: 'Climbs trees' }
       ]
     },
     birds: {
-      title: 'पक्षी',
+      title: 'Birds',
       icon: '🦅',
       items: [
-        { name: 'गोल्डन ईगल', local: 'सुनहरा चील', habitat: 'पहाड़ी क्षेत्र', behavior: 'ऊंची उड़ान' },
-        { name: 'पीकॉक', local: 'मोर', habitat: 'खुले जंगल', behavior: 'जमीन पर चलते हैं' },
-        { name: 'हॉर्नबिल', local: 'धनेश', habitat: 'घने वन', behavior: 'फलों को खाते हैं' },
-        { name: 'किंगफिशर', local: 'राजमछली', habitat: 'नदी किनारे', behavior: 'मछली पकड़ते हैं' }
+        { name: 'Golden Eagle', local: 'Sunhara Cheel', habitat: 'Mountain regions', behavior: 'High altitude flight' },
+        { name: 'Peacock', local: 'Mor', habitat: 'Open forests', behavior: 'Ground dwelling' },
+        { name: 'Hornbill', local: 'Dhanesh', habitat: 'Dense forests', behavior: 'Fruit eating' },
+        { name: 'Kingfisher', local: 'Rajmachli', habitat: 'Riverside', behavior: 'Fish catching' }
       ]
     },
     reptiles: {
-      title: 'सरीसृप',
+      title: 'Reptiles',
       icon: '🐍',
       items: [
-        { name: 'किंग कोबरा', local: 'नागराज', habitat: 'घने जंगल', behavior: 'जहरीला सांप' },
-        { name: 'इंडियन पाइथन', local: 'अजगर', habitat: 'चट्टानी क्षेत्र', behavior: 'शिकार को निगल जाते हैं' },
-        { name: 'मॉनिटर लिजर्ड', local: 'गोह', habitat: 'नदी किनारे', behavior: 'तैराकी करते हैं' },
-        { name: 'गेको', local: 'छिपकली', habitat: 'पेड़ों पर', behavior: 'रात में सक्रिय' }
+        { name: 'King Cobra', local: 'Nagaraj', habitat: 'Dense forests', behavior: 'Venomous snake' },
+        { name: 'Indian Python', local: 'Ajgar', habitat: 'Rocky areas', behavior: 'Swallows prey' },
+        { name: 'Monitor Lizard', local: 'Goh', habitat: 'Riverside', behavior: 'Swimming' },
+        { name: 'Gecko', local: 'Chipkali', habitat: 'On trees', behavior: 'Active at night' }
       ]
     }
   };
@@ -51,7 +51,7 @@ const WildlifeKnowledgeHub = () => {
           className="text-center mb-16"
         >
           <h2 className="text-5xl md:text-6xl font-orbitron font-bold text-transparent bg-clip-text bg-gradient-to-r from-neural-purple to-bio-green mb-8">
-            स्थानीय वन्यजीव ज्ञान केंद्र
+            Local Wildlife Knowledge Hub
           </h2>
           <p className="text-xl text-misty-white max-w-4xl mx-auto">
             Traditional wildlife knowledge combined with modern AI insights
@@ -108,18 +108,18 @@ const WildlifeKnowledgeHub = () => {
               
               <div className="space-y-3">
                 <div className="glassmorphism p-3 rounded-lg">
-                  <div className="text-xs text-neural-purple font-semibold mb-1">आवास</div>
+                  <div className="text-xs text-neural-purple font-semibold mb-1">Habitat</div>
                   <div className="text-sm text-misty-white">{animal.habitat}</div>
                 </div>
                 
                 <div className="glassmorphism p-3 rounded-lg">
-                  <div className="text-xs text-tiger-orange font-semibold mb-1">व्यवहार</div>
+                  <div className="text-xs text-tiger-orange font-semibold mb-1">Behavior</div>
                   <div className="text-sm text-misty-white">{animal.behavior}</div>
                 </div>
               </div>
               
               <button className="w-full mt-4 glassmorphism py-2 rounded-lg text-electric-cyan hover:bg-electric-cyan/10 transition-colors text-sm">
-                और जानें
+                Learn More
               </button>
             </motion.div>
           ))}
@@ -133,31 +133,31 @@ const WildlifeKnowledgeHub = () => {
           className="mt-16 holographic p-8 rounded-xl"
         >
           <h3 className="text-3xl font-orbitron font-bold text-tiger-orange mb-6 text-center">
-            पारंपरिक ज्ञान + आधुनिक AI
+            Traditional Knowledge + Modern AI
           </h3>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="text-center">
               <div className="text-4xl mb-3">👴</div>
-              <h4 className="text-lg font-semibold text-electric-cyan mb-2">पुराने शिकारी ज्ञान</h4>
+              <h4 className="text-lg font-semibold text-electric-cyan mb-2">Ancient Hunter Knowledge</h4>
               <p className="text-misty-white/80 text-sm">
-                पीढ़ियों से चले आ रहे वन्यजीव व्यवहार के पैटर्न
+                Wildlife behavior patterns passed down through generations
               </p>
             </div>
             
             <div className="text-center">
               <div className="text-4xl mb-3">🤖</div>
-              <h4 className="text-lg font-semibold text-bio-green mb-2">AI विश्लेषण</h4>
+              <h4 className="text-lg font-semibold text-bio-green mb-2">AI Analysis</h4>
               <p className="text-misty-white/80 text-sm">
-                डेटा-आधारित पैटर्न पहचान और भविष्यवाणी
+                Data-driven pattern recognition and prediction
               </p>
             </div>
             
             <div className="text-center">
               <div className="text-4xl mb-3">🎯</div>
-              <h4 className="text-lg font-semibold text-neural-purple mb-2">संयुक्त दृष्टिकोण</h4>
+              <h4 className="text-lg font-semibold text-neural-purple mb-2">Combined Approach</h4>
               <p className="text-misty-white/80 text-sm">
-                बेहतर संरक्षण रणनीति के लिए दोनों का मेल
+                Better conservation strategies through unified insights
               </p>
             </div>
           </div>

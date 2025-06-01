@@ -10,28 +10,28 @@ const CommunitySuccessStories = () => {
 
   const successStories = [
     {
-      title: 'रामपुर में बाघ संरक्षण की सफलता',
-      village: 'रामपुर, राजस्थान',
-      description: 'गांव के लोगों ने AI कैमरों की मदद से शिकारियों को पकड़ा और 3 बाघों की जान बचाई।',
-      impact: 'बाघों की संख्या 40% बढ़ी',
+      title: 'Tiger Conservation Success in Rampur',
+      village: 'Rampur, Rajasthan',
+      description: 'Village community used AI cameras to catch poachers and saved 3 tigers.',
+      impact: 'Tiger population increased by 40%',
       participants: 125,
       image: '🐅',
       year: '2023'
     },
     {
-      title: 'गंगापुर में हाथी गलियारा संरक्षण',
-      village: 'गंगापुर, असम',
-      description: 'स्थानीय समुदाय ने हाथियों के प्राकृतिक मार्ग को संरक्षित करने में सहयोग दिया।',
-      impact: 'मानव-हाथी संघर्ष 70% कम',
+      title: 'Elephant Corridor Conservation in Gangapur',
+      village: 'Gangapur, Assam',
+      description: 'Local community helped preserve natural elephant migration routes.',
+      impact: 'Human-elephant conflict reduced by 70%',
       participants: 200,
       image: '🐘',
       year: '2023'
     },
     {
-      title: 'शिवपुर में गैंडा संरक्षण पहल',
-      village: 'शिवपुर, असम',
-      description: 'AI निगरानी प्रणाली की मदद से अवैध शिकार को पूरी तरह रोक दिया गया।',
-      impact: 'गैंडों की आबादी 25% बढ़ी',
+      title: 'Rhino Conservation Initiative in Shivpur',
+      village: 'Shivpur, Assam',
+      description: 'AI monitoring system helped completely stop illegal hunting.',
+      impact: 'Rhino population increased by 25%',
       participants: 180,
       image: '🦏',
       year: '2024'
@@ -56,7 +56,7 @@ const CommunitySuccessStories = () => {
           className="text-center mb-16"
         >
           <h2 className="text-5xl md:text-6xl font-orbitron font-bold text-transparent bg-clip-text bg-gradient-to-r from-bio-green to-tiger-orange mb-8">
-            सामुदायिक सफलता की कहानियां
+            Community Success Stories
           </h2>
           <p className="text-xl text-misty-white max-w-4xl mx-auto">
             Real stories of communities making a difference in wildlife conservation
@@ -92,14 +92,14 @@ const CommunitySuccessStories = () => {
                   <div className="text-2xl font-orbitron font-bold text-tiger-orange mb-1">
                     {successStories[currentStory].impact}
                   </div>
-                  <div className="text-sm text-misty-white/80">प्रभाव</div>
+                  <div className="text-sm text-misty-white/80">Impact</div>
                 </div>
                 
                 <div className="glassmorphism p-4 rounded-lg">
                   <div className="text-2xl font-orbitron font-bold text-neural-purple mb-1">
-                    {successStories[currentStory].participants}+ लोग
+                    {successStories[currentStory].participants}+ people
                   </div>
-                  <div className="text-sm text-misty-white/80">सहभागी</div>
+                  <div className="text-sm text-misty-white/80">Participants</div>
                 </div>
               </div>
             </div>
@@ -109,7 +109,7 @@ const CommunitySuccessStories = () => {
               <div className="text-4xl font-orbitron font-bold text-electric-cyan mb-2">
                 {successStories[currentStory].year}
               </div>
-              <div className="text-lg text-misty-white">सफलता का वर्ष</div>
+              <div className="text-lg text-misty-white">Year of Success</div>
             </div>
           </div>
         </motion.div>
@@ -160,7 +160,7 @@ const CommunitySuccessStories = () => {
                 {story.description.slice(0, 60)}...
               </p>
               <div className="text-sm text-bio-green font-semibold">
-                {story.year} • {story.participants}+ सहभागी
+                {story.year} • {story.participants}+ participants
               </div>
             </motion.div>
           ))}

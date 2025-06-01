@@ -10,28 +10,28 @@ const VanRakshakAvatar = () => {
 
   const forestGuards = [
     {
-      name: 'राज कुमार',
-      region: 'रणथंबोर राष्ट्रीय उद्यान',
-      experience: '15 वर्ष',
+      name: 'Raj Kumar',
+      region: 'Ranthambore National Park',
+      experience: '15 years',
       avatar: '👨‍🌾',
-      specialization: 'बाघ संरक्षण',
-      achievements: ['50+ बचाव अभियान', 'शिकारी गिरफ्तारी में सहायक']
+      specialization: 'Tiger Conservation',
+      achievements: ['50+ rescue operations', 'Assisted in poacher arrests']
     },
     {
-      name: 'सुनीता देवी',
-      region: 'गिर वन्यजीव अभयारण्य',
-      experience: '12 वर्ष',
+      name: 'Sunita Devi',
+      region: 'Gir Wildlife Sanctuary',
+      experience: '12 years',
       avatar: '👩‍🌾',
-      specialization: 'शेर संरक्षण',
-      achievements: ['शेर पुनर्वास कार्यक्रम', 'ग्रामीण जागरूकता अभियान']
+      specialization: 'Lion Conservation',
+      achievements: ['Lion rehabilitation program', 'Rural awareness campaigns']
     },
     {
-      name: 'मोहन सिंह',
-      region: 'काज़ीरंगा राष्ट्रीय उद्यान',
-      experience: '20 वर्ष',
+      name: 'Mohan Singh',
+      region: 'Kaziranga National Park',
+      experience: '20 years',
       avatar: '👨‍🦳',
-      specialization: 'गैंडा संरक्षण',
-      achievements: ['गैंडा जनसंख्या वृद्धि', 'अंतर्राष्ट्रीय पुरस्कार']
+      specialization: 'Rhino Conservation',
+      achievements: ['Rhino population growth', 'International awards']
     }
   ];
 
@@ -45,7 +45,7 @@ const VanRakshakAvatar = () => {
           className="text-center mb-16"
         >
           <h2 className="text-5xl md:text-6xl font-orbitron font-bold text-transparent bg-clip-text bg-gradient-to-r from-electric-cyan to-bio-green mb-8">
-            वन रक्षक - Our Forest Heroes
+            Forest Guards - Our Forest Heroes
           </h2>
           <p className="text-xl text-misty-white max-w-4xl mx-auto">
             Meet the dedicated forest guards who work with VanRakshak AI to protect India's precious wildlife
@@ -75,7 +75,7 @@ const VanRakshakAvatar = () => {
               </h3>
               <p className="text-bio-green mb-2">{guard.region}</p>
               <p className="text-misty-white/80 text-sm mb-3">
-                अनुभव: {guard.experience}
+                Experience: {guard.experience}
               </p>
               <div className="text-sm text-neural-purple font-semibold">
                 {guard.specialization}
@@ -91,7 +91,7 @@ const VanRakshakAvatar = () => {
           className="glassmorphism p-8 rounded-xl"
         >
           <h3 className="text-2xl font-orbitron font-bold text-tiger-orange mb-6">
-            {forestGuards[selectedGuard].name} की उपलब्धियां
+            {forestGuards[selectedGuard].name}'s Achievements
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {forestGuards[selectedGuard].achievements.map((achievement, index) => (

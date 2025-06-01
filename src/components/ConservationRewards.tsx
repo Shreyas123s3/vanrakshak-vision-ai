@@ -9,18 +9,18 @@ const ConservationRewards = () => {
   const [userPoints] = useState(2450);
 
   const rewardTiers = [
-    { name: 'कांस्य रक्षक', points: 500, badge: '🥉', color: 'text-yellow-600' },
-    { name: 'रजत रक्षक', points: 1500, badge: '🥈', color: 'text-gray-400' },
-    { name: 'स्वर्ण रक्षक', points: 3000, badge: '🥇', color: 'text-yellow-400' },
-    { name: 'हीरा रक्षक', points: 5000, badge: '💎', color: 'text-blue-400' }
+    { name: 'Bronze Guardian', points: 500, badge: '🥉', color: 'text-yellow-600' },
+    { name: 'Silver Guardian', points: 1500, badge: '🥈', color: 'text-gray-400' },
+    { name: 'Gold Guardian', points: 3000, badge: '🥇', color: 'text-yellow-400' },
+    { name: 'Diamond Guardian', points: 5000, badge: '💎', color: 'text-blue-400' }
   ];
 
   const activities = [
-    { name: 'वन्यजीव फोटो साझा करना', points: 50, icon: '📸' },
-    { name: 'अवैध गतिविधि की रिपोर्ट', points: 200, icon: '🚨' },
-    { name: 'पर्यावरण सफाई अभियान', points: 150, icon: '🧹' },
-    { name: 'वृक्षारोपण कार्यक्रम', points: 100, icon: '🌱' },
-    { name: 'शिक्षा कार्यशाला में भाग', points: 75, icon: '📚' }
+    { name: 'Share Wildlife Photos', points: 50, icon: '📸' },
+    { name: 'Report Illegal Activity', points: 200, icon: '🚨' },
+    { name: 'Environmental Cleanup Drive', points: 150, icon: '🧹' },
+    { name: 'Tree Planting Program', points: 100, icon: '🌱' },
+    { name: 'Education Workshop Participation', points: 75, icon: '📚' }
   ];
 
   const currentTier = rewardTiers.find((tier, index) => 
@@ -39,7 +39,7 @@ const ConservationRewards = () => {
           className="text-center mb-16"
         >
           <h2 className="text-5xl md:text-6xl font-orbitron font-bold text-transparent bg-clip-text bg-gradient-to-r from-tiger-orange to-electric-cyan mb-8">
-            संरक्षण इनाम प्रणाली
+            Conservation Rewards System
           </h2>
           <p className="text-xl text-misty-white max-w-4xl mx-auto">
             Earn points for contributing to wildlife conservation efforts
@@ -55,14 +55,14 @@ const ConservationRewards = () => {
         >
           <div className="text-6xl mb-4">{currentTier.badge}</div>
           <h3 className="text-3xl font-orbitron font-bold text-electric-cyan mb-4">
-            आपके कुल अंक: {userPoints.toLocaleString()}
+            Your Total Points: {userPoints.toLocaleString()}
           </h3>
-          <p className="text-xl text-bio-green mb-4">वर्तमान स्तर: {currentTier.name}</p>
+          <p className="text-xl text-bio-green mb-4">Current Level: {currentTier.name}</p>
           
           {nextTier && (
             <div className="max-w-md mx-auto">
               <p className="text-misty-white/80 mb-2">
-                अगले स्तर तक: {nextTier.points - userPoints} अंक
+                Next level in: {nextTier.points - userPoints} points
               </p>
               <div className="w-full bg-forest-navy rounded-full h-3">
                 <div 
@@ -95,9 +95,9 @@ const ConservationRewards = () => {
               <h4 className={`text-lg font-orbitron font-bold mb-2 ${tier.color}`}>
                 {tier.name}
               </h4>
-              <p className="text-misty-white/80">{tier.points} अंक</p>
+              <p className="text-misty-white/80">{tier.points} points</p>
               {userPoints >= tier.points && (
-                <div className="mt-3 text-bio-green text-sm font-semibold">अर्जित ✓</div>
+                <div className="mt-3 text-bio-green text-sm font-semibold">Earned ✓</div>
               )}
             </motion.div>
           ))}
@@ -110,7 +110,7 @@ const ConservationRewards = () => {
           transition={{ duration: 0.6, delay: 0.8 }}
         >
           <h3 className="text-3xl font-orbitron font-bold text-neural-purple mb-8 text-center">
-            अंक अर्जित करने के तरीके
+            Ways to Earn Points
           </h3>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -128,7 +128,7 @@ const ConservationRewards = () => {
                     <h4 className="text-lg font-semibold text-electric-cyan mb-1">
                       {activity.name}
                     </h4>
-                    <p className="text-tiger-orange font-bold">+{activity.points} अंक</p>
+                    <p className="text-tiger-orange font-bold">+{activity.points} points</p>
                   </div>
                 </div>
               </motion.div>
