@@ -3,37 +3,72 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
+import { useForm } from 'react-hook-form';
+import { useToast } from '@/hooks/use-toast';
+
+interface FormData {
+  name: string;
+  email: string;
+  organization: string;
+  interest: string;
+  message: string;
+}
 
 const CallToAction = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    organization: '',
-    interest: 'partnership',
-    message: ''
-  });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    watch
+  } = useForm<FormData>({
+    defaultValues: {
+      name: '',
+      email: '',
+      organization: '',
+      interest: 'partnership',
+      message: ''
+    }
+  });
+
+  const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      // Simulate form submission
+      console.log('Form submitted:', data);
+      
+      // Simulate API call delay
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
       setSubmitted(true);
-      console.log('Form submitted:', formData);
-    }, 2000);
+      toast({
+        title: "Message Sent Successfully!",
+        description: "Thank you for your interest. We'll get back to you within 24 hours.",
+      });
+      
+      reset();
+    } catch (error) {
+      console.error('Form submission error:', error);
+      toast({
+        title: "Submission Failed",
+        description: "There was an error sending your message. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+  const handleNewMessage = () => {
+    setSubmitted(false);
+    reset();
   };
 
   return (
@@ -73,75 +108,80 @@ const CallToAction = () => {
             initial={{ opacity: 0, x: -50 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="holographic p-8 rounded-2xl"
+            className="holographic p-6 md:p-8 rounded-2xl"
           >
-            <h3 className="text-3xl font-orbitron font-bold text-electric-cyan mb-8 text-center">
+            <h3 className="text-2xl md:text-3xl font-orbitron font-bold text-electric-cyan mb-8 text-center">
               Get in Touch
             </h3>
             
             {!submitted ? (
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                 {/* Name */}
-                <div>
-                  <label htmlFor="name" className="block text-bio-green font-semibold mb-2">
+                <div className="space-y-2">
+                  <label htmlFor="name" className="block text-bio-green font-semibold text-sm md:text-base">
                     Full Name *
                   </label>
                   <input
+                    {...register('name', { 
+                      required: 'Full name is required',
+                      minLength: { value: 2, message: 'Name must be at least 2 characters' }
+                    })}
                     type="text"
                     id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 bg-forest-navy/50 border border-electric-cyan/30 rounded-lg text-misty-white focus:border-electric-cyan focus:outline-none transition-colors duration-300"
+                    className="w-full px-3 md:px-4 py-2 md:py-3 bg-forest-navy/50 border border-electric-cyan/30 rounded-lg text-misty-white focus:border-electric-cyan focus:outline-none transition-colors duration-300 text-sm md:text-base"
                     placeholder="Enter your full name"
                   />
+                  {errors.name && (
+                    <p className="text-red-400 text-xs md:text-sm">{errors.name.message}</p>
+                  )}
                 </div>
 
                 {/* Email */}
-                <div>
-                  <label htmlFor="email" className="block text-bio-green font-semibold mb-2">
+                <div className="space-y-2">
+                  <label htmlFor="email" className="block text-bio-green font-semibold text-sm md:text-base">
                     Email Address *
                   </label>
                   <input
+                    {...register('email', { 
+                      required: 'Email is required',
+                      pattern: {
+                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                        message: 'Invalid email address'
+                      }
+                    })}
                     type="email"
                     id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 bg-forest-navy/50 border border-electric-cyan/30 rounded-lg text-misty-white focus:border-electric-cyan focus:outline-none transition-colors duration-300"
+                    className="w-full px-3 md:px-4 py-2 md:py-3 bg-forest-navy/50 border border-electric-cyan/30 rounded-lg text-misty-white focus:border-electric-cyan focus:outline-none transition-colors duration-300 text-sm md:text-base"
                     placeholder="your.email@organization.com"
                   />
+                  {errors.email && (
+                    <p className="text-red-400 text-xs md:text-sm">{errors.email.message}</p>
+                  )}
                 </div>
 
                 {/* Organization */}
-                <div>
-                  <label htmlFor="organization" className="block text-bio-green font-semibold mb-2">
+                <div className="space-y-2">
+                  <label htmlFor="organization" className="block text-bio-green font-semibold text-sm md:text-base">
                     Organization
                   </label>
                   <input
+                    {...register('organization')}
                     type="text"
                     id="organization"
-                    name="organization"
-                    value={formData.organization}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 bg-forest-navy/50 border border-electric-cyan/30 rounded-lg text-misty-white focus:border-electric-cyan focus:outline-none transition-colors duration-300"
+                    className="w-full px-3 md:px-4 py-2 md:py-3 bg-forest-navy/50 border border-electric-cyan/30 rounded-lg text-misty-white focus:border-electric-cyan focus:outline-none transition-colors duration-300 text-sm md:text-base"
                     placeholder="Your organization name"
                   />
                 </div>
 
                 {/* Interest Type */}
-                <div>
-                  <label htmlFor="interest" className="block text-bio-green font-semibold mb-2">
+                <div className="space-y-2">
+                  <label htmlFor="interest" className="block text-bio-green font-semibold text-sm md:text-base">
                     Interest Type
                   </label>
                   <select
+                    {...register('interest')}
                     id="interest"
-                    name="interest"
-                    value={formData.interest}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 bg-forest-navy/50 border border-electric-cyan/30 rounded-lg text-misty-white focus:border-electric-cyan focus:outline-none transition-colors duration-300"
+                    className="w-full px-3 md:px-4 py-2 md:py-3 bg-forest-navy/50 border border-electric-cyan/30 rounded-lg text-misty-white focus:border-electric-cyan focus:outline-none transition-colors duration-300 text-sm md:text-base"
                   >
                     <option value="partnership">Strategic Partnership</option>
                     <option value="funding">Investment Opportunity</option>
@@ -153,17 +193,15 @@ const CallToAction = () => {
                 </div>
 
                 {/* Message */}
-                <div>
-                  <label htmlFor="message" className="block text-bio-green font-semibold mb-2">
+                <div className="space-y-2">
+                  <label htmlFor="message" className="block text-bio-green font-semibold text-sm md:text-base">
                     Message
                   </label>
                   <textarea
+                    {...register('message')}
                     id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
                     rows={4}
-                    className="w-full px-4 py-3 bg-forest-navy/50 border border-electric-cyan/30 rounded-lg text-misty-white focus:border-electric-cyan focus:outline-none transition-colors duration-300 resize-none"
+                    className="w-full px-3 md:px-4 py-2 md:py-3 bg-forest-navy/50 border border-electric-cyan/30 rounded-lg text-misty-white focus:border-electric-cyan focus:outline-none transition-colors duration-300 resize-none text-sm md:text-base"
                     placeholder="Tell us about your interest in VanRakshak AI..."
                   />
                 </div>
@@ -172,7 +210,7 @@ const CallToAction = () => {
                 <motion.button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`w-full py-4 rounded-xl font-orbitron font-bold text-lg transition-all duration-300 ${
+                  className={`w-full py-3 md:py-4 rounded-xl font-orbitron font-bold text-sm md:text-lg transition-all duration-300 ${
                     isSubmitting
                       ? 'bg-neural-purple/50 text-misty-white/50 cursor-not-allowed'
                       : 'cyber-border holographic text-electric-cyan hover:text-forest-navy hover:bg-electric-cyan'
@@ -182,7 +220,7 @@ const CallToAction = () => {
                 >
                   {isSubmitting ? (
                     <div className="flex items-center justify-center space-x-2">
-                      <div className="w-5 h-5 border-2 border-electric-cyan border-t-transparent rounded-full animate-spin"></div>
+                      <div className="w-4 h-4 md:w-5 md:h-5 border-2 border-electric-cyan border-t-transparent rounded-full animate-spin"></div>
                       <span>Sending Message...</span>
                     </div>
                   ) : (
@@ -194,27 +232,18 @@ const CallToAction = () => {
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="text-center py-12"
+                className="text-center py-8 md:py-12"
               >
-                <div className="text-6xl text-bio-green mb-6">✅</div>
-                <h4 className="text-2xl font-orbitron font-bold text-electric-cyan mb-4">
+                <div className="text-4xl md:text-6xl text-bio-green mb-4 md:mb-6">✅</div>
+                <h4 className="text-xl md:text-2xl font-orbitron font-bold text-electric-cyan mb-3 md:mb-4">
                   Message Sent Successfully!
                 </h4>
-                <p className="text-lg text-misty-white mb-6">
+                <p className="text-base md:text-lg text-misty-white mb-4 md:mb-6">
                   Thank you for your interest in VanRakshak AI. Our team will get back to you within 24 hours.
                 </p>
                 <motion.button
-                  onClick={() => {
-                    setSubmitted(false);
-                    setFormData({
-                      name: '',
-                      email: '',
-                      organization: '',
-                      interest: 'partnership',
-                      message: ''
-                    });
-                  }}
-                  className="glassmorphism px-6 py-3 rounded-lg text-electric-cyan hover:text-bio-green transition-colors duration-300"
+                  onClick={handleNewMessage}
+                  className="glassmorphism px-4 md:px-6 py-2 md:py-3 rounded-lg text-electric-cyan hover:text-bio-green transition-colors duration-300 text-sm md:text-base"
                   whileHover={{ scale: 1.05 }}
                 >
                   Send Another Message
@@ -231,41 +260,41 @@ const CallToAction = () => {
             className="space-y-8"
           >
             {/* Contact Details */}
-            <div className="glassmorphism p-8 rounded-2xl">
-              <h3 className="text-2xl font-orbitron font-bold text-neural-purple mb-6">
+            <div className="glassmorphism p-6 md:p-8 rounded-2xl">
+              <h3 className="text-xl md:text-2xl font-orbitron font-bold text-neural-purple mb-4 md:mb-6">
                 Contact Information
               </h3>
               
               <div className="space-y-4">
-                <div className="flex items-center space-x-4">
-                  <div className="w-10 h-10 bg-gradient-to-r from-electric-cyan to-bio-green rounded-full flex items-center justify-center">
+                <div className="flex items-start space-x-3 md:space-x-4">
+                  <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-r from-electric-cyan to-bio-green rounded-full flex items-center justify-center flex-shrink-0 mt-1">
                     📧
                   </div>
-                  <div>
-                    <div className="text-bio-green font-semibold">Email</div>
-                    <div className="text-misty-white">contact@vanrakshak.ai</div>
+                  <div className="min-w-0">
+                    <div className="text-bio-green font-semibold text-sm md:text-base">Email</div>
+                    <div className="text-misty-white text-sm md:text-base break-all">decluttersvanrakshakai@gmail.com</div>
                   </div>
                 </div>
                 
-                <div className="flex items-center space-x-4">
-                  <div className="w-10 h-10 bg-gradient-to-r from-neural-purple to-tiger-orange rounded-full flex items-center justify-center">
+                <div className="flex items-start space-x-3 md:space-x-4">
+                  <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-r from-neural-purple to-tiger-orange rounded-full flex items-center justify-center flex-shrink-0 mt-1">
                     📱
                   </div>
                   <div>
-                    <div className="text-bio-green font-semibold">Phone</div>
-                    <div className="text-misty-white">+91 9876 543 210</div>
+                    <div className="text-bio-green font-semibold text-sm md:text-base">Phone</div>
+                    <div className="text-misty-white text-sm md:text-base">+91 9876 543 210</div>
                   </div>
                 </div>
                 
-                <div className="flex items-center space-x-4">
-                  <div className="w-10 h-10 bg-gradient-to-r from-tiger-orange to-electric-cyan rounded-full flex items-center justify-center">
+                <div className="flex items-start space-x-3 md:space-x-4">
+                  <div className="w-8 h-8 md:w-10 md:h-10 bg-gradient-to-r from-tiger-orange to-electric-cyan rounded-full flex items-center justify-center flex-shrink-0 mt-1">
                     📍
                   </div>
                   <div>
-                    <div className="text-bio-green font-semibold">Address</div>
-                    <div className="text-misty-white">
-                      IIT Delhi Research Park<br />
-                      New Delhi, India 110016
+                    <div className="text-bio-green font-semibold text-sm md:text-base">Address</div>
+                    <div className="text-misty-white text-sm md:text-base">
+                      MIT Academy of Engineering<br />
+                      Alandi, Pune, Maharashtra
                     </div>
                   </div>
                 </div>
@@ -273,12 +302,12 @@ const CallToAction = () => {
             </div>
 
             {/* Social Media & Links */}
-            <div className="glassmorphism p-8 rounded-2xl">
-              <h3 className="text-2xl font-orbitron font-bold text-electric-cyan mb-6">
+            <div className="glassmorphism p-6 md:p-8 rounded-2xl">
+              <h3 className="text-xl md:text-2xl font-orbitron font-bold text-electric-cyan mb-4 md:mb-6">
                 Connect With Us
               </h3>
               
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-3 md:gap-4">
                 {[
                   { name: 'LinkedIn', icon: '💼', color: 'from-blue-500 to-blue-600' },
                   { name: 'Twitter', icon: '🐦', color: 'from-sky-400 to-sky-500' },
@@ -288,24 +317,24 @@ const CallToAction = () => {
                   <motion.a
                     key={index}
                     href="#"
-                    className={`flex items-center space-x-3 p-4 bg-gradient-to-r ${social.color} rounded-lg text-white font-semibold hover:scale-105 transition-transform duration-300`}
+                    className={`flex items-center space-x-2 md:space-x-3 p-3 md:p-4 bg-gradient-to-r ${social.color} rounded-lg text-white font-semibold hover:scale-105 transition-transform duration-300`}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                   >
-                    <span className="text-2xl">{social.icon}</span>
-                    <span>{social.name}</span>
+                    <span className="text-lg md:text-2xl">{social.icon}</span>
+                    <span className="text-xs md:text-base">{social.name}</span>
                   </motion.a>
                 ))}
               </div>
             </div>
 
             {/* Call to Action Stats */}
-            <div className="glassmorphism p-8 rounded-2xl">
-              <h3 className="text-2xl font-orbitron font-bold text-tiger-orange mb-6">
+            <div className="glassmorphism p-6 md:p-8 rounded-2xl">
+              <h3 className="text-xl md:text-2xl font-orbitron font-bold text-tiger-orange mb-4 md:mb-6">
                 Why Partner With Us?
               </h3>
               
-              <div className="space-y-4">
+              <div className="space-y-3 md:space-y-4">
                 {[
                   { stat: '95%+', label: 'AI Accuracy Rate', desc: 'Industry-leading precision' },
                   { stat: '24/7', label: 'Monitoring', desc: 'Continuous protection' },
@@ -314,17 +343,17 @@ const CallToAction = () => {
                 ].map((item, index) => (
                   <motion.div
                     key={index}
-                    className="flex items-center justify-between p-3 bg-forest-navy/30 rounded-lg"
+                    className="flex items-center justify-between p-2 md:p-3 bg-forest-navy/30 rounded-lg"
                     whileHover={{ scale: 1.02 }}
                   >
                     <div>
-                      <div className="text-lg font-orbitron font-bold text-electric-cyan">
+                      <div className="text-base md:text-lg font-orbitron font-bold text-electric-cyan">
                         {item.stat}
                       </div>
-                      <div className="text-sm text-misty-white/60">{item.desc}</div>
+                      <div className="text-xs md:text-sm text-misty-white/60">{item.desc}</div>
                     </div>
                     <div className="text-right">
-                      <div className="text-bio-green font-semibold">{item.label}</div>
+                      <div className="text-bio-green font-semibold text-sm md:text-base">{item.label}</div>
                     </div>
                   </motion.div>
                 ))}
@@ -338,12 +367,12 @@ const CallToAction = () => {
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 1, delay: 1 }}
-          className="text-center mt-16 pt-8 border-t border-electric-cyan/20"
+          className="text-center mt-12 md:mt-16 pt-6 md:pt-8 border-t border-electric-cyan/20"
         >
-          <p className="text-misty-white/60 mb-4">
+          <p className="text-misty-white/60 mb-3 md:mb-4 text-sm md:text-base">
             © 2024 VanRakshak AI. All rights reserved. Built for ENVIROSITY'25 Hackathon.
           </p>
-          <div className="flex justify-center space-x-8 text-sm text-misty-white/40">
+          <div className="flex justify-center space-x-4 md:space-x-8 text-xs md:text-sm text-misty-white/40">
             <a href="#" className="hover:text-electric-cyan transition-colors">Privacy Policy</a>
             <a href="#" className="hover:text-electric-cyan transition-colors">Terms of Service</a>
             <a href="#" className="hover:text-electric-cyan transition-colors">Cookie Policy</a>
