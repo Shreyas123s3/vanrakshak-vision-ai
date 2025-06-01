@@ -6,11 +6,8 @@ import ProblemStatement from '@/components/ProblemStatement';
 import SolutionOverview from '@/components/SolutionOverview';
 import TechnologyShowcase from '@/components/TechnologyShowcase';
 import ConservationMetrics from '@/components/ConservationMetrics';
-import GovernmentPartnerships from '@/components/GovernmentPartnerships';
-import ExpertTestimonials from '@/components/ExpertTestimonials';
 import ImpactMetrics from '@/components/ImpactMetrics';
 import ImplementationRoadmap from '@/components/ImplementationRoadmap';
-import TeamSection from '@/components/TeamSection';
 import CallToAction from '@/components/CallToAction';
 import ParticleBackground from '@/components/ParticleBackground';
 import Navigation from '@/components/Navigation';
@@ -169,8 +166,6 @@ const Index = () => {
         <AISpeciesDemo />
         
         <ConservationMetrics />
-        <GovernmentPartnerships />
-        <ExpertTestimonials />
         <ImpactMetrics />
         
         {/* Community Engagement Features */}
@@ -182,7 +177,6 @@ const Index = () => {
         <EmergencyReporting />
         
         <ImplementationRoadmap />
-        <TeamSection />
         <CallToAction />
       </main>
     </div>
