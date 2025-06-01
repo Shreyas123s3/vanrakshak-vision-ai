@@ -1,13 +1,16 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { MapContainer, TileLayer, CircleMarker, Popup } from 'react-leaflet';
 import { ActivityType, ActivityData } from '@/types/forestActivity';
 import { generateMockForestActivity } from '@/services/mockForestActivityService';
 import HeatmapStats from './HeatmapStats';
 import ActivityLegend from './ActivityLegend';
 import ActivityControls from './ActivityControls';
-import 'leaflet/dist/leaflet.css';
+
+// Lazy load the map components to avoid SSR issues
+import { lazy, Suspense } from 'react';
+
+const LazyMap = lazy(() => import('./LazyMapContainer'));
 
 const ForestActivityHeatmap = () => {
   const ref = useRef(null);
@@ -25,9 +28,13 @@ const ForestActivityHeatmap = () => {
 
   // Generate initial mock data
   useEffect(() => {
-    const initialData = generateMockForestActivity(50);
-    setActivities(initialData);
-    updateStats(initialData);
+    try {
+      const initialData = generateMockForestActivity(50);
+      setActivities(initialData);
+      updateStats(initialData);
+    } catch (error) {
+      console.error('Error generating initial mock data:', error);
+    }
   }, []);
 
   // Real-time data updates
@@ -35,12 +42,16 @@ const ForestActivityHeatmap = () => {
     if (!isRealTimeEnabled) return;
 
     const interval = setInterval(() => {
-      const newActivity = generateMockForestActivity(1)[0];
-      setActivities(prev => {
-        const updated = [newActivity, ...prev.slice(0, 99)]; // Keep last 100 activities
-        updateStats(updated);
-        return updated;
-      });
+      try {
+        const newActivity = generateMockForestActivity(1)[0];
+        setActivities(prev => {
+          const updated = [newActivity, ...prev.slice(0, 99)]; // Keep last 100 activities
+          updateStats(updated);
+          return updated;
+        });
+      } catch (error) {
+        console.error('Error generating real-time data:', error);
+      }
     }, 3000);
 
     return () => clearInterval(interval);
@@ -60,19 +71,6 @@ const ForestActivityHeatmap = () => {
   const filteredActivities = selectedActivityType === 'all' 
     ? activities 
     : activities.filter(activity => activity.type === selectedActivityType);
-
-  // Color mapping for different activity types
-  const getActivityColor = (type: ActivityType, severity: string) => {
-    const colors = {
-      'poaching': severity === 'high' ? '#FF0000' : '#FF4444',
-      'animal-movement': '#39FF6A',
-      'illegal-logging': '#FF8C00',
-      'vehicle-intrusion': '#8B5FFF',
-      'fire-detection': '#FF0000',
-      'conservation-patrol': '#00D4FF'
-    };
-    return colors[type] || '#FFFFFF';
-  };
 
   return (
     <section ref={ref} className="py-20 relative" id="forest-activity-heatmap">
@@ -127,57 +125,15 @@ const ForestActivityHeatmap = () => {
                 </div>
               </div>
               
-              <div className="h-96 rounded-lg overflow-hidden">
-                <MapContainer
-                  center={[20.5937, 78.9629]} // Center of India
-                  zoom={5}
-                  style={{ height: '100%', width: '100%' }}
-                  className="z-0"
-                >
-                  <TileLayer
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                  />
-                  
-                  {filteredActivities.map((activity) => (
-                    <CircleMarker
-                      key={activity.id}
-                      center={[activity.latitude, activity.longitude]}
-                      radius={activity.severity === 'high' ? 8 : activity.severity === 'medium' ? 6 : 4}
-                      color={getActivityColor(activity.type, activity.severity)}
-                      fillColor={getActivityColor(activity.type, activity.severity)}
-                      fillOpacity={0.7}
-                      weight={2}
-                    >
-                      <Popup>
-                        <div className="p-2 min-w-48">
-                          <h4 className="font-semibold text-gray-800 mb-2">
-                            {activity.type.replace('-', ' ').toUpperCase()}
-                          </h4>
-                          <div className="space-y-1 text-sm">
-                            <p><strong>Location:</strong> {activity.location}</p>
-                            <p><strong>Severity:</strong> 
-                              <span className={`ml-1 px-2 py-1 rounded text-xs ${
-                                activity.severity === 'high' ? 'bg-red-100 text-red-800' :
-                                activity.severity === 'medium' ? 'bg-yellow-100 text-yellow-800' :
-                                'bg-green-100 text-green-800'
-                              }`}>
-                                {activity.severity}
-                              </span>
-                            </p>
-                            <p><strong>Time:</strong> {new Date(activity.timestamp).toLocaleString()}</p>
-                            {activity.description && (
-                              <p><strong>Details:</strong> {activity.description}</p>
-                            )}
-                            {activity.confidence && (
-                              <p><strong>Confidence:</strong> {(activity.confidence * 100).toFixed(1)}%</p>
-                            )}
-                          </div>
-                        </div>
-                      </Popup>
-                    </CircleMarker>
-                  ))}
-                </MapContainer>
+              <div className="h-96 rounded-lg overflow-hidden bg-forest-navy/50 flex items-center justify-center">
+                <Suspense fallback={
+                  <div className="text-center">
+                    <div className="w-12 h-12 border-4 border-electric-cyan border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+                    <p className="text-misty-white">Loading map...</p>
+                  </div>
+                }>
+                  <LazyMap activities={filteredActivities} />
+                </Suspense>
               </div>
             </motion.div>
           </div>
