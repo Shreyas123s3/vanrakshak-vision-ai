@@ -13,32 +13,49 @@ const WildlifeKnowledgeHub = () => {
       title: 'Mammals',
       icon: '🐅',
       items: [
-        { name: 'Bengal Tiger', local: 'Bagh', habitat: 'Dense forests', behavior: 'Solitary hunter' },
-        { name: 'Asian Elephant', local: 'Hathi', habitat: 'Forests and grasslands', behavior: 'Lives in herds' },
-        { name: 'Indian Rhino', local: 'Gainda', habitat: 'Marshy areas', behavior: 'Lives alone' },
-        { name: 'Leopard', local: 'Tendua', habitat: 'Rocky hills', behavior: 'Climbs trees' }
+        { name: 'Bengal Tiger', local: 'Bagh', habitat: 'Dense forests', behavior: 'Solitary hunter', wikipediaName: 'Bengal_tiger' },
+        { name: 'Asian Elephant', local: 'Hathi', habitat: 'Forests and grasslands', behavior: 'Lives in herds', wikipediaName: 'Asian_elephant' },
+        { name: 'Indian Rhino', local: 'Gainda', habitat: 'Marshy areas', behavior: 'Lives alone', wikipediaName: 'Indian_rhinoceros' },
+        { name: 'Leopard', local: 'Tendua', habitat: 'Rocky hills', behavior: 'Climbs trees', wikipediaName: 'Indian_leopard' },
+        { name: 'Snow Leopard', local: 'Barfani Tendua', habitat: 'High mountains', behavior: 'Excellent climber', wikipediaName: 'Snow_leopard' },
+        { name: 'Sloth Bear', local: 'Bhalu', habitat: 'Forests', behavior: 'Termite eater', wikipediaName: 'Sloth_bear' },
+        { name: 'Red Panda', local: 'Lal Panda', habitat: 'Bamboo forests', behavior: 'Tree dwelling', wikipediaName: 'Red_panda' },
+        { name: 'Wild Boar', local: 'Jangli Suar', habitat: 'Forests and scrublands', behavior: 'Omnivorous forager', wikipediaName: 'Wild_boar' }
       ]
     },
     birds: {
       title: 'Birds',
       icon: '🦅',
       items: [
-        { name: 'Golden Eagle', local: 'Sunhara Cheel', habitat: 'Mountain regions', behavior: 'High altitude flight' },
-        { name: 'Peacock', local: 'Mor', habitat: 'Open forests', behavior: 'Ground dwelling' },
-        { name: 'Hornbill', local: 'Dhanesh', habitat: 'Dense forests', behavior: 'Fruit eating' },
-        { name: 'Kingfisher', local: 'Rajmachli', habitat: 'Riverside', behavior: 'Fish catching' }
+        { name: 'Golden Eagle', local: 'Sunhara Cheel', habitat: 'Mountain regions', behavior: 'High altitude flight', wikipediaName: 'Golden_eagle' },
+        { name: 'Peacock', local: 'Mor', habitat: 'Open forests', behavior: 'Ground dwelling', wikipediaName: 'Indian_peafowl' },
+        { name: 'Hornbill', local: 'Dhanesh', habitat: 'Dense forests', behavior: 'Fruit eating', wikipediaName: 'Great_hornbill' },
+        { name: 'Kingfisher', local: 'Rajmachli', habitat: 'Riverside', behavior: 'Fish catching', wikipediaName: 'Common_kingfisher' },
+        { name: 'Himalayan Monal', local: 'Danphe', habitat: 'Alpine forests', behavior: 'Ground foraging', wikipediaName: 'Himalayan_monal' },
+        { name: 'Sarus Crane', local: 'Sarus', habitat: 'Wetlands', behavior: 'Wading bird', wikipediaName: 'Sarus_crane' },
+        { name: 'Black-necked Crane', local: 'Kala Gardan Sarus', habitat: 'High altitude wetlands', behavior: 'Migratory', wikipediaName: 'Black-necked_crane' },
+        { name: 'Indian Eagle-Owl', local: 'Bharatiya Ullu', habitat: 'Rocky areas', behavior: 'Nocturnal hunter', wikipediaName: 'Indian_eagle-owl' }
       ]
     },
     reptiles: {
       title: 'Reptiles',
       icon: '🐍',
       items: [
-        { name: 'King Cobra', local: 'Nagaraj', habitat: 'Dense forests', behavior: 'Venomous snake' },
-        { name: 'Indian Python', local: 'Ajgar', habitat: 'Rocky areas', behavior: 'Swallows prey' },
-        { name: 'Monitor Lizard', local: 'Goh', habitat: 'Riverside', behavior: 'Swimming' },
-        { name: 'Gecko', local: 'Chipkali', habitat: 'On trees', behavior: 'Active at night' }
+        { name: 'King Cobra', local: 'Nagaraj', habitat: 'Dense forests', behavior: 'Venomous snake', wikipediaName: 'King_cobra' },
+        { name: 'Indian Python', local: 'Ajgar', habitat: 'Rocky areas', behavior: 'Swallows prey', wikipediaName: 'Indian_python' },
+        { name: 'Monitor Lizard', local: 'Goh', habitat: 'Riverside', behavior: 'Swimming', wikipediaName: 'Bengal_monitor' },
+        { name: 'Gecko', local: 'Chipkali', habitat: 'On trees', behavior: 'Active at night', wikipediaName: 'Tokay_gecko' },
+        { name: 'Gharial', local: 'Gharial', habitat: 'River systems', behavior: 'Fish eater', wikipediaName: 'Gharial' },
+        { name: 'Indian Star Tortoise', local: 'Sitara Kachhua', habitat: 'Dry grasslands', behavior: 'Herbivorous', wikipediaName: 'Indian_star_tortoise' },
+        { name: 'Russell\'s Viper', local: 'Daboia', habitat: 'Grasslands', behavior: 'Venomous ambush predator', wikipediaName: 'Russell%27s_viper' },
+        { name: 'Mugger Crocodile', local: 'Magarmach', habitat: 'Freshwater bodies', behavior: 'Apex predator', wikipediaName: 'Mugger_crocodile' }
       ]
     }
+  };
+
+  const handleLearnMore = (animal: { wikipediaName: string; name: string }) => {
+    const wikipediaUrl = `https://en.wikipedia.org/wiki/${animal.wikipediaName}`;
+    window.open(wikipediaUrl, '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -118,7 +135,11 @@ const WildlifeKnowledgeHub = () => {
                 </div>
               </div>
               
-              <button className="w-full mt-4 glassmorphism py-2 rounded-lg text-electric-cyan hover:bg-electric-cyan/10 transition-colors text-sm">
+              <button 
+                className="w-full mt-4 glassmorphism py-2 rounded-lg text-electric-cyan hover:bg-electric-cyan/10 transition-colors text-sm"
+                onClick={() => handleLearnMore(animal)}
+                aria-label={`Learn more about ${animal.name} on Wikipedia`}
+              >
                 Learn More
               </button>
             </motion.div>
