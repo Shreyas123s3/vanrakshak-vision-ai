@@ -2,6 +2,7 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
+import { generateRoadmapPDF } from '@/utils/pdfGenerator';
 
 const ImplementationRoadmap = () => {
   const ref = useRef(null);
@@ -122,6 +123,10 @@ const ImplementationRoadmap = () => {
       ]
     }
   ];
+
+  const handleDownloadPDF = () => {
+    generateRoadmapPDF(phases);
+  };
 
   const PhaseCard = ({ phase, index }: { phase: any; index: number }) => {
     const isSelected = selectedPhase === index;
@@ -341,6 +346,7 @@ const ImplementationRoadmap = () => {
                 className="cyber-border holographic px-6 py-3 rounded-xl font-semibold text-electric-cyan hover:text-forest-navy hover:bg-electric-cyan transition-all duration-300"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                onClick={handleDownloadPDF}
               >
                 View Detailed Plan
               </motion.button>
