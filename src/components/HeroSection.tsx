@@ -32,7 +32,7 @@ const HeroSection = () => {
 
   return (
     <section id="hero" className="min-h-screen relative flex items-center justify-center overflow-hidden">
-      {/* Enhanced 3D Background - Updated to use the modified EnhancedWildlife3D */}
+      {/* Enhanced 3D Background */}
       <div className="absolute inset-0 z-0">
         <Canvas camera={{ position: [0, 2, 8], fov: 75 }}>
           <Environment preset="forest" />

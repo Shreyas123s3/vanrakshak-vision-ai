@@ -35,21 +35,18 @@ const EnhancedWildlife3D = () => {
       elephantRef.current.position.y = Math.sin(time * 1.2) * 0.05;
     }
     
-    // Birds flying in formation - REMOVED fast moving small birds
+    // Birds flying in formation
     birdRefs.current.forEach((bird, index) => {
-      if (bird && index < 3) { // Only keep 3 larger, slower birds
-        const offset = index * 0.8;
-        bird.position.x = Math.sin(time * 0.3 + offset) * 5 + index * 1;
-        bird.position.y = 3 + Math.sin(time * 1 + offset) * 0.5;
-        bird.position.z = Math.cos(time * 0.2 + offset) * 3;
-        bird.rotation.z = Math.sin(time * 1.5 + offset) * 0.1;
-        
-        // Scale birds to be more visible but not too fast
-        bird.scale.setScalar(1.2);
+      if (bird) {
+        const offset = index * 0.5;
+        bird.position.x = Math.sin(time * 0.8 + offset) * 4 + index * 0.5;
+        bird.position.y = 3 + Math.sin(time * 2 + offset) * 0.3;
+        bird.position.z = Math.cos(time * 0.6 + offset) * 2;
+        bird.rotation.z = Math.sin(time * 3 + offset) * 0.2;
       }
     });
 
-    // Trees swaying - only large background trees
+    // Trees swaying
     if (treesRef.current) {
       treesRef.current.children.forEach((tree, index) => {
         tree.rotation.z = Math.sin(time * 0.5 + index * 0.3) * 0.05;
@@ -57,58 +54,54 @@ const EnhancedWildlife3D = () => {
     }
   });
 
-  // Create fewer, larger birds instead of many small fast ones
+  // Create multiple birds
   const createBird = (index: number) => (
     <group 
       key={index} 
       ref={(el) => { if (el) birdRefs.current[index] = el; }}
-      position={[index * 1.5, 3, 0]}
+      position={[index * 0.5, 3, 0]}
     >
-      {/* Larger bird body */}
+      {/* Bird body */}
       <mesh position={[0, 0, 0]}>
-        <sphereGeometry args={[0.25, 8, 6]} />
+        <sphereGeometry args={[0.2, 8, 6]} />
         <meshStandardMaterial color="#39FF6A" />
       </mesh>
       
       {/* Bird head */}
-      <mesh position={[0.2, 0.1, 0]}>
-        <sphereGeometry args={[0.12, 6, 4]} />
+      <mesh position={[0.15, 0.1, 0]}>
+        <sphereGeometry args={[0.1, 6, 4]} />
         <meshStandardMaterial color="#32CD32" />
       </mesh>
       
-      {/* Larger wings */}
-      <mesh position={[-0.4, 0, 0]} rotation={[0, 0, Math.PI / 6]}>
-        <boxGeometry args={[0.5, 0.08, 0.25]} />
+      {/* Wings */}
+      <mesh position={[-0.3, 0, 0]} rotation={[0, 0, Math.PI / 6]}>
+        <boxGeometry args={[0.4, 0.05, 0.2]} />
         <meshStandardMaterial color="#228B22" />
       </mesh>
-      <mesh position={[-0.4, 0, 0]} rotation={[0, 0, -Math.PI / 6]}>
-        <boxGeometry args={[0.5, 0.08, 0.25]} />
+      <mesh position={[-0.3, 0, 0]} rotation={[0, 0, -Math.PI / 6]}>
+        <boxGeometry args={[0.4, 0.05, 0.2]} />
         <meshStandardMaterial color="#228B22" />
       </mesh>
     </group>
   );
 
-  // Create larger, more prominent forest trees
+  // Create forest trees
   const createTree = (position: [number, number, number], scale: number) => (
     <group position={position} scale={scale}>
       {/* Trunk */}
       <mesh position={[0, 0, 0]}>
-        <cylinderGeometry args={[0.12 * scale, 0.18 * scale, 1.2 * scale]} />
+        <cylinderGeometry args={[0.1 * scale, 0.15 * scale, 1 * scale]} />
         <meshStandardMaterial color="#8B4513" />
       </mesh>
       
-      {/* Foliage layers for more realistic look */}
-      <mesh position={[0, 1 * scale, 0]}>
-        <sphereGeometry args={[0.8 * scale, 8, 6]} />
+      {/* Foliage */}
+      <mesh position={[0, 0.8 * scale, 0]}>
+        <sphereGeometry args={[0.6 * scale, 8, 6]} />
         <meshStandardMaterial color="#228B22" />
       </mesh>
-      <mesh position={[0, 1.4 * scale, 0]}>
-        <sphereGeometry args={[0.5 * scale, 8, 6]} />
+      <mesh position={[0, 1.2 * scale, 0]}>
+        <sphereGeometry args={[0.4 * scale, 8, 6]} />
         <meshStandardMaterial color="#32CD32" />
-      </mesh>
-      <mesh position={[0, 1.7 * scale, 0]}>
-        <sphereGeometry args={[0.3 * scale, 8, 6]} />
-        <meshStandardMaterial color="#90EE90" />
       </mesh>
     </group>
   );
@@ -193,33 +186,31 @@ const EnhancedWildlife3D = () => {
         ))}
       </group>
 
-      {/* Only 3 larger, slower flying Birds */}
-      {[...Array(3)].map((_, index) => createBird(index))}
+      {/* Flying Birds */}
+      {[...Array(5)].map((_, index) => createBird(index))}
 
-      {/* Enhanced Forest Background - Larger, more prominent trees */}
+      {/* Forest Background */}
       <group ref={treesRef}>
-        {createTree([-5, -0.5, -4], 1.2)}
-        {createTree([5, -0.5, -5], 1.5)}
-        {createTree([-4, -0.5, 4], 1.3)}
-        {createTree([4, -0.5, 5], 1.1)}
-        {createTree([0, -0.5, -6], 1.4)}
-        {createTree([-6, -0.5, 0], 1.0)}
-        {createTree([6, -0.5, -2], 1.6)}
-        {createTree([-3, -0.5, -2], 0.9)}
-        {createTree([3, -0.5, 3], 1.2)}
+        {createTree([-4, -0.5, -3], 0.8)}
+        {createTree([4, -0.5, -4], 1.2)}
+        {createTree([-3, -0.5, 3], 1.0)}
+        {createTree([3, -0.5, 4], 0.9)}
+        {createTree([0, -0.5, -5], 1.1)}
+        {createTree([-5, -0.5, 0], 0.7)}
+        {createTree([5, -0.5, -1], 1.3)}
       </group>
 
-      {/* Reduced floating particles - fewer, larger, slower */}
-      {[...Array(8)].map((_, index) => (
+      {/* Floating particles/fireflies */}
+      {[...Array(15)].map((_, index) => (
         <mesh
           key={`particle-${index}`}
           position={[
-            (Math.random() - 0.5) * 12,
-            Math.random() * 2 + 1,
-            (Math.random() - 0.5) * 12
+            (Math.random() - 0.5) * 10,
+            Math.random() * 3 + 1,
+            (Math.random() - 0.5) * 10
           ]}
         >
-          <sphereGeometry args={[0.03]} />
+          <sphereGeometry args={[0.02]} />
           <meshBasicMaterial color="#FFD700" />
         </mesh>
       ))}
