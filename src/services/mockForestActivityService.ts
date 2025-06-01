@@ -1,26 +1,20 @@
 
-import { ActivityData, ActivityType, SeverityLevel } from '@/types/forestActivity';
+import { ActivityType, ActivityData, SeverityLevel } from '@/types/forestActivity';
 
-// Indian forest locations with coordinates
-const forestLocations = [
-  { name: 'Sundarbans, West Bengal', lat: 21.9497, lng: 88.4297 },
-  { name: 'Jim Corbett, Uttarakhand', lat: 29.5951, lng: 78.7718 },
-  { name: 'Kaziranga, Assam', lat: 26.5774, lng: 93.1717 },
-  { name: 'Bandipur, Karnataka', lat: 11.6854, lng: 76.6847 },
-  { name: 'Ranthambore, Rajasthan', lat: 26.0173, lng: 76.5026 },
-  { name: 'Periyar, Kerala', lat: 9.5009, lng: 77.2378 },
-  { name: 'Gir Forest, Gujarat', lat: 21.1249, lng: 70.7947 },
-  { name: 'Tadoba, Maharashtra', lat: 20.2133, lng: 79.3270 },
-  { name: 'Bandhavgarh, Madhya Pradesh', lat: 23.7117, lng: 81.0318 },
-  { name: 'Nagarhole, Karnataka', lat: 12.0262, lng: 76.1090 },
-  { name: 'Mudumalai, Tamil Nadu', lat: 11.5744, lng: 76.5390 },
-  { name: 'Silent Valley, Kerala', lat: 11.0933, lng: 76.4497 },
-  { name: 'Simlipal, Odisha', lat: 21.8631, lng: 86.2269 },
-  { name: 'Pench, Madhya Pradesh', lat: 21.6425, lng: 79.2955 },
-  { name: 'Sariska, Rajasthan', lat: 27.3048, lng: 76.3908 }
+const FOREST_LOCATIONS = [
+  { name: "Jim Corbett National Park", lat: 29.5331, lng: 78.9433 },
+  { name: "Kaziranga National Park", lat: 26.2006, lng: 92.9376 },
+  { name: "Bandhavgarh National Park", lat: 23.7197, lng: 81.0363 },
+  { name: "Kanha National Park", lat: 22.2734, lng: 80.6109 },
+  { name: "Sundarbans National Park", lat: 21.9497, lng: 88.4343 },
+  { name: "Ranthambore National Park", lat: 26.0173, lng: 76.5026 },
+  { name: "Periyar National Park", lat: 9.4611, lng: 77.2411 },
+  { name: "Nagarhole National Park", lat: 12.1000, lng: 76.1167 },
+  { name: "Tadoba National Park", lat: 20.2139, lng: 79.3667 },
+  { name: "Pench National Park", lat: 21.6425, lng: 79.2956 }
 ];
 
-const activityTypes: ActivityType[] = [
+const ACTIVITY_TYPES: ActivityType[] = [
   'poaching',
   'animal-movement',
   'illegal-logging',
@@ -29,155 +23,133 @@ const activityTypes: ActivityType[] = [
   'conservation-patrol'
 ];
 
-const severityLevels: SeverityLevel[] = ['low', 'medium', 'high'];
+const SEVERITY_LEVELS: SeverityLevel[] = ['low', 'medium', 'high'];
 
-const activityDescriptions = {
+const ACTIVITY_DESCRIPTIONS = {
   'poaching': [
-    'Suspicious human activity detected near wildlife corridor',
-    'Unauthorized weapons detected by thermal imaging',
-    'Unusual movement patterns suggesting hunting activity'
+    'Suspicious human activity detected near tiger habitat',
+    'Snare traps found in elephant corridor',
+    'Illegal hunting equipment discovered',
+    'Poacher camp detected by thermal imaging'
   ],
   'animal-movement': [
-    'Tiger family moving through protected zone',
-    'Elephant herd migration detected',
-    'Leopard spotted in new territory'
+    'Tiger spotted crossing territorial boundary',
+    'Elephant herd moving towards village',
+    'Leopard tracking through forest corridor',
+    'Deer migration pattern detected'
   ],
   'illegal-logging': [
-    'Chainsaw sounds detected in restricted area',
-    'Unauthorized tree cutting activity',
-    'Illegal timber transport vehicles spotted'
+    'Chainsaw sounds detected in protected area',
+    'Illegal timber cutting operation found',
+    'Unauthorized vehicle in logging zone',
+    'Fresh tree cutting marks discovered'
   ],
   'vehicle-intrusion': [
-    'Unauthorized vehicle entered protected zone',
-    'Motorcycle activity in core area',
-    'Suspicious vehicle movement at night'
+    'Unauthorized vehicle detected in core area',
+    'Motorbike spotted on forest trail',
+    'Truck movement in restricted zone',
+    'All-terrain vehicle in sensitive habitat'
   ],
   'fire-detection': [
-    'Smoke detected in forest area',
-    'Temperature anomaly suggesting fire',
-    'Potential wildfire risk identified'
+    'Smoke plume detected by satellite',
+    'Temperature spike in forest area',
+    'Fire outbreak near wildlife habitat',
+    'Controlled burn operation monitoring'
   ],
   'conservation-patrol': [
-    'Ranger patrol completed successfully',
-    'Camera trap maintenance completed',
-    'Wildlife monitoring checkpoint active'
+    'Forest guard patrol completed',
+    'Anti-poaching unit deployment',
+    'Wildlife monitoring checkpoint',
+    'Conservation team field survey'
   ]
 };
 
-class MockForestActivityService {
-  private activities: ActivityData[] = [];
-  private lastActivityId = 0;
-
-  generateRandomActivity(): ActivityData {
-    const location = forestLocations[Math.floor(Math.random() * forestLocations.length)];
-    const type = activityTypes[Math.floor(Math.random() * activityTypes.length)];
-    const severity = severityLevels[Math.floor(Math.random() * severityLevels.length)];
-    const descriptions = activityDescriptions[type];
-    const description = descriptions[Math.floor(Math.random() * descriptions.length)];
-    
-    // Add some randomness to coordinates for realistic spread
-    const latOffset = (Math.random() - 0.5) * 0.1;
-    const lngOffset = (Math.random() - 0.5) * 0.1;
-
-    return {
-      id: `activity_${++this.lastActivityId}_${Date.now()}`,
-      type,
-      latitude: location.lat + latOffset,
-      longitude: location.lng + lngOffset,
-      location: location.name,
-      severity,
-      timestamp: new Date().toISOString(),
-      description,
-      confidence: Math.floor(Math.random() * 30) + 70 // 70-99% confidence
-    };
-  }
-
-  async getActivities(): Promise<ActivityData[]> {
-    // Generate initial dataset
-    if (this.activities.length === 0) {
-      const initialCount = 50;
-      for (let i = 0; i < initialCount; i++) {
-        const activity = this.generateRandomActivity();
-        // Spread activities over the last 24 hours
-        const hoursAgo = Math.floor(Math.random() * 24);
-        activity.timestamp = new Date(Date.now() - hoursAgo * 60 * 60 * 1000).toISOString();
-        this.activities.push(activity);
-      }
-    }
-
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 500));
-    return [...this.activities];
-  }
-
-  async getRealtimeUpdates(): Promise<ActivityData[]> {
-    // Simulate real-time updates (1-3 new activities)
-    const updateCount = Math.floor(Math.random() * 3) + 1;
-    const newActivities: ActivityData[] = [];
-
-    for (let i = 0; i < updateCount; i++) {
-      // Higher chance of conservation patrol and animal movement
-      let type: ActivityType;
-      const rand = Math.random();
-      if (rand < 0.3) {
-        type = 'animal-movement';
-      } else if (rand < 0.5) {
-        type = 'conservation-patrol';
-      } else {
-        type = activityTypes[Math.floor(Math.random() * activityTypes.length)];
-      }
-
-      const location = forestLocations[Math.floor(Math.random() * forestLocations.length)];
-      const severity: SeverityLevel = type === 'poaching' || type === 'fire-detection' 
-        ? (Math.random() > 0.7 ? 'high' : 'medium')
-        : severityLevels[Math.floor(Math.random() * severityLevels.length)];
-
-      const descriptions = activityDescriptions[type];
-      const description = descriptions[Math.floor(Math.random() * descriptions.length)];
-      
-      const latOffset = (Math.random() - 0.5) * 0.1;
-      const lngOffset = (Math.random() - 0.5) * 0.1;
-
-      const activity: ActivityData = {
-        id: `realtime_${++this.lastActivityId}_${Date.now()}`,
-        type,
-        latitude: location.lat + latOffset,
-        longitude: location.lng + lngOffset,
-        location: location.name,
-        severity,
-        timestamp: new Date().toISOString(),
-        description,
-        confidence: Math.floor(Math.random() * 30) + 70
-      };
-
-      newActivities.push(activity);
-      this.activities.push(activity);
-    }
-
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 200));
-    
-    console.log(`Generated ${newActivities.length} new forest activities:`, newActivities);
-    return newActivities;
-  }
-
-  async getActivityStats(): Promise<any> {
-    const activities = await this.getActivities();
-    
-    const stats = {
-      total: activities.length,
-      byType: activityTypes.reduce((acc, type) => {
-        acc[type] = activities.filter(a => a.type === type).length;
-        return acc;
-      }, {} as Record<ActivityType, number>),
-      bySeverity: severityLevels.reduce((acc, severity) => {
-        acc[severity] = activities.filter(a => a.severity === severity).length;
-        return acc;
-      }, {} as Record<SeverityLevel, number>)
-    };
-
-    return stats;
-  }
+function generateRandomId(): string {
+  return `activity_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 }
 
-export const mockForestActivityService = new MockForestActivityService();
+function getRandomElement<T>(array: T[]): T {
+  return array[Math.floor(Math.random() * array.length)];
+}
+
+function getRandomLocation() {
+  const location = getRandomElement(FOREST_LOCATIONS);
+  // Add some random offset to create variety within the area
+  const latOffset = (Math.random() - 0.5) * 0.5; // ±0.25 degrees
+  const lngOffset = (Math.random() - 0.5) * 0.5;
+  
+  return {
+    name: location.name,
+    lat: location.lat + latOffset,
+    lng: location.lng + lngOffset
+  };
+}
+
+function generateTimestamp(): string {
+  // Generate timestamps within the last 24 hours
+  const now = new Date();
+  const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+  const randomTime = new Date(oneDayAgo.getTime() + Math.random() * (now.getTime() - oneDayAgo.getTime()));
+  return randomTime.toISOString();
+}
+
+function generateConfidence(): number {
+  // Generate confidence between 0.7 and 0.98
+  return 0.7 + Math.random() * 0.28;
+}
+
+export function generateMockForestActivity(count: number): ActivityData[] {
+  const activities: ActivityData[] = [];
+
+  for (let i = 0; i < count; i++) {
+    const type = getRandomElement(ACTIVITY_TYPES);
+    const severity = getRandomElement(SEVERITY_LEVELS);
+    const location = getRandomLocation();
+    const descriptions = ACTIVITY_DESCRIPTIONS[type];
+    
+    const activity: ActivityData = {
+      id: generateRandomId(),
+      type,
+      latitude: location.lat,
+      longitude: location.lng,
+      location: location.name,
+      severity,
+      timestamp: generateTimestamp(),
+      description: getRandomElement(descriptions),
+      confidence: generateConfidence()
+    };
+
+    activities.push(activity);
+  }
+
+  return activities;
+}
+
+export function generateRealTimeActivity(): ActivityData {
+  return generateMockForestActivity(1)[0];
+}
+
+export function getActivityStats(activities: ActivityData[]) {
+  const stats = {
+    total: activities.length,
+    byType: {} as Record<ActivityType, number>,
+    bySeverity: {} as Record<SeverityLevel, number>
+  };
+
+  // Initialize counters
+  ACTIVITY_TYPES.forEach(type => {
+    stats.byType[type] = 0;
+  });
+  
+  SEVERITY_LEVELS.forEach(severity => {
+    stats.bySeverity[severity] = 0;
+  });
+
+  // Count activities
+  activities.forEach(activity => {
+    stats.byType[activity.type]++;
+    stats.bySeverity[activity.severity]++;
+  });
+
+  return stats;
+}

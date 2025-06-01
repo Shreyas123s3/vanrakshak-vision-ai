@@ -1,22 +1,13 @@
-import { useRef, useState, useEffect } from 'react';
+
+import { useState, useEffect, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { MapContainer, TileLayer, CircleMarker, Popup, useMap } from 'react-leaflet';
-import { LatLngExpression } from 'leaflet';
-import { ActivityData, ActivityType } from '@/types/forestActivity';
-import { mockForestActivityService } from '@/services/mockForestActivityService';
+import { MapContainer, TileLayer, CircleMarker, Popup } from 'react-leaflet';
+import { ActivityType, ActivityData } from '@/types/forestActivity';
+import { generateMockForestActivity } from '@/services/mockForestActivityService';
+import HeatmapStats from './HeatmapStats';
 import ActivityLegend from './ActivityLegend';
 import ActivityControls from './ActivityControls';
-import HeatmapStats from './HeatmapStats';
 import 'leaflet/dist/leaflet.css';
-
-// Fix for default markers in React Leaflet
-import L from 'leaflet';
-delete (L.Icon.Default.prototype as any)._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
-  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-});
 
 const ForestActivityHeatmap = () => {
   const ref = useRef(null);
@@ -24,50 +15,56 @@ const ForestActivityHeatmap = () => {
   const [activities, setActivities] = useState<ActivityData[]>([]);
   const [selectedActivityType, setSelectedActivityType] = useState<ActivityType | 'all'>('all');
   const [isRealTimeEnabled, setIsRealTimeEnabled] = useState(true);
-  const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState({
+    total: 0,
+    poaching: 0,
+    movement: 0,
+    threats: 0,
+    activeAlerts: 0
+  });
 
-  // India center coordinates
-  const indiaCenter: LatLngExpression = [20.5937, 78.9629];
-
+  // Generate initial mock data
   useEffect(() => {
-    // Initial data load
-    const loadInitialData = async () => {
-      try {
-        const initialData = await mockForestActivityService.getActivities();
-        setActivities(initialData);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error loading initial activity data:', error);
-        setLoading(false);
-      }
-    };
-
-    loadInitialData();
+    const initialData = generateMockForestActivity(50);
+    setActivities(initialData);
+    updateStats(initialData);
   }, []);
 
+  // Real-time data updates
   useEffect(() => {
     if (!isRealTimeEnabled) return;
 
-    // Set up real-time updates
-    const interval = setInterval(async () => {
-      try {
-        const newActivities = await mockForestActivityService.getRealtimeUpdates();
-        setActivities(prev => {
-          const combined = [...prev, ...newActivities];
-          // Keep only recent activities (last 1000 entries)
-          return combined.slice(-1000);
-        });
-      } catch (error) {
-        console.error('Error fetching real-time updates:', error);
-      }
+    const interval = setInterval(() => {
+      const newActivity = generateMockForestActivity(1)[0];
+      setActivities(prev => {
+        const updated = [newActivity, ...prev.slice(0, 99)]; // Keep last 100 activities
+        updateStats(updated);
+        return updated;
+      });
     }, 3000);
 
     return () => clearInterval(interval);
   }, [isRealTimeEnabled]);
 
-  const getActivityColor = (type: ActivityType): string => {
+  const updateStats = (data: ActivityData[]) => {
+    const total = data.length;
+    const poaching = data.filter(a => a.type === 'poaching').length;
+    const movement = data.filter(a => a.type === 'animal-movement').length;
+    const threats = data.filter(a => a.severity === 'high' || a.severity === 'medium').length;
+    const activeAlerts = data.filter(a => a.severity === 'high').length;
+
+    setStats({ total, poaching, movement, threats, activeAlerts });
+  };
+
+  // Filter activities based on selected type
+  const filteredActivities = selectedActivityType === 'all' 
+    ? activities 
+    : activities.filter(activity => activity.type === selectedActivityType);
+
+  // Color mapping for different activity types
+  const getActivityColor = (type: ActivityType, severity: string) => {
     const colors = {
-      poaching: '#FF4444',
+      'poaching': severity === 'high' ? '#FF0000' : '#FF4444',
       'animal-movement': '#39FF6A',
       'illegal-logging': '#FF8C00',
       'vehicle-intrusion': '#8B5FFF',
@@ -77,38 +74,8 @@ const ForestActivityHeatmap = () => {
     return colors[type] || '#FFFFFF';
   };
 
-  const filteredActivities = selectedActivityType === 'all' 
-    ? activities 
-    : activities.filter(activity => activity.type === selectedActivityType);
-
-  const getActivityStats = () => {
-    const stats = {
-      total: activities.length,
-      poaching: activities.filter(a => a.type === 'poaching').length,
-      movement: activities.filter(a => a.type === 'animal-movement').length,
-      threats: activities.filter(a => ['poaching', 'illegal-logging', 'vehicle-intrusion', 'fire-detection'].includes(a.type)).length,
-      activeAlerts: activities.filter(a => a.severity === 'high' && Date.now() - new Date(a.timestamp).getTime() < 3600000).length
-    };
-    return stats;
-  };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <motion.div
-            className="w-16 h-16 border-4 border-electric-cyan border-t-transparent rounded-full animate-spin mx-auto mb-4"
-            animate={{ rotate: 360 }}
-            transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-          />
-          <p className="text-electric-cyan">Loading forest activity data...</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <section ref={ref} className="py-20 relative" id="forest-heatmap">
+    <section ref={ref} className="py-20 relative" id="forest-activity-heatmap">
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
@@ -120,7 +87,7 @@ const ForestActivityHeatmap = () => {
             Live Forest Activity Heatmap
           </h2>
           <p className="text-xl text-misty-white max-w-4xl mx-auto">
-            Real-time monitoring of wildlife activities, conservation efforts, and threat detection across India's protected forests
+            Real-time monitoring of wildlife activities, threats, and conservation efforts across India's protected forests
           </p>
         </motion.div>
 
@@ -128,18 +95,18 @@ const ForestActivityHeatmap = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="grid grid-cols-1 lg:grid-cols-4 gap-8"
+          className="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-12"
         >
-          {/* Controls and Stats */}
+          {/* Controls */}
           <div className="lg:col-span-1 space-y-6">
-            <HeatmapStats stats={getActivityStats()} />
             <ActivityControls
               selectedActivityType={selectedActivityType}
               onActivityTypeChange={setSelectedActivityType}
               isRealTimeEnabled={isRealTimeEnabled}
               onRealTimeToggle={setIsRealTimeEnabled}
             />
-            <ActivityLegend />
+            
+            <HeatmapStats stats={stats} />
           </div>
 
           {/* Map */}
@@ -155,17 +122,17 @@ const ForestActivityHeatmap = () => {
                   India Forest Activity Map
                 </h3>
                 <div className="flex items-center space-x-2 text-sm text-misty-white/60">
-                  <div className={`w-2 h-2 rounded-full ${isRealTimeEnabled ? 'bg-bio-green animate-pulse' : 'bg-gray-500'}`} />
-                  <span>{isRealTimeEnabled ? 'Live Data' : 'Paused'}</span>
+                  <div className="w-2 h-2 bg-bio-green rounded-full animate-pulse" />
+                  <span>Live Data</span>
                 </div>
               </div>
               
-              <div className="h-96 lg:h-[500px] rounded-lg overflow-hidden">
+              <div className="h-96 rounded-lg overflow-hidden">
                 <MapContainer
-                  center={indiaCenter}
+                  center={[20.5937, 78.9629]} // Center of India
                   zoom={5}
                   style={{ height: '100%', width: '100%' }}
-                  className="z-10"
+                  className="z-0"
                 >
                   <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -176,46 +143,87 @@ const ForestActivityHeatmap = () => {
                     <CircleMarker
                       key={activity.id}
                       center={[activity.latitude, activity.longitude]}
-                      radius={activity.severity === 'high' ? 12 : activity.severity === 'medium' ? 8 : 6}
-                      fillColor={getActivityColor(activity.type)}
-                      color={getActivityColor(activity.type)}
+                      radius={activity.severity === 'high' ? 8 : activity.severity === 'medium' ? 6 : 4}
+                      color={getActivityColor(activity.type, activity.severity)}
+                      fillColor={getActivityColor(activity.type, activity.severity)}
+                      fillOpacity={0.7}
                       weight={2}
-                      opacity={0.8}
-                      fillOpacity={0.6}
                     >
                       <Popup>
-                        <div className="p-2">
-                          <h4 className="font-bold text-lg capitalize mb-2">
-                            {activity.type.replace('-', ' ')}
+                        <div className="p-2 min-w-48">
+                          <h4 className="font-semibold text-gray-800 mb-2">
+                            {activity.type.replace('-', ' ').toUpperCase()}
                           </h4>
-                          <p><strong>Location:</strong> {activity.location}</p>
-                          <p><strong>Severity:</strong> 
-                            <span className={`ml-1 capitalize ${
-                              activity.severity === 'high' ? 'text-red-500' :
-                              activity.severity === 'medium' ? 'text-yellow-500' : 'text-green-500'
-                            }`}>
-                              {activity.severity}
-                            </span>
-                          </p>
-                          <p><strong>Detection Time:</strong> {new Date(activity.timestamp).toLocaleString()}</p>
-                          {activity.description && (
-                            <p className="mt-2 text-sm text-gray-600">{activity.description}</p>
-                          )}
+                          <div className="space-y-1 text-sm">
+                            <p><strong>Location:</strong> {activity.location}</p>
+                            <p><strong>Severity:</strong> 
+                              <span className={`ml-1 px-2 py-1 rounded text-xs ${
+                                activity.severity === 'high' ? 'bg-red-100 text-red-800' :
+                                activity.severity === 'medium' ? 'bg-yellow-100 text-yellow-800' :
+                                'bg-green-100 text-green-800'
+                              }`}>
+                                {activity.severity}
+                              </span>
+                            </p>
+                            <p><strong>Time:</strong> {new Date(activity.timestamp).toLocaleString()}</p>
+                            {activity.description && (
+                              <p><strong>Details:</strong> {activity.description}</p>
+                            )}
+                            {activity.confidence && (
+                              <p><strong>Confidence:</strong> {(activity.confidence * 100).toFixed(1)}%</p>
+                            )}
+                          </div>
                         </div>
                       </Popup>
                     </CircleMarker>
                   ))}
                 </MapContainer>
               </div>
-
-              {/* Activity Counter */}
-              <div className="mt-4 text-center">
-                <span className="text-misty-white/80 text-sm">
-                  Showing {filteredActivities.length} activities
-                  {selectedActivityType !== 'all' && ` (${selectedActivityType.replace('-', ' ')})`}
-                </span>
-              </div>
             </motion.div>
+          </div>
+        </motion.div>
+
+        {/* Activity Legend */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="grid grid-cols-1 lg:grid-cols-4 gap-8"
+        >
+          <div className="lg:col-span-1">
+            <ActivityLegend />
+          </div>
+          
+          <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="glassmorphism p-6 rounded-xl text-center">
+              <div className="text-4xl mb-3">🎯</div>
+              <h4 className="text-xl font-orbitron font-bold text-electric-cyan mb-2">
+                Real-time Detection
+              </h4>
+              <p className="text-misty-white/80">
+                AI-powered sensors detect threats with 95% accuracy in real-time
+              </p>
+            </div>
+
+            <div className="glassmorphism p-6 rounded-xl text-center">
+              <div className="text-4xl mb-3">⚡</div>
+              <h4 className="text-xl font-orbitron font-bold text-bio-green mb-2">
+                Instant Alerts
+              </h4>
+              <p className="text-misty-white/80">
+                Immediate notifications to forest rangers and conservation teams
+              </p>
+            </div>
+
+            <div className="glassmorphism p-6 rounded-xl text-center">
+              <div className="text-4xl mb-3">📊</div>
+              <h4 className="text-xl font-orbitron font-bold text-neural-purple mb-2">
+                Data Analytics
+              </h4>
+              <p className="text-misty-white/80">
+                Comprehensive insights for strategic conservation planning
+              </p>
+            </div>
           </div>
         </motion.div>
       </div>
