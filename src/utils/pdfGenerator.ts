@@ -1,4 +1,3 @@
-
 import jsPDF from 'jspdf';
 
 interface Phase {
@@ -282,7 +281,7 @@ export const generateRoadmapPDF = (phases: Phase[]) => {
   addWrappedText(timeline, margin, 170);
 
   // Footer
-  const totalPages = doc.internal.getNumberOfPages();
+  const totalPages = doc.getNumberOfPages();
   for (let i = 1; i <= totalPages; i++) {
     doc.setPage(i);
     doc.setFontSize(8);
