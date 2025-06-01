@@ -37,6 +37,8 @@ const CallToAction = () => {
     }
   });
 
+  const formValues = watch();
+
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     
@@ -44,7 +46,7 @@ const CallToAction = () => {
       // Simulate form submission
       console.log('Form submitted:', data);
       
-      // Simulate API call delay
+      // Simulate API call delay with visual feedback
       await new Promise(resolve => setTimeout(resolve, 2000));
       
       setSubmitted(true);
@@ -97,7 +99,7 @@ const CallToAction = () => {
             transition={{ duration: 1, delay: 0.5 }}
           >
             <span className="text-bio-green">🤝 Partnership Opportunities</span>
-            <span className="text-electric-cyan">💡 Innovation Collaboration</span>
+            <span className="text-electric-cyan subtle-text-glow">💡 Innovation Collaboration</span>
             <span className="text-neural-purple">🌍 Global Impact</span>
           </motion.div>
         </motion.div>
@@ -110,7 +112,7 @@ const CallToAction = () => {
             transition={{ duration: 0.8, delay: 0.3 }}
             className="holographic p-6 md:p-8 rounded-2xl"
           >
-            <h3 className="text-2xl md:text-3xl font-orbitron font-bold text-electric-cyan mb-8 text-center">
+            <h3 className="text-2xl md:text-3xl font-orbitron font-bold text-electric-cyan subtle-text-glow mb-8 text-center">
               Get in Touch
             </h3>
             
@@ -128,7 +130,8 @@ const CallToAction = () => {
                     })}
                     type="text"
                     id="name"
-                    className="w-full px-3 md:px-4 py-2 md:py-3 bg-forest-navy/50 border border-electric-cyan/30 rounded-lg text-misty-white focus:border-electric-cyan focus:outline-none transition-colors duration-300 text-sm md:text-base"
+                    autoComplete="name"
+                    className="w-full px-3 md:px-4 py-2 md:py-3 bg-forest-navy/50 border border-electric-cyan/30 rounded-lg text-misty-white placeholder:text-misty-white/50 focus:border-electric-cyan focus:outline-none focus:ring-2 focus:ring-electric-cyan/20 transition-all duration-300 text-sm md:text-base"
                     placeholder="Enter your full name"
                   />
                   {errors.name && (
@@ -151,7 +154,8 @@ const CallToAction = () => {
                     })}
                     type="email"
                     id="email"
-                    className="w-full px-3 md:px-4 py-2 md:py-3 bg-forest-navy/50 border border-electric-cyan/30 rounded-lg text-misty-white focus:border-electric-cyan focus:outline-none transition-colors duration-300 text-sm md:text-base"
+                    autoComplete="email"
+                    className="w-full px-3 md:px-4 py-2 md:py-3 bg-forest-navy/50 border border-electric-cyan/30 rounded-lg text-misty-white placeholder:text-misty-white/50 focus:border-electric-cyan focus:outline-none focus:ring-2 focus:ring-electric-cyan/20 transition-all duration-300 text-sm md:text-base"
                     placeholder="your.email@organization.com"
                   />
                   {errors.email && (
@@ -168,7 +172,8 @@ const CallToAction = () => {
                     {...register('organization')}
                     type="text"
                     id="organization"
-                    className="w-full px-3 md:px-4 py-2 md:py-3 bg-forest-navy/50 border border-electric-cyan/30 rounded-lg text-misty-white focus:border-electric-cyan focus:outline-none transition-colors duration-300 text-sm md:text-base"
+                    autoComplete="organization"
+                    className="w-full px-3 md:px-4 py-2 md:py-3 bg-forest-navy/50 border border-electric-cyan/30 rounded-lg text-misty-white placeholder:text-misty-white/50 focus:border-electric-cyan focus:outline-none focus:ring-2 focus:ring-electric-cyan/20 transition-all duration-300 text-sm md:text-base"
                     placeholder="Your organization name"
                   />
                 </div>
@@ -181,7 +186,7 @@ const CallToAction = () => {
                   <select
                     {...register('interest')}
                     id="interest"
-                    className="w-full px-3 md:px-4 py-2 md:py-3 bg-forest-navy/50 border border-electric-cyan/30 rounded-lg text-misty-white focus:border-electric-cyan focus:outline-none transition-colors duration-300 text-sm md:text-base"
+                    className="w-full px-3 md:px-4 py-2 md:py-3 bg-forest-navy/50 border border-electric-cyan/30 rounded-lg text-misty-white focus:border-electric-cyan focus:outline-none focus:ring-2 focus:ring-electric-cyan/20 transition-all duration-300 text-sm md:text-base"
                   >
                     <option value="partnership">Strategic Partnership</option>
                     <option value="funding">Investment Opportunity</option>
@@ -201,16 +206,21 @@ const CallToAction = () => {
                     {...register('message')}
                     id="message"
                     rows={4}
-                    className="w-full px-3 md:px-4 py-2 md:py-3 bg-forest-navy/50 border border-electric-cyan/30 rounded-lg text-misty-white focus:border-electric-cyan focus:outline-none transition-colors duration-300 resize-none text-sm md:text-base"
+                    className="w-full px-3 md:px-4 py-2 md:py-3 bg-forest-navy/50 border border-electric-cyan/30 rounded-lg text-misty-white placeholder:text-misty-white/50 focus:border-electric-cyan focus:outline-none focus:ring-2 focus:ring-electric-cyan/20 transition-all duration-300 resize-none text-sm md:text-base"
                     placeholder="Tell us about your interest in VanRakshak AI..."
                   />
                 </div>
 
-                {/* Submit Button */}
+                {/* Real-time form status */}
+                <div className="text-xs text-misty-white/60">
+                  Form status: {formValues.name && formValues.email ? 'Ready to submit' : 'Please fill required fields'}
+                </div>
+
+                {/* Submit Button with Cool Animation */}
                 <motion.button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`w-full py-3 md:py-4 rounded-xl font-orbitron font-bold text-sm md:text-lg transition-all duration-300 ${
+                  className={`relative w-full py-3 md:py-4 rounded-xl font-orbitron font-bold text-sm md:text-lg transition-all duration-300 overflow-hidden ${
                     isSubmitting
                       ? 'bg-neural-purple/50 text-misty-white/50 cursor-not-allowed'
                       : 'cyber-border holographic text-electric-cyan hover:text-forest-navy hover:bg-electric-cyan'
@@ -218,13 +228,31 @@ const CallToAction = () => {
                   whileHover={!isSubmitting ? { scale: 1.02 } : {}}
                   whileTap={!isSubmitting ? { scale: 0.98 } : {}}
                 >
+                  {/* Cool submit animation background */}
+                  {isSubmitting && (
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-r from-electric-cyan/20 via-bio-green/20 to-neural-purple/20"
+                      animate={{ x: [-300, 300] }}
+                      transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                    />
+                  )}
+                  
                   {isSubmitting ? (
-                    <div className="flex items-center justify-center space-x-2">
-                      <div className="w-4 h-4 md:w-5 md:h-5 border-2 border-electric-cyan border-t-transparent rounded-full animate-spin"></div>
-                      <span>Sending Message...</span>
+                    <div className="flex items-center justify-center space-x-2 relative z-10">
+                      <motion.div 
+                        className="w-4 h-4 md:w-5 md:h-5 border-2 border-electric-cyan border-t-transparent rounded-full"
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                      />
+                      <motion.span
+                        animate={{ opacity: [1, 0.5, 1] }}
+                        transition={{ duration: 1, repeat: Infinity }}
+                      >
+                        Sending Message...
+                      </motion.span>
                     </div>
                   ) : (
-                    'Send Message'
+                    <span className="relative z-10">Send Message</span>
                   )}
                 </motion.button>
               </form>
@@ -234,8 +262,14 @@ const CallToAction = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 className="text-center py-8 md:py-12"
               >
-                <div className="text-4xl md:text-6xl text-bio-green mb-4 md:mb-6">✅</div>
-                <h4 className="text-xl md:text-2xl font-orbitron font-bold text-electric-cyan mb-3 md:mb-4">
+                <motion.div 
+                  className="text-4xl md:text-6xl text-bio-green mb-4 md:mb-6"
+                  animate={{ scale: [1, 1.2, 1] }}
+                  transition={{ duration: 0.5 }}
+                >
+                  ✅
+                </motion.div>
+                <h4 className="text-xl md:text-2xl font-orbitron font-bold text-electric-cyan subtle-text-glow mb-3 md:mb-4">
                   Message Sent Successfully!
                 </h4>
                 <p className="text-base md:text-lg text-misty-white mb-4 md:mb-6">
@@ -243,7 +277,7 @@ const CallToAction = () => {
                 </p>
                 <motion.button
                   onClick={handleNewMessage}
-                  className="glassmorphism px-4 md:px-6 py-2 md:py-3 rounded-lg text-electric-cyan hover:text-bio-green transition-colors duration-300 text-sm md:text-base"
+                  className="glassmorphism px-4 md:px-6 py-2 md:py-3 rounded-lg text-electric-cyan subtle-text-glow hover:text-bio-green transition-colors duration-300 text-sm md:text-base"
                   whileHover={{ scale: 1.05 }}
                 >
                   Send Another Message
@@ -303,7 +337,7 @@ const CallToAction = () => {
 
             {/* Social Media & Links */}
             <div className="glassmorphism p-6 md:p-8 rounded-2xl">
-              <h3 className="text-xl md:text-2xl font-orbitron font-bold text-electric-cyan mb-4 md:mb-6">
+              <h3 className="text-xl md:text-2xl font-orbitron font-bold text-electric-cyan subtle-text-glow mb-4 md:mb-6">
                 Connect With Us
               </h3>
               
@@ -347,7 +381,7 @@ const CallToAction = () => {
                     whileHover={{ scale: 1.02 }}
                   >
                     <div>
-                      <div className="text-base md:text-lg font-orbitron font-bold text-electric-cyan">
+                      <div className="text-base md:text-lg font-orbitron font-bold text-electric-cyan subtle-text-glow">
                         {item.stat}
                       </div>
                       <div className="text-xs md:text-sm text-misty-white/60">{item.desc}</div>
