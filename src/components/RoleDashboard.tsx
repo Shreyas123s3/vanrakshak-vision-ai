@@ -2,11 +2,18 @@
 import { motion } from 'framer-motion';
 import { useAuth } from '@/hooks/useAuth';
 import { User } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const RoleDashboard = () => {
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   if (!user) return null;
+
+  const handleLogout = async () => {
+    await logout();
+    navigate('/');
+  };
 
   const getDashboardContent = () => {
     switch (user.role) {
@@ -28,7 +35,7 @@ const RoleDashboard = () => {
           sections: [
             { title: 'Submit Report', count: 'Quick Entry', icon: '📝' },
             { title: 'Emergency Tools', count: 'SOS & Alerts', icon: '🚨' },
-            { title: 'My Patrol Area', count: 'Zone 7-A', icon: '🗺️' },
+            { title: 'My Patrol Area', count: user.location || 'Zone 7-A', icon: '🗺️' },
             { title: 'Equipment Check', count: '5 Items', icon: '🎒' }
           ]
         };
@@ -77,12 +84,12 @@ const RoleDashboard = () => {
                   Welcome, {user.name}
                 </h1>
                 <p className="text-sm text-misty-white/70">
-                  {user.department} • {user.location}
+                  {user.department || 'VanRakshak'} • {user.location || 'India'}
                 </p>
               </div>
             </div>
             <button
-              onClick={logout}
+              onClick={handleLogout}
               className="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-lg transition-colors"
             >
               Sign Out

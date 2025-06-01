@@ -1,5 +1,8 @@
+
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
 import HeroSection from '@/components/HeroSection';
 import ProblemStatement from '@/components/ProblemStatement';
 import SolutionOverview from '@/components/SolutionOverview';
@@ -37,6 +40,7 @@ import SatelliteFeedViewer from '@/components/SatelliteFeedViewer';
 
 const Index = () => {
   const [loading, setLoading] = useState(true);
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     console.log('Index component mounting...');
@@ -103,6 +107,16 @@ const Index = () => {
       
       {/* Navigation */}
       <Navigation />
+      
+      {/* Auth CTA Button */}
+      <div className="fixed top-6 right-6 z-50">
+        <Link
+          to={isAuthenticated ? "/dashboard" : "/login"}
+          className="bg-gradient-to-r from-bio-green to-electric-cyan text-forest-navy font-semibold px-6 py-3 rounded-lg hover:opacity-90 transition-opacity shadow-lg"
+        >
+          {isAuthenticated ? "Dashboard" : "Login"}
+        </Link>
+      </div>
       
       {/* Main Content */}
       <main id="main-content" className="relative z-10">
