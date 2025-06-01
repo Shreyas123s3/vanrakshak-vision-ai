@@ -7,17 +7,13 @@ import HeatmapStats from './HeatmapStats';
 import ActivityLegend from './ActivityLegend';
 import ActivityControls from './ActivityControls';
 
-// Lazy load the map components to avoid SSR issues
-import { lazy, Suspense } from 'react';
-
-const LazyMap = lazy(() => import('./LazyMapContainer'));
-
 const ForestActivityHeatmap = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
   const [activities, setActivities] = useState<ActivityData[]>([]);
   const [selectedActivityType, setSelectedActivityType] = useState<ActivityType | 'all'>('all');
   const [isRealTimeEnabled, setIsRealTimeEnabled] = useState(true);
+  const [isMapLoaded, setIsMapLoaded] = useState(false);
   const [stats, setStats] = useState({
     total: 0,
     poaching: 0,
@@ -56,6 +52,14 @@ const ForestActivityHeatmap = () => {
 
     return () => clearInterval(interval);
   }, [isRealTimeEnabled]);
+
+  // Load map when component is in view
+  useEffect(() => {
+    if (isInView && !isMapLoaded) {
+      console.log('Loading map components...');
+      setIsMapLoaded(true);
+    }
+  }, [isInView, isMapLoaded]);
 
   const updateStats = (data: ActivityData[]) => {
     const total = data.length;
@@ -126,14 +130,38 @@ const ForestActivityHeatmap = () => {
               </div>
               
               <div className="h-96 rounded-lg overflow-hidden bg-forest-navy/50 flex items-center justify-center">
-                <Suspense fallback={
+                {isMapLoaded ? (
+                  <div className="w-full h-full bg-forest-navy/30 rounded-lg flex items-center justify-center">
+                    <div className="text-center">
+                      <div className="text-4xl mb-4">🗺️</div>
+                      <h4 className="text-xl font-orbitron font-bold text-electric-cyan mb-2">
+                        Interactive Forest Map
+                      </h4>
+                      <p className="text-misty-white/80 mb-4">
+                        Showing {filteredActivities.length} activities
+                      </p>
+                      <div className="grid grid-cols-2 gap-4 text-sm">
+                        <div className="bg-red-500/20 p-3 rounded-lg">
+                          <div className="text-red-400 font-semibold">High Priority</div>
+                          <div className="text-2xl">
+                            {filteredActivities.filter(a => a.severity === 'high').length}
+                          </div>
+                        </div>
+                        <div className="bg-yellow-500/20 p-3 rounded-lg">
+                          <div className="text-yellow-400 font-semibold">Medium Priority</div>
+                          <div className="text-2xl">
+                            {filteredActivities.filter(a => a.severity === 'medium').length}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
                   <div className="text-center">
                     <div className="w-12 h-12 border-4 border-electric-cyan border-t-transparent rounded-full animate-spin mx-auto mb-4" />
                     <p className="text-misty-white">Loading map...</p>
                   </div>
-                }>
-                  <LazyMap activities={filteredActivities} />
-                </Suspense>
+                )}
               </div>
             </motion.div>
           </div>
