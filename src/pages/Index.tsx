@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import HeroSection from '@/components/HeroSection';
@@ -36,6 +35,10 @@ import AISpeciesDemo from '@/components/AISpeciesDemo';
 import RealTimeMonitoring from '@/components/RealTimeMonitoring';
 import AcousticAnalyzer from '@/components/AcousticAnalyzer';
 import Interactive3DMap from '@/components/Interactive3DMap';
+import WeatherEffects from '@/components/WeatherEffects';
+import InteractiveWildlife from '@/components/InteractiveWildlife';
+import ParticleEffects from '@/components/ParticleEffects';
+import EnhancedDayNightCycle from '@/components/EnhancedDayNightCycle';
 
 const Index = () => {
   const [loading, setLoading] = useState(true);
@@ -91,7 +94,13 @@ const Index = () => {
       {/* Mobile Optimizations */}
       <MobileOptimizations />
       
-      {/* KILLER BACKGROUND EFFECTS - Multi-layered atmosphere */}
+      {/* ENHANCED ENVIRONMENTAL STORYTELLING BACKGROUND EFFECTS */}
+      <EnhancedDayNightCycle />
+      <WeatherEffects />
+      <ParticleEffects />
+      <InteractiveWildlife />
+      
+      {/* EXISTING ATMOSPHERIC EFFECTS */}
       <DynamicSky />
       <ParallaxForest />
       <ParticleBackground />
