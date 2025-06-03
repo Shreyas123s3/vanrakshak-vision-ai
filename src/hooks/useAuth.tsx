@@ -43,10 +43,58 @@ export const useAuth = (): AuthState & {
               lastLogin: new Date().toISOString()
             };
             setUser(userData);
-          } else if (error) {
+          } else if (error && error.code === 'PGRST116') {
+            // Profile doesn't exist, create one with default values
+            console.log('Profile not found, creating default profile...');
+            const { data: newProfile, error: createError } = await supabase
+              .from('profiles')
+              .insert({
+                id: session.user.id,
+                email: session.user.email || '',
+                name: session.user.user_metadata?.name || session.user.email?.split('@')[0] || 'User',
+                role: 'public' as UserRole
+              })
+              .select()
+              .single();
+
+            if (newProfile && !createError) {
+              const userData: User = {
+                id: newProfile.id,
+                email: newProfile.email,
+                name: newProfile.name,
+                role: newProfile.role as UserRole,
+                department: newProfile.department || undefined,
+                location: newProfile.location || undefined,
+                permissions: getRolePermissions(newProfile.role),
+                createdAt: newProfile.created_at,
+                lastLogin: new Date().toISOString()
+              };
+              setUser(userData);
+            } else {
+              console.error('Error creating profile:', createError);
+              // Still set a basic user object so they're not stuck in login loop
+              setUser({
+                id: session.user.id,
+                email: session.user.email || '',
+                name: session.user.user_metadata?.name || 'User',
+                role: 'public' as UserRole,
+                permissions: getRolePermissions('public'),
+                createdAt: new Date().toISOString(),
+                lastLogin: new Date().toISOString()
+              });
+            }
+          } else {
             console.error('Error fetching profile:', error);
-            // If profile doesn't exist, user might need to complete signup process
-            setUser(null);
+            // Still set a basic user object so they're not stuck in login loop
+            setUser({
+              id: session.user.id,
+              email: session.user.email || '',
+              name: session.user.user_metadata?.name || 'User',
+              role: 'public' as UserRole,
+              permissions: getRolePermissions('public'),
+              createdAt: new Date().toISOString(),
+              lastLogin: new Date().toISOString()
+            });
           }
         } else {
           setUser(null);
